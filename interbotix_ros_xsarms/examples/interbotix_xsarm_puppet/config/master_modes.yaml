@@ -1,0 +1,9 @@
+port: /dev/ttyUSB0
+
+groups:
+  arm:
+    torque_enable: false
+
+singles:
+  gripper:
+    torque_enable: false

@@ -1,0 +1,4 @@
+groups:
+  arm:
+    operating_mode: pwm
+    torque_enable: true

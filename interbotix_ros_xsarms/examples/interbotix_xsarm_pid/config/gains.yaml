@@ -1,0 +1,24 @@
+# PID gains for the pwm/current joint controllers and max allowable controller effort.
+#
+# Order of gains match the joint name order as output in the joint_states topic.
+#
+# For pwm control, the most that 'max_value' can be is 885. Reducing this value ensures that
+# the joints move more slowly but still reach their commanded positions. The gains below seem to
+# work reasonably well with the WX200 arm. However, these are just ballpark values and
+# should be fine-tuned to fit the user's needs
+pwm:
+  kp: [500, 2000, 2000, 300, 300]
+  ki: [0, 0, 0, 0, 0]
+  kd: [0, 300, 300, 0, 0]
+  u_min: [-485, -485, -585, -285, -285]
+  u_max: [485, 485, 585, 285, 285]
+
+# For current control, the most that 'max_value' can be is 3200 [mA]. Reducing this value ensures that
+# the joints move more slowly but still reach their commanded positions. The gains below have NOT been
+# tuned. It might be a good idea to use smaller gains and/or a smaller 'max_current' value initially.
+current:
+  kp: [500, 3000, 3000, 500, 500]
+  ki: [30, 30, 30, 10, 5]
+  kd: [0, 0, 0, 0, 0]
+  u_min: [-1000, -1000, -1000, -1000, -1000]
+  u_max: [1000, 1000, 1000, 1000, 1000]

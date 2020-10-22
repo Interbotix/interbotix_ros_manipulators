@@ -1,0 +1,12 @@
+controller_list:
+  - name: fake_interbotix_arm_controller
+    joints:
+      - waist
+      - shoulder
+      - elbow
+      - forearm_roll
+      - wrist_angle
+      - wrist_rotate
+  - name: fake_interbotix_gripper_controller
+    joints:
+      - left_finger

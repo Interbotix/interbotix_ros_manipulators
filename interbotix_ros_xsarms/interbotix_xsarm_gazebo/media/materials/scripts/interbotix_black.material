@@ -1,0 +1,14 @@
+material Custom/Interbotix
+{
+   technique
+   {
+      pass
+      {
+         texture_unit
+         {
+          texture interbotix_black.png
+          scale 1 1
+         }
+      }
+   }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>interbotix_xsarm_descriptions</name>
+  <version>0.0.0</version>
+  <description>The interbotix_xsarm_descriptions package</description>
+  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <license>BSD</license>
+  <!-- <url type="website">http://wiki.ros.org/interbotix_xsarm_descriptions</url> -->
+  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
+
+  <!-- The *depend tags are used to specify dependencies -->
+  <!-- Dependencies can be catkin packages or system dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>joint_state_publisher</build_depend>
+  <build_depend>joint_state_publisher_gui</build_depend>
+  <build_depend>robot_state_publisher</build_depend>
+  <build_depend>roslaunch</build_depend>
+  <build_depend>rviz</build_depend>
+  <build_depend>xacro</build_depend>
+  <build_export_depend>joint_state_publisher</build_export_depend>
+  <build_export_depend>joint_state_publisher_gui</build_export_depend>
+  <build_export_depend>robot_state_publisher</build_export_depend>
+  <build_export_depend>roslaunch</build_export_depend>
+  <build_export_depend>rviz</build_export_depend>
+  <build_export_depend>xacro</build_export_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>

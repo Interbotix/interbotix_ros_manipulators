@@ -1,0 +1,65 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="use_rviz"                          default="true"/>
+  <arg name="mode_configs"                      default="$(find interbotix_xsarm_diagnostic_tool)/config/modes.yaml"/>
+  <arg name="cmd_joint"                         default="waist"/>
+  <arg name="observe_joint"                     default="waist"/>
+  <arg name="test_duration"                     default="600"/>
+  <arg name="bag_name"                          default="$(arg observe_joint)_diagnostics"/>
+  <arg name="use_rqt"                           default="true"/>
+  <arg name="launch_driver"                     default="true"/>
+
+
+  <include if="$(arg launch_driver)" file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+    <arg name="mode_configs"                      value="$(arg mode_configs)"/>
+  </include>
+
+  <node
+    name="xsarm_diagnostic_tool"
+    pkg="interbotix_xsarm_diagnostic_tool"
+    type="xsarm_diagnostic_tool"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)">
+    <param name="cmd_joint"                       value="$(arg cmd_joint)"/>
+    <param name="observe_joint"                   value="$(arg observe_joint)"/>
+    <param name="test_duration"                   value="$(arg test_duration)"/>
+  </node>
+
+  <node
+    name="rosbag_record_states"
+    pkg="rosbag"
+    type="record"
+    args="record -O $(find interbotix_xsarm_diagnostic_tool)/bag/$(arg bag_name) /$(arg robot_name)/commands/joint_single /$(arg robot_name)/joint_states /$(arg robot_name)/temperatures/joint_group">
+  </node>
+
+  <group if="$(arg use_rqt)">
+
+    <node
+      name="$(arg robot_name)_plot_states"
+      pkg="rqt_plot"
+      type="rqt_plot"
+      args="/$(arg robot_name)/commands/joint_single/cmd /$(arg robot_name)/states/joint_observe/position[0] /$(arg robot_name)/states/joint_observe/velocity[0]"/>
+
+    <node
+      name="$(arg robot_name)_plot_effort"
+      pkg="rqt_plot"
+      type="rqt_plot"
+      args="/$(arg robot_name)/states/joint_observe/effort[0]"/>
+
+    <node
+      name="$(arg robot_name)_plot_temp"
+      pkg="rqt_plot"
+      type="rqt_plot"
+      args="/$(arg robot_name)/temperatures/joint_observe/data"/>
+
+  </group>
+
+</launch>

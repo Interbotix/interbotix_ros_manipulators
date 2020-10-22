@@ -1,0 +1,45 @@
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+waist_controller:
+  type: effort_controllers/JointPositionController
+  joint: waist
+  pid: {p: 100, i: 0.0, d: 0.0}
+
+shoulder_controller:
+  type: effort_controllers/JointPositionController
+  joint: shoulder
+  pid: {p: 500, i: 0.0, d: 0.0}
+
+elbow_controller:
+  type: effort_controllers/JointPositionController
+  joint: elbow
+  pid: {p: 300.0, i: 0.0, d: 0.0}
+
+forearm_roll_controller:
+  type: effort_controllers/JointPositionController
+  joint: forearm_roll
+  pid: {p: 50.0, i: 0.0, d: 0.0}
+
+wrist_angle_controller:
+  type: effort_controllers/JointPositionController
+  joint: wrist_angle
+  pid: {p: 50.0, i: 0.0, d: 0.0}
+
+wrist_rotate_controller:
+  type: effort_controllers/JointPositionController
+  joint: wrist_rotate
+  pid: {p: 30.0, i: 0.0, d: 0.0}
+
+left_finger_controller:
+  type: effort_controllers/JointPositionController
+  joint: left_finger
+  pid: {p: 50, i: 0.0, d: 5.0}
+
+right_finger_controller:
+  type: effort_controllers/JointPositionController
+  joint: right_finger
+  pid: {p: 50, i: 0.0, d: 5.0}

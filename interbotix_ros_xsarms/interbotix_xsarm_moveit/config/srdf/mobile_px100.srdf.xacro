@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="mobile_px100" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <xacro:arg name="robot_name" default="mobile_px100"/>
+    <xacro:arg name="base_link_frame" default="base_link"/>
+    <xacro:arg name="show_ar_tag" default="false"/>
+    <xacro:arg name="external_srdf_loc" default=""/>
+
+    <xacro:property name="srdf_loc" value="$(arg external_srdf_loc)"/>
+
+    <group name="interbotix_arm">
+        <joint name="waist" />
+        <joint name="shoulder" />
+        <joint name="elbow" />
+        <joint name="wrist_angle" />
+        <joint name="ee_arm" />
+        <joint name="gripper_bar" />
+        <joint name="ee_bar" />
+        <joint name="ee_gripper" />
+    </group>
+    <group name="interbotix_gripper">
+        <link name="$(arg robot_name)/right_finger_link" />
+        <link name="$(arg robot_name)/left_finger_link" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="Home" group="interbotix_arm">
+        <joint name="elbow" value="0" />
+        <joint name="shoulder" value="0" />
+        <joint name="waist" value="0" />
+        <joint name="wrist_angle" value="0" />
+    </group_state>
+    <group_state name="Upright" group="interbotix_arm">
+        <joint name="elbow" value="-1.5708" />
+        <joint name="shoulder" value="0" />
+        <joint name="waist" value="0" />
+        <joint name="wrist_angle" value="0" />
+    </group_state>
+    <group_state name="Sleep" group="interbotix_arm">
+        <joint name="elbow" value="1.5" />
+        <joint name="shoulder" value="-1.88" />
+        <joint name="waist" value="0" />
+        <joint name="wrist_angle" value="0.8" />
+    </group_state>
+    <group_state name="Open" group="interbotix_gripper">
+        <joint name="left_finger" value="0.037" />
+        <joint name="right_finger" value="-0.037" />
+    </group_state>
+    <group_state name="Closed" group="interbotix_gripper">
+        <joint name="left_finger" value="0.015" />
+        <joint name="right_finger" value="-0.015" />
+    </group_state>
+    <group_state name="Home" group="interbotix_gripper">
+        <joint name="left_finger" value="0.0195" />
+        <joint name="right_finger" value="-0.0195" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="interbotix_gripper" parent_link="$(arg robot_name)/ee_gripper_link" group="interbotix_gripper" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="$(arg robot_name)/$(arg base_link_frame)" link2="$(arg robot_name)/shoulder_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/$(arg base_link_frame)" link2="$(arg robot_name)/upper_arm_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/forearm_link" link2="$(arg robot_name)/gripper_bar_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/forearm_link" link2="$(arg robot_name)/gripper_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/forearm_link" link2="$(arg robot_name)/gripper_prop_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/forearm_link" link2="$(arg robot_name)/left_finger_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/forearm_link" link2="$(arg robot_name)/right_finger_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/forearm_link" link2="$(arg robot_name)/upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/gripper_bar_link" link2="$(arg robot_name)/gripper_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/gripper_bar_link" link2="$(arg robot_name)/gripper_prop_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/gripper_bar_link" link2="$(arg robot_name)/left_finger_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/gripper_bar_link" link2="$(arg robot_name)/right_finger_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/gripper_link" link2="$(arg robot_name)/gripper_prop_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/gripper_link" link2="$(arg robot_name)/left_finger_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/gripper_link" link2="$(arg robot_name)/right_finger_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/gripper_prop_link" link2="$(arg robot_name)/left_finger_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/gripper_prop_link" link2="$(arg robot_name)/right_finger_link" reason="Never" />
+    <disable_collisions link1="$(arg robot_name)/left_finger_link" link2="$(arg robot_name)/right_finger_link" reason="Adjacent" />
+    <disable_collisions link1="$(arg robot_name)/shoulder_link" link2="$(arg robot_name)/upper_arm_link" reason="Adjacent" />
+
+    <xacro:if value="$(arg show_ar_tag)">
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/forearm_link" reason="Never" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/gripper_bar_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/gripper_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/gripper_prop_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/left_finger_link" reason="Never" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/right_finger_link" reason="Never" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/upper_arm_link" reason="Never" />
+    </xacro:if>
+
+    <xacro:if value="${srdf_loc != ''}">
+      <xacro:include filename="${srdf_loc}"/>
+    </xacro:if>
+
+</robot>

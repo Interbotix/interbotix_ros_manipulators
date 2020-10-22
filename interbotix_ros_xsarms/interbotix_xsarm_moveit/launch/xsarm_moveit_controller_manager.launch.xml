@@ -1,0 +1,26 @@
+<launch>
+
+  <!-- loads moveit_controller_manager on the parameter server -->
+  <arg name="dof"                         default=""/>
+  <arg name="fake_execution"              default="false"/>
+
+ <group if="$(arg fake_execution)">
+
+   <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
+   <param name="moveit_controller_manager" value="moveit_fake_controller_manager/MoveItFakeControllerManager"/>
+
+   <!-- The rest of the params are specific to this plugin -->
+   <rosparam file="$(find interbotix_xsarm_moveit)/config/fake_controllers/$(arg dof)dof_controllers.yaml"/>
+
+ </group>
+
+  <group unless="$(arg fake_execution)">
+
+    <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
+
+    <!-- loads controllers to the param server -->
+    <rosparam file="$(find interbotix_xsarm_moveit)/config/controllers/$(arg dof)dof_controllers.yaml"/>
+
+  </group>
+
+</launch>

@@ -1,0 +1,45 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="show_ar_tag"                       default="false"/>
+  <arg name="use_world_frame"                   default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="use_rviz"                          default="false"/>
+  <arg name="mode_configs"                      default="$(find interbotix_xsarm_ros_control)/config/modes.yaml"/>
+  <arg name="dof"                               default="5"/>
+
+  <rosparam file="$(find interbotix_xsarm_ros_control)/config/$(arg dof)dof_controllers.yaml" command="load" ns="$(arg robot_name)"/>
+  <rosparam file="$(find interbotix_xsarm_ros_control)/config/hardware.yaml" command="load" ns="$(arg robot_name)"/>
+
+  <include file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="show_ar_tag"                       value="$(arg show_ar_tag)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+    <arg name="mode_configs"                      value="$(arg mode_configs)"/>
+  </include>
+
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="controller_manager"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)"
+    args="spawn arm_controller gripper_controller">
+  </node>
+
+  <node
+    name="xs_hardware_interface"
+    pkg="interbotix_xs_ros_control"
+    type="xs_hardware_interface"
+    output="screen"
+    ns="$(arg robot_name)">
+  </node>
+
+</launch>

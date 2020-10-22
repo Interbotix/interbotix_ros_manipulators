@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: interbotix_descriptions
+    relative_path: urdf/wx200.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/wx200.srdf
+  CONFIG:
+    author_name: Solomon Wiznitzer
+    author_email: trsupport@trossenrobotics.com
+    generated_timestamp: 1565280240

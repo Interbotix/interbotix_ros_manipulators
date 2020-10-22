@@ -1,0 +1,42 @@
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100
+
+arm_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - waist
+    - shoulder
+    - elbow
+    - wrist_angle
+  gains: # Required because we're controlling an effort interface
+    waist: {p: 100.0,  d: 0.5, i: 5.0}
+    shoulder: {p: 500.0,  d: 0.5, i: 10.0}
+    elbow: {p: 300.0,  d: 0.0, i: 10.0}
+    wrist_angle: {p: 100.0,  d: 0.0, i: 3.0}
+
+  constraints:
+    goal_time: 0.2
+    waist:
+      goal: 0.1
+      trajectory: 0.2
+    shoulder:
+      goal: 0.2
+      trajectory: 0.2
+    elbow:
+      goal: 0.2
+      trajectory: 0.2
+    wrist_angle:
+      goal: 0.2
+      trajectory: 0.2
+
+gripper_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - left_finger
+    - right_finger
+  gains:
+    left_finger: {p: 100.0,  d: 1.0, i: 0.0}
+    right_finger: {p: 100.0,  d: 1.0, i: 0.0}

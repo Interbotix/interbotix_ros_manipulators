@@ -1,0 +1,109 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="show_ar_tag"                       default="false"/>
+  <arg name="show_gripper_bar"                  default="true"/>
+  <arg name="show_gripper_fingers"              default="true"/>
+  <arg name="use_world_frame"                   default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="use_rviz"                          default="false"/>
+  <arg name="world_name"                        default="$(find interbotix_xsarm_gazebo)/worlds/xsarm_gazebo.world"/>
+  <arg name="gui"                               default="true"/>
+  <arg name="debug"                             default="false"/>
+  <arg name="paused"                            default="true"/>
+  <arg name="recording"                         default="false"/>
+  <arg name="use_sim_time"                      default="true"/>
+  <arg name="use_position_controllers"          default="false"/>
+  <arg name="use_trajectory_controllers"        default="false"/>
+  <arg name="dof"                               default="5"/>
+
+  <env name="GAZEBO_RESOURCE_PATH"              value="$(find interbotix_xsarm_gazebo)"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"                        value="$(arg world_name)"/>
+    <arg name="gui"                               value="$(arg gui)" />
+    <arg name="debug"                             value="$(arg debug)" />
+    <arg name="paused"                            value="$(arg paused)"/>
+    <arg name="recording"                         value="$(arg recording)"/>
+    <arg name="use_sim_time"                      value="$(arg use_sim_time)"/>
+  </include>
+
+  <group if="$(arg use_trajectory_controllers)">
+
+    <rosparam file="$(find interbotix_xsarm_gazebo)/config/trajectory_controllers/$(arg robot_model)_trajectory_controllers.yaml" command="load" ns="$(arg robot_name)"/>
+
+    <node
+      name="controller_spawner"
+      pkg="controller_manager"
+      type="controller_manager"
+      respawn="false"
+      output="screen"
+      ns="$(arg robot_name)"
+      args="spawn arm_controller gripper_controller joint_state_controller"/>
+
+  </group>
+
+  <group if="$(arg use_position_controllers)">
+
+    <rosparam file="$(find interbotix_xsarm_gazebo)/config/position_controllers/$(arg robot_model)_position_controllers.yaml" command="load" ns="$(arg robot_name)"/>
+
+    <node if="$(eval dof == 4)"
+      name="controller_spawner"
+      pkg="controller_manager"
+      type="controller_manager"
+      respawn="false"
+      output="screen"
+      ns="$(arg robot_name)"
+      args="spawn joint_state_controller waist_controller shoulder_controller
+                  elbow_controller wrist_angle_controller left_finger_controller
+                  right_finger_controller"/>
+
+    <node if="$(eval dof == 5)"
+      name="controller_spawner"
+      pkg="controller_manager"
+      type="controller_manager"
+      respawn="false"
+      output="screen"
+      ns="$(arg robot_name)"
+      args="spawn joint_state_controller waist_controller shoulder_controller
+                  elbow_controller wrist_angle_controller wrist_rotate_controller
+                  left_finger_controller right_finger_controller"/>
+
+    <node if="$(eval dof == 6)"
+      name="controller_spawner"
+      pkg="controller_manager"
+      type="controller_manager"
+      respawn="false"
+      output="screen"
+      ns="$(arg robot_name)"
+      args="spawn joint_state_controller waist_controller shoulder_controller
+                  elbow_controller forearm_roll_controller wrist_angle_controller
+                  wrist_rotate_controller left_finger_controller right_finger_controller"/>
+
+  </group>
+
+  <include file="$(find interbotix_xsarm_descriptions)/launch/xsarm_description.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="show_ar_tag"                       value="$(arg show_ar_tag)"/>
+    <arg name="show_gripper_bar"                  value="$(arg show_gripper_bar)"/>
+    <arg name="show_gripper_fingers"              value="$(arg show_gripper_fingers)"/>
+    <arg name="load_gazebo_configs"               value="true"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+  </include>
+
+  <node
+    name="urdf_spawner"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)"
+	  args="-urdf -model $(arg robot_model) -param robot_description"/>
+
+</launch>

@@ -1,0 +1,32 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="use_rviz"                          default="true"/>
+  <arg name="mode_configs"                      default="$(find interbotix_xsarm_pid)/config/modes.yaml"/>
+  <arg name="control_mode"                      default="pwm"/>
+  <arg name="gains_filepath"                    default="$(find interbotix_xsarm_pid)/config/gains.yaml"/>
+  <arg name="launch_driver"                     default="true"/>
+
+  <rosparam command="load" file="$(arg gains_filepath)" ns="$(arg robot_name)"/>
+
+  <include if="$(arg launch_driver)" file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+    <arg name="mode_configs"                      value="$(arg mode_configs)"/>
+  </include>
+
+  <node
+    name="xsarm_pid"
+    pkg="interbotix_xsarm_pid"
+    type="xsarm_pid"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)">
+    <param name="control_mode"                    value="$(arg control_mode)"/>
+  </node>
+
+</launch>

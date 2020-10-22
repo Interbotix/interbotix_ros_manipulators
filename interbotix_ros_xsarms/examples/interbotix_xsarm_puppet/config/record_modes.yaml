@@ -1,0 +1,7 @@
+groups:
+  arm:
+    torque_enable: false
+
+singles:
+  gripper:
+    torque_enable: false
