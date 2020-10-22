@@ -5,15 +5,15 @@ read -p "What is the hostname of the robot computer (type 'hostname' in a termin
 ubuntu_version="$(lsb_release -r -s)"
 
 if [ $ubuntu_version == "16.04" ]; then
-	ROS_NAME="kinetic"
+  ROS_NAME="kinetic"
 elif [ $ubuntu_version == "18.04" ]; then
-	ROS_NAME="melodic"
+  ROS_NAME="melodic"
 elif [ $ubuntu_version == "20.04" ]; then
-	ROS_NAME="noetic"
+  ROS_NAME="noetic"
 else
-	echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-	echo -e "Interbotix Remote Arm only works with 16.04, 18.04, or 20.04"
-	exit 1
+  echo -e "Unsupported Ubuntu verison: $ubuntu_version"
+  echo -e "Interbotix Remote Arm only works with 16.04, 18.04, or 20.04"
+  exit 1
 fi
 
 # Step 1: Install Arm packages
@@ -21,7 +21,7 @@ INTERBOTIX_WS=~/interbotix_ws
 if [ ! -d "$INTERBOTIX_WS/src" ]; then
   echo "Installing Simulation/Visualization ROS packages for the Interbotix Arms..."
   mkdir -p $INTERBOTIX_WS/src
-  cd $INTERBOTIX_WS/src
+  cd $INTERBOTIX_WS
   catkin_make
   git clone https://github.com/Interbotix/interbotix_ros_manipulators.git
   cd interbotix_ros_manipulators
@@ -34,12 +34,12 @@ source $INTERBOTIX_WS/devel/setup.bash
 
 # Step 5: Setup Environment Variables
 if [ -z "$ROS_IP" ]; then
-	echo "Setting up Environment Variables..."
-	echo "export ROS_MASTER_URI=http://$HOSTNAME.local:11311" >> ~/.bashrc
-	echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
-	echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
+  echo "Setting up Environment Variables..."
+  echo "export ROS_MASTER_URI=http://$HOSTNAME.local:11311" >> ~/.bashrc
+  echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
+  echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
 else
-	echo "Environment variables already set!"
+  echo "Environment variables already set!"
 fi
 
 ORANGE='\033[;33m'

@@ -3,19 +3,19 @@
 ubuntu_version="$(lsb_release -r -s)"
 
 if [ $ubuntu_version == "18.04" ]; then
-	ROS_NAME="melodic"
+  ROS_NAME="melodic"
 else
-	echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-	echo -e "Interbotix Arm only works with 18.04 on the Raspberry Pi"
-	exit 1
+  echo -e "Unsupported Ubuntu verison: $ubuntu_version"
+  echo -e "Interbotix Arm only works with 18.04 on the Raspberry Pi"
+  exit 1
 fi
 
 read -p "What is your robot model? (ex. wx200): " ROBOT_MODEL
 read -p "Run the Joystick ROS package at system boot? " resp
 if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
-	run_joy_at_boot=true
+  run_joy_at_boot=true
 else
-	run_joy_at_boot=false
+  run_joy_at_boot=false
 fi
 
 echo "Ubuntu $ubuntu_version detected. ROS-$ROS_NAME chosen for installation.";
@@ -41,9 +41,9 @@ if [ $(dpkg-query -W -f='${Status}' ros-$ROS_NAME-desktop-full 2>/dev/null | gre
   sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
   sudo apt update
   sudo apt -y install ros-$ROS_NAME-desktop-full
-	if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
-		sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
-	fi
+  if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+    sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
+  fi
   echo "source /opt/ros/$ROS_NAME/setup.bash" >> ~/.bashrc
   sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
   sudo rosdep init
@@ -61,6 +61,9 @@ if [ ! -d "$INTERBOTIX_WS/src" ]; then
   cd $INTERBOTIX_WS/src
   git clone https://github.com/Interbotix/interbotix_ros_core.git
   git clone https://github.com/Interbotix/interbotix_ros_manipulators.git
+  cd interbotix_ros_manipulators
+  git checkout $ROS_NAME
+  cd ..
   git clone https://github.com/Interbotix/interbotix_ros_toolboxes.git
   cd $INTERBOTIX_WS/src/interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
   sudo cp 99-interbotix-udev.rules /etc/udev/rules.d/
@@ -76,12 +79,12 @@ source $INTERBOTIX_WS/devel/setup.bash
 
 # Step 3: Setup Environment Variables
 if [ -z "$ROS_IP" ]; then
-	echo "Setting up Environment Variables..."
+  echo "Setting up Environment Variables..."
   echo "export ROBOT_MODEL=$ROBOT_MODEL" >> ~/.bashrc
-	echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
-	echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
+  echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
+  echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
 else
-	echo "Environment variables already set!"
+  echo "Environment variables already set!"
 fi
 
 # Step 4: Configure 'run at startup' feature
