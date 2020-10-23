@@ -90,6 +90,17 @@ fi
 # Step 4: Configure 'run at startup' feature
 if [ "$run_joy_at_boot" = true ]; then
   cd $INTERBOTIX_WS/src/interbotix_ros_manipulators/interbotix_ros_xsarms/install/rpi4/
+  touch xsarm_rpi4_launch.sh
+  echo -e "#!/usr/bin/env bash
+
+  # This script is called by the xsarm_rpi4_boot.service file when
+  # the Raspberry Pi boots. It just sources the ROS related workspaces
+  # and launches the xsarm_joy launch file. It is populated with the correct commands
+  # from the xsarm_rpi4_install.sh installation script.
+
+  source /opt/ros/$ROS_NAME/setup.bash
+  source $INTERBOTIX_WS/devel/setup.bash
+  roslaunch interbotix_xsarm_joy xsarm_joy.launch use_rviz:=false robot_model:=$ROBOT_MODEL" >> xsarm_rpi4_launch.sh
   chmod +x xsarm_rpi4_launch.sh
   sudo cp xsarm_rpi4_boot.service /lib/systemd/system/
   sudo systemctl daemon-reload
