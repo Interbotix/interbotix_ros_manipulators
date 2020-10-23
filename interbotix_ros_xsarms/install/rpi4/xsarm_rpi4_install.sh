@@ -100,7 +100,7 @@ if [ "$run_joy_at_boot" = true ]; then
 
 source /opt/ros/$ROS_NAME/setup.bash
 source $INTERBOTIX_WS/devel/setup.bash
-roslaunch interbotix_xsarm_joy xsarm_joy.launch use_rviz:=false robot_model:=$ROBOT_MODEL" >> xsarm_rpi4_launch.sh
+roslaunch interbotix_xsarm_joy xsarm_joy.launch use_rviz:=false robot_model:=$ROBOT_MODEL" > xsarm_rpi4_launch.sh
 
   chmod +x xsarm_rpi4_launch.sh
   sudo cp xsarm_rpi4_boot.service /lib/systemd/system/
