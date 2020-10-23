@@ -80,7 +80,6 @@ source $INTERBOTIX_WS/devel/setup.bash
 # Step 3: Setup Environment Variables
 if [ -z "$ROS_IP" ]; then
   echo "Setting up Environment Variables..."
-  echo "export ROBOT_MODEL=$ROBOT_MODEL" >> ~/.bashrc
   echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
   echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
 else
