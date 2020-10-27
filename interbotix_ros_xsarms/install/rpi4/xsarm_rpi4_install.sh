@@ -4,9 +4,11 @@ ubuntu_version="$(lsb_release -r -s)"
 
 if [ $ubuntu_version == "18.04" ]; then
   ROS_NAME="melodic"
+elif [ $ubuntu_version == "20.04" ]; then
+  ROS_NAME="noetic"
 else
   echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-  echo -e "Interbotix Arm only works with 18.04 on the Raspberry Pi"
+  echo -e "Interbotix Arm only works with 18.04 or 20.04 on the Raspberry Pi"
   exit 1
 fi
 
@@ -31,8 +33,13 @@ sudo apt update && sudo apt -y upgrade
 sudo apt -y autoremove
 
 # Install some necessary core packages
-sudo apt -y install python-pip
-sudo -H pip install modern_robotics
+if [ $ROS_NAME != "noetic" ]; then
+  sudo apt -y install python-pip
+  sudo -H pip install modern_robotics
+else
+  sudo apt -y install python3-pip
+  sudo -H pip3 install modern_robotics
+fi
 
 # Step 1: Install ROS
 if [ $(dpkg-query -W -f='${Status}' ros-$ROS_NAME-desktop-full 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
@@ -45,7 +52,11 @@ if [ $(dpkg-query -W -f='${Status}' ros-$ROS_NAME-desktop-full 2>/dev/null | gre
     sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
   fi
   echo "source /opt/ros/$ROS_NAME/setup.bash" >> ~/.bashrc
-  sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+  if [ $ROS_NAME != "noetic" ]; then
+    sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+  else
+    sudo apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+  fi
   sudo rosdep init
   rosdep update
 else
