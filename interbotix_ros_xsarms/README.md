@@ -50,7 +50,7 @@ The ROS packages located here can be used with any of the Interbotix arm kits li
 
 ## Requirements
 Below is a list of the hardware you will need to get started:
-- Computer running Ubuntu Linux 16.04 or 18.04 (note that virtual Linux machines have NOT been tested)
+- Computer running Ubuntu Linux 16.04, 18.04, or 20.04 (note that virtual Linux machines have NOT been tested)
 - One of the X-Series Robot Arm Kits mentioned above
 
 ## Hardware Setup
