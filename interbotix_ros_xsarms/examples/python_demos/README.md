@@ -47,7 +47,7 @@ roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250
 ```
 In another terminal, navigate to this directory and type...
 ```
-python bartender.py
+python bartender.py        # python3 bartender.py if using ROS Noetic
 ```
 You should observe the robot pick up a virtual bottle (from behind a virtual bar), rotate so that the end-effector is facing the opposite direction, pour a virtual drink (on the virtual bar), then place the 'bottle' down, and go to its Sleep pose.
 
