@@ -63,7 +63,7 @@ There is not much required to get the robot ready to work as most of the setup i
 To get all the code setup, refer to the computer platform types below and run the appropriate installation script. Afterwards, continue with the [Installation Checks](#installation-checks) sub-section.
 
 ###### AMD64 Architecture
-If your computer uses an Intel or AMD based processor (which is the case for NUCs, most laptops and desktop computers), follow the commands below to download and run the installation script. Note that the script will also install the full desktop version of ROS (either Kinetic, Melodic, or Noetic) if it's not yet on your system.
+If your computer uses an Intel or AMD based processor (which is the case for NUCs, most laptops and desktop computers), follow the commands below to download and run the installation script. Note that the script will also install the full desktop version of ROS (either Kinetic, Melodic, or Noetic) if it's not yet on your system. As an aside, if you've been using the old ROS packages from the [interbotix_ros_arms](https://github.com/Interbotix/interbotix_ros_arms) repository, and would like to migrate to using the ROS packages in this repository, *make sure that you do not already have a catkin workspace named 'interbotix_ws'*. Otherwise, the install script will not clone these packages. Either rename or delete the old 'interbotix_ws' workspace beforehand.
 
     $ sudo apt install curl
     $ curl 'https://raw.githubusercontent.com/Interbotix/interbotix_ros_manipulators/main/interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh' > xsarm_amd64_install.sh
