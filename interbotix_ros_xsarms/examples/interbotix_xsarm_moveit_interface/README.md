@@ -15,7 +15,7 @@ As shown above, this package builds on top of of the *interbotix_xsarm_moveit* p
 Note that all the nodes defined above live in the [interbotix_ros_toolboxes](https://github.com/Interbotix/interbotix_ros_toolboxes/tree/main/interbotix_xs_toolbox) repo. That is because these nodes, besides for being used here, are also used in other repositories (like *interbotix_ros_rovers*). To make it easier to maintain, it made more sense to keep one instance of them in the toolbox repository instead of having duplicates in multiple repositories.
 
 ## Usage
-To run this package on the physical robot, type the line below in a terminal (assuming the ViperX 300 is being launched).
+To run this package on the physical robot, type the line below in a terminal (assuming the ViperX 300 is being launched). Note that if you're using a 4 or 6 dof arm, you should set the `dof` launch file argument appropriately.
 ```
 $ roslaunch interbotix_xsarm_moveit_interface xsarm_moveit_interface.launch robot_model:=vx300 use_cpp_interface:=true use_actual:=true
 ```

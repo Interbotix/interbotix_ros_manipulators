@@ -10,7 +10,7 @@ As shown above, this package builds on top of the *interbotix_xsarm_gazebo*, *in
 - **rviz** - responsible for showing the robot model and including the MoveIt MotionPlanning plugin
 
 ## Usage
-To run this package on the physical robot, type the line below in a terminal (assuming the PincherX 100 is being launched).
+To run this package on the physical robot, type the line below in a terminal (assuming the PincherX 100 is being launched). Note that if you're using a 5 or 6 dof arm, you should set the `dof` launch file argument appropriately.
 ```
 $ roslaunch interbotix_xsarm_moveit xsarm_moveit.launch robot_model:=px100 use_actual:=true dof:=4
 ```

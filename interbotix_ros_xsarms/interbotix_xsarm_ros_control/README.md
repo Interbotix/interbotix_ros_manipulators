@@ -11,7 +11,7 @@ As explained in the Overview, this package builds on top of the *interbotix_xsar
 
 ## Usage
 This package is not meant to be used by itself but included in a launch file within your custom ROS package (which should expose a FollowJointTrajectoryAction interface).
-To run this package, type the line below in a terminal (assuming a PincherX 150 is being launched).
+To run this package, type the line below in a terminal (assuming a PincherX 150 is being launched). Note that if you're using a 4 or 6 dof arm, you should set the `dof` launch file argument appropriately.
 ```
 $ roslaunch interbotix_xsarm_ros_control xsarm_ros_control.launch robot_model:=px150
 ```

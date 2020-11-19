@@ -12,7 +12,7 @@ As shown above, the *interbotix_xsarm_gazebo* package builds on top of the *inte
 - **spawn_model** - adds the robot model as defined in the 'robot_description' parameter into the Gazebo world
 
 ## Usage
-To run this package, type the line below in a terminal (assuming the WidowX 250 is being launched with trajectory controllers).
+To run this package, type the line below in a terminal (assuming the WidowX 250 is being launched with trajectory controllers). Note that if you're using a 4 or 6 dof arm, you should set the `dof` launch file argument appropriately.
 ```
 $ roslaunch interbotix_xsarm_gazebo xsarm_gazebo.launch robot_model:=wx250 use_trajectory_controllers:=true
 ```
