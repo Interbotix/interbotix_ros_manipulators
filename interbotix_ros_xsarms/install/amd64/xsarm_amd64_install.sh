@@ -70,12 +70,6 @@ if [ ! -d "$INTERBOTIX_WS/src" ]; then
   cd interbotix_ros_manipulators
   git checkout $ROS_NAME
   cd ..
-  if [ $ROS_NAME == "noetic" ]; then
-    git clone https://github.com/ros-planning/moveit_visual_tools.git
-    cd moveit_visual_tools
-    git checkout noetic-devel
-    cd ..
-  fi
   git clone https://github.com/Interbotix/interbotix_ros_toolboxes.git
   cd $INTERBOTIX_WS/src/interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
   sudo cp 99-interbotix-udev.rules /etc/udev/rules.d/
