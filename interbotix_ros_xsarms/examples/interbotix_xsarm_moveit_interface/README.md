@@ -43,14 +43,14 @@ This is the bare minimum needed to get up and running. Take a look at the table 
 | use_world_frame | set this to true if you would like to load a 'world' frame to the 'robot_description' parameter which is located exactly at the 'base_link' frame of the robot; if using multiple robots or if you would like to attach the 'base_link' frame of the robot to a different frame, set this to false | true |  
 | external_urdf_loc | the file path to the custom urdf.xacro file that you would like to include in the Interbotix robot's urdf.xacro file| "" |
 | external_srdf_loc | the file path to the custom srdf.xacro file that you would like to include in the Interbotix robot's srdf.xacro file. Note that this should only contain 'disable collision' tags for collisions between the original Interbotix Arm and other links that are defined in the file specified by `external_urdf_loc` | "" |
-| mode_configs | the file path to the 'mode config' YAML file | refer to [xsarm_moveit.launch](launch/xsarm_moveit.launch) |
+| mode_configs | the file path to the 'mode config' YAML file | refer to [xsarm_moveit_interface.launch](launch/xsarm_moveit_interface.launch) |
 | use_moveit_rviz | a boolean that if true, displays Rviz with the MoveIt plugin; if false, MoveIt runs in a headless state | true |
 | rviz_frame | defines the fixed frame parameter in Rviz. Note that if 'use_world_frame' is False, this parameter should be changed to a frame that exists | world |
 | use_gazebo | launch MoveIt with a Gazebo simulated robot | false |
 | use_actual | launch MoveIt with the physical robot | false |
 | use_fake | launch MoveIt with a MoveIt generated fake robot | false |
 | dof | the degrees of freedom of the arm; while the majority of the arms have 5 dof, others have 4 or 6 dof | 5 |
-| world_name | the file path to the Gazebo 'world' file to load (if simulating) | refer to [xsarm_moveit.launch](launch/xsarm_moveit.launch) |
+| world_name | the file path to the Gazebo 'world' file to load (if simulating) | refer to [xsarm_moveit_interface.launch](launch/xsarm_moveit_interface.launch) |
 | use_cpp_interface | launch the custom **moveit_interface** C++ API node | false |
 | moveit_interface_gui | launch a custom GUI to interface with the **moveit_interface** node so that the user can command specific end-effector poses (defined by 'ee_gripper_link') | true |
 | use_python_interface | launch the Python Interface Tutorial node | false |
