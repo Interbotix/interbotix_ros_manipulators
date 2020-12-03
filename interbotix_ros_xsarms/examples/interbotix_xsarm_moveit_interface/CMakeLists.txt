@@ -6,7 +6,7 @@ project(interbotix_xsarm_moveit_interface)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   interbotix_xsarm_moveit
-  interbotix_xs_moveit_interface
+  interbotix_moveit_interface
 )
 
 ###################################
@@ -15,5 +15,5 @@ find_package(catkin REQUIRED COMPONENTS
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
 catkin_package(
- CATKIN_DEPENDS interbotix_xsarm_moveit interbotix_xs_moveit_interface
+ CATKIN_DEPENDS interbotix_xsarm_moveit interbotix_moveit_interface
 )

@@ -40,31 +40,31 @@
   <group if="$(arg use_cpp_interface)">
 
     <node
-      name="xs_moveit_interface"
-      pkg="interbotix_xs_moveit_interface"
-      type="xs_moveit_interface"
+      name="moveit_interface"
+      pkg="interbotix_moveit_interface"
+      type="moveit_interface"
       respawn="false"
       output="screen"
       ns="$(arg robot_name)"/>
 
     <node if="$(arg moveit_interface_gui)"
-      name="xs_moveit_interface_gui"
-      pkg="interbotix_xs_moveit_interface"
-      type="xs_moveit_interface_gui"
+      name="moveit_interface_gui"
+      pkg="interbotix_moveit_interface"
+      type="moveit_interface_gui"
       output="screen"
       ns="$(arg robot_name)"/>
 
   </group>
 
   <node if="$(arg use_python_interface)"
-    name="xs_moveit_python_interface"
-    pkg="interbotix_xs_moveit_interface"
-    type="xs_moveit_python_interface"
+    name="moveit_python_interface"
+    pkg="interbotix_moveit_interface"
+    type="moveit_python_interface"
     respawn="false"
     output="screen"
     ns="$(arg robot_name)">
+    <rosparam command="load"                      file="$(find interbotix_xsarm_moveit_interface)/config/$(arg robot_model).yaml"/>
     <param name="robot_model"                     value="$(arg robot_model)"/>
-    <param name="dof"                             value="$(arg dof)"/>
     <remap from="/attached_collision_object"      to="/$(arg robot_name)/attached_collision_object"/>
     <remap from="/collision_object"               to="/$(arg robot_name)/collision_object"/>
   </node>
