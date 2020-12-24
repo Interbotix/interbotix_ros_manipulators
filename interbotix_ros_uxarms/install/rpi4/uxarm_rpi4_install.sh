@@ -62,26 +62,24 @@ source /opt/ros/$ROS_NAME/setup.bash
 # Step 2: Install Arm packages
 INTERBOTIX_WS=~/interbotix_ws
 if [ ! -d "$INTERBOTIX_WS/src" ]; then
-  echo "Installing ROS packages for the Interbotix Arm..."
+  echo "Installing Interbotix ROS packages for the Universal Factory Xarm..."
   mkdir -p $INTERBOTIX_WS/src
   cd $INTERBOTIX_WS/src
   git clone https://github.com/Interbotix/interbotix_ros_core.git
   git clone https://github.com/Interbotix/interbotix_ros_manipulators.git
   git clone https://github.com/Interbotix/interbotix_ros_toolboxes.git
   cd interbotix_ros_manipulators && git checkout $ROS_NAME && cd ..
-  rm interbotix_ros_core/interbotix_ros_xseries/CATKIN_IGNORE
-  rm interbotix_ros_manipulators/interbotix_ros_xsarms/CATKIN_IGNORE
-  rm interbotix_ros_toolboxes/interbotix_xs_toolbox/CATKIN_IGNORE
+  rm interbotix_ros_core/interbotix_ros_uxarms/CATKIN_IGNORE
+  rm interbotix_ros_manipulators/interbotix_ros_uxarms/CATKIN_IGNORE
+  rm interbotix_ros_toolboxes/interbotix_ux_toolbox/CATKIN_IGNORE
+  rm interbotix_ros_toolboxes/interbotix_rpi_toolbox/CATKIN_IGNORE
   rm interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/CATKIN_IGNORE
-  cd interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
-  sudo cp 99-interbotix-udev.rules /etc/udev/rules.d/
-  sudo udevadm control --reload-rules && sudo udevadm trigger
   cd $INTERBOTIX_WS
   rosdep install --from-paths src --ignore-src -r -y
   catkin_make
   echo "source $INTERBOTIX_WS/devel/setup.bash" >> ~/.bashrc
 else
-  echo "Interbotix Arm ROS packages already installed!"
+  echo "Interbotix Universal Xarm ROS packages already installed!"
 fi
 source $INTERBOTIX_WS/devel/setup.bash
 

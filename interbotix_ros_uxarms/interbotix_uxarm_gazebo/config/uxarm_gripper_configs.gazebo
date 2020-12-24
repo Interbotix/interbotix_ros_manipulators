@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="mimic_joint_plugin" params="following_joint mimic_joint has_pid:=false multiplier:=1.0 offset:=0 sensitiveness:=0 max_effort:=1.0">
+    <gazebo>
+      <plugin name="${mimic_joint}_mimic_joint_plugin" filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so">
+        <joint>${following_joint}</joint>
+        <mimicJoint>${mimic_joint}</mimicJoint>
+        <xacro:if value="${has_pid}">                     <!-- if set to true, PID parameters from "/gazebo_ros_control/pid_gains/${mimic_joint}" are loaded -->
+          <hasPID />
+        </xacro:if>
+        <multiplier>${multiplier}</multiplier>
+        <offset>${offset}</offset>
+        <sensitiveness>${sensitiveness}</sensitiveness>   <!-- if absolute difference between setpoint and process value is below this threshold, do nothing; 0.0 = disable [rad] -->
+        <maxEffort>${max_effort}</maxEffort>              <!-- only taken into account if has_pid:=true [Nm] -->
+        <robotNamespace>$(arg robot_name)</robotNamespace>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <gazebo reference="$(arg robot_name)/uxarm_gripper_base">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/White</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/left_outer_knuckle">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/Silver</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/left_finger">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/Silver</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/left_inner_knuckle">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/Silver</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/right_outer_knuckle">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/Silver</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/right_finger">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/Silver</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/right_inner_knuckle">
+    <selfCollide>false</selfCollide>
+    <material>Gazebo/Silver</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+    <!-- mimic_joint_plugin has to be installed: -->
+  <xacro:mimic_joint_plugin following_joint="drive_joint"
+  mimic_joint="left_finger_joint"
+  has_pid="false" multiplier="1.0" max_effort="10.0" />
+
+  <xacro:mimic_joint_plugin following_joint="drive_joint"
+  mimic_joint="left_inner_knuckle_joint"
+  has_pid="false" multiplier="1.0" max_effort="10.0" />
+
+  <xacro:mimic_joint_plugin following_joint="drive_joint"
+  mimic_joint="right_outer_knuckle_joint"
+  has_pid="false" multiplier="1.0" max_effort="10.0" />
+
+  <xacro:mimic_joint_plugin following_joint="drive_joint"
+  mimic_joint="right_finger_joint"
+  has_pid="false" multiplier="1.0" max_effort="10.0" />
+
+  <xacro:mimic_joint_plugin following_joint="drive_joint"
+  mimic_joint="right_inner_knuckle_joint"
+  has_pid="false" multiplier="1.0" max_effort="10.0" />
+
+</robot>

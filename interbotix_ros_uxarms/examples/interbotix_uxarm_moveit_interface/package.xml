@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>interbotix_uxarm_moveit_interface</name>
+  <version>0.0.0</version>
+  <description>The interbotix_uxarm_moveit_interface package</description>
+  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <license>BSD</license>
+  <!-- <url type="website">http://wiki.ros.org/interbotix_uxarm_moveit_interface</url> -->
+  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
+
+  <!-- The *depend tags are used to specify dependencies -->
+  <!-- Dependencies can be catkin packages or system dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>interbotix_uxarm_moveit</build_depend>
+  <build_depend>interbotix_moveit_interface</build_depend>
+  <build_export_depend>interbotix_uxarm_moveit</build_export_depend>
+  <build_export_depend>interbotix_moveit_interface</build_export_depend>
+  <exec_depend>interbotix_uxarm_moveit</exec_depend>
+  <exec_depend>interbotix_moveit_interface</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>

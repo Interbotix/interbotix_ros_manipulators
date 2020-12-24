@@ -1,0 +1,51 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="use_gripper"                       default="false"/>
+  <arg name="show_gripper"                      default="$(arg use_gripper)"/>
+  <arg name="use_world_frame"                   default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="use_rviz"                          default="true"/>
+  <arg name="robot_ip"                          default=""/>
+  <arg name="gripper_pub_freq"                  default="10"/>
+
+  <arg     if="$(arg use_gripper)" name="source_list" value="[arm/joint_states, gripper/joint_state]"/>
+  <arg unless="$(arg use_gripper)" name="source_list" value="[arm/joint_states]"/>
+
+  <param name="$(arg robot_name)/xarm_robot_ip" value="$(arg robot_ip)"/>
+  <rosparam command="load" file="$(find interbotix_uxarm_control)/config/$(arg robot_model).yaml" ns="$(arg robot_name)"/>
+
+  <include file="$(find interbotix_uxarm_descriptions)/launch/uxarm_description.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+    <arg name="use_joint_pub"                     value="true"/>
+    <arg name="rate"                              value="10"/>
+    <arg name="source_list"                       value="$(arg source_list)"/>
+  </include>
+
+  <node
+    name="ux_sdk"
+    pkg="xarm_api"
+    type="xarm_driver_node"
+    output="screen"
+    ns="$(arg robot_name)">
+    <remap from="joint_states" to="arm/joint_states"/>
+  </node>
+
+  <node if="$(arg use_gripper)"
+    name="gripper_pub"
+    pkg="interbotix_uxarm_control"
+    type="gripper_pub"
+    output="screen"
+    ns="$(arg robot_name)">
+    <param name="gripper_pub_freq" value="$(arg gripper_pub_freq)"/>
+  </node>
+
+</launch>

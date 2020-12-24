@@ -1,0 +1,36 @@
+<launch>
+  <!-- By default we do not overwrite the URDF. Change the following to true to change the default behavior -->
+  <!-- Setting 'load_robot_description' to 'true' will load the full model including the gripper. Model will not have any color in Gazebo. -->
+  <arg name="load_robot_description" default="false"/>
+  <arg name="robot_name" default=""/>
+  <arg name="robot_model" default=""/>
+  <arg name="base_link_frame" default=""/>
+  <arg name="show_gripper" default=""/>
+  <arg name="external_srdf_loc" default=""/>
+  <arg name="dof"        default=""/>
+  <!-- The name of the parameter under which the URDF is loaded -->
+  <arg name="robot_description" default="robot_description"/>
+
+  <!-- Load universal robot description format (URDF) -->
+  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro '$(find interbotix_descriptions)/urdf/$(arg robot_model).urdf.xacro'"/>
+
+  <!-- The semantic description that corresponds to the URDF -->
+  <param name="$(arg robot_description)_semantic"
+    command="xacro $(find interbotix_uxarm_moveit)/config/srdf/$(arg robot_model).srdf.xacro
+        robot_name:=$(arg robot_name)
+        base_link_frame:=$(arg base_link_frame)
+        show_gripper:=$(arg show_gripper)
+        external_srdf_loc:=$(arg external_srdf_loc)"/>
+
+  <!-- Load updated joint limits (override information from URDF) -->
+  <group ns="$(arg robot_description)_planning">
+    <rosparam if="$(arg show_gripper)" command="load" file="$(find interbotix_uxarm_moveit)/config/joint_limits/$(arg dof)dof_all_joint_limits.yaml"/>
+    <rosparam unless="$(arg show_gripper)" command="load" file="$(find interbotix_uxarm_moveit)/config/joint_limits/$(arg dof)dof_arm_joint_limits.yaml"/>
+  </group>
+
+  <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
+  <group ns="$(arg robot_description)_kinematics">
+    <rosparam command="load" file="$(find interbotix_uxarm_moveit)/config/kinematics.yaml"/>
+  </group>
+
+</launch>

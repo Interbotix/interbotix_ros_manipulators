@@ -1,0 +1,76 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="use_gripper"                       default="false"/>
+  <arg name="show_gripper"                      default="$(arg use_gripper)"/>
+  <arg name="use_world_frame"                   default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="external_srdf_loc"                 default=""/>
+  <arg name="use_moveit_rviz"                   default="true"/>
+  <arg name="rviz_frame"                        default="world"/>
+  <arg name="robot_ip"                          default=""/>
+  <arg name="gripper_pub_freq"                  default="10"/>
+  <arg name="use_gazebo"                        default="false"/>
+  <arg name="use_actual"                        default="false"/>
+  <arg name="use_fake"                          default="false"/>
+  <arg name="dof"                               default="5"/>
+  <arg name="world_name"                        default="$(find interbotix_uxarm_gazebo)/worlds/uxarm_gazebo.world"/>
+  <arg name="use_cpp_interface"                 default="false"/>
+  <arg name="moveit_interface_gui"              default="true"/>
+  <arg name="use_python_interface"              default="false"/>
+
+  <include file="$(find interbotix_uxarm_moveit)/launch/uxarm_moveit.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="use_gripper"                       value="$(arg use_gripper)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="external_srdf_loc"                 value="$(arg external_srdf_loc)"/>
+    <arg name="use_moveit_rviz"                   value="$(arg use_moveit_rviz)"/>
+    <arg name="rviz_frame"                        value="$(arg rviz_frame)"/>
+    <arg name="robot_ip"                          value="$(arg robot_ip)"/>
+    <arg name="gripper_pub_freq"                  value="$(arg gripper_pub_freq)"/>
+    <arg name="use_gazebo"                        value="$(arg use_gazebo)"/>
+    <arg name="use_actual"                        value="$(arg use_actual)"/>
+    <arg name="use_fake"                          value="$(arg use_fake)"/>
+    <arg name="dof"                               value="$(arg dof)"/>
+    <arg name="world_name"                        value="$(arg world_name)"/>
+  </include>
+
+  <group if="$(arg use_cpp_interface)">
+
+    <node
+      name="moveit_interface"
+      pkg="interbotix_moveit_interface"
+      type="moveit_interface"
+      respawn="false"
+      output="screen"
+      ns="$(arg robot_name)"/>
+
+    <node if="$(arg moveit_interface_gui)"
+      name="moveit_interface_gui"
+      pkg="interbotix_moveit_interface"
+      type="moveit_interface_gui"
+      output="screen"
+      ns="$(arg robot_name)"/>
+
+  </group>
+
+  <node if="$(arg use_python_interface)"
+    name="moveit_python_interface"
+    pkg="interbotix_moveit_interface"
+    type="moveit_python_interface"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)">
+    <rosparam command="load"                      file="$(find interbotix_uxarm_moveit_interface)/config/$(arg robot_model).yaml"/>
+    <param name="robot_model"                     value="$(arg robot_model)"/>
+    <remap from="/attached_collision_object"      to="/$(arg robot_name)/attached_collision_object"/>
+    <remap from="/collision_object"               to="/$(arg robot_name)/collision_object"/>
+  </node>
+
+</launch>

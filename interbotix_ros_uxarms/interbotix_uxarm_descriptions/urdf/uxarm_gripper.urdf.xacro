@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<robot name="uxarm_gripper" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="gripper_frame" default="world"/>
+
+  <joint name="gripper_fix" type="fixed">
+    <parent link="${gripper_frame}"/>
+    <child link="$(arg robot_name)/gripper_base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="$(arg robot_name)/gripper_base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/gripper_base.stl"/>
+      </geometry>
+      <material name="White" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/gripper_base.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00065489 -0.0018497 0.048028" rpy="0 0 0" />
+      <mass value="0.54156" />
+      <inertia ixx="0.00047106" ixy="3.9292E-07" ixz="2.6537E-06" iyy="0.00033072" iyz="-1.0975E-05" izz="0.00025642"/>
+    </inertial>
+  </link>
+
+  <joint name="drive_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="3.0" lower="0" upper="0.85" velocity="2"/>
+    <parent link="$(arg robot_name)/gripper_base_link"/>
+    <child  link="$(arg robot_name)/left_outer_knuckle"/>
+    <origin xyz="0 0.035 0.059098" rpy="0 0 0"/>
+    <dynamics friction="1.0"/>
+  </joint>
+
+  <transmission name="drive_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="drive_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="drive_joint_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/left_outer_knuckle">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/left_outer_knuckle.stl"/>
+      </geometry>
+      <material name="Silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/left_outer_knuckle.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="2.9948E-14 0.021559 0.015181" rpy="0 0 0" />
+      <mass value="0.033618" />
+      <inertia ixx="1.9111E-05" ixy="-1.8803E-17" ixz="-1.1002E-17" iyy="6.6256E-06" iyz="-7.3008E-06" izz="1.3185E-05"/>
+    </inertial>
+  </link>
+
+  <joint name="left_finger_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="50.0" lower="0" upper="0.85" velocity="2"/>
+    <parent link="$(arg robot_name)/left_outer_knuckle"/>
+    <child  link="$(arg robot_name)/left_finger"/>
+    <origin xyz="0 0.035465 0.042039" rpy="0 0 0"/>
+    <mimic joint="drive_joint" multiplier="1" offset="0"/>
+  </joint>
+
+  <link name="$(arg robot_name)/left_finger">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/left_finger.stl"/>
+      </geometry>
+      <material name="Silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/left_finger.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-2.4536E-14 -0.016413 0.029258" rpy="0 0 0" />
+      <mass value="0.048304" />
+      <inertia ixx="1.7493E-05" ixy="-4.2156E-19" ixz="6.9164E-18" iyy="1.7225E-05" iyz="4.6433E-06" izz="5.1466E-06"/>
+    </inertial>
+  </link>
+
+  <joint name="left_inner_knuckle_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="50.0" lower="0" upper="0.85" velocity="2"/>
+    <parent link="$(arg robot_name)/gripper_base_link"/>
+    <child  link="$(arg robot_name)/left_inner_knuckle"/>
+    <origin xyz="0 0.02 0.074098" rpy="0 0 0"/>
+    <mimic joint="drive_joint" multiplier="1" offset="0"/>
+  </joint>
+
+  <link name="$(arg robot_name)/left_inner_knuckle">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/left_inner_knuckle.stl"/>
+      </geometry>
+      <material name="Silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/left_inner_knuckle.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="1.86600784687907E-06 0.0220467847633621 0.0261334672830885" rpy="0 0 0" />
+      <mass value="0.0230125781256706" />
+      <inertia ixx="6.09490024271906E-06" ixy="6.06651326160071E-11" ixz="7.19102670500635E-11" iyy="6.01955084375188E-06" iyz="-2.75316812991721E-06" izz="5.07862004479903E-06"/>
+    </inertial>
+  </link>
+
+  <joint name="right_outer_knuckle_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="50.0" lower="0" upper="0.85" velocity="2"/>
+    <parent link="$(arg robot_name)/gripper_base_link"/>
+    <child  link="$(arg robot_name)/right_outer_knuckle"/>
+    <origin xyz="0 -0.035 0.059098" rpy="0 0 0"/>
+    <mimic joint="drive_joint" multiplier="1" offset="0"/>
+  </joint>
+
+  <link name="$(arg robot_name)/right_outer_knuckle">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/right_outer_knuckle.stl"/>
+      </geometry>
+      <material name="Silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/right_outer_knuckle.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-3.1669E-14 -0.021559 0.015181" rpy="0 0 0" />
+      <mass value="0.033618" />
+      <inertia ixx="1.9111E-05" ixy="-1.8789E-17" ixz="1.0986E-17" iyy="6.6256E-06" iyz="7.3008E-06" izz="1.3185E-05"/>
+    </inertial>
+  </link>
+
+  <joint name="right_finger_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="50.0" lower="0" upper="0.85" velocity="2"/>
+    <parent link="$(arg robot_name)/right_outer_knuckle"/>
+    <child  link="$(arg robot_name)/right_finger"/>
+    <origin xyz="0 -0.035465 0.042039" rpy="0 0 0"/>
+    <mimic joint="drive_joint" multiplier="1" offset="0"/>
+  </joint>
+
+  <link name="$(arg robot_name)/right_finger">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/right_finger.stl"/>
+      </geometry>
+      <material name="Silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/right_finger.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="2.5618E-14 0.016413 0.029258" rpy="0 0 0" />
+      <mass value="0.048304" />
+      <inertia ixx="1.7493E-05" ixy="-5.0014E-19" ixz="-7.5079E-18" iyy="1.7225E-05" iyz="4.6435E-06" izz="5.1466E-06"/>
+    </inertial>
+  </link>
+
+  <joint name="right_inner_knuckle_joint" type="revolute">
+    <axis xyz="-1 0 0"/>
+    <limit effort="50.0" lower="0" upper="0.85" velocity="2"/>
+    <parent link="$(arg robot_name)/gripper_base_link"/>
+    <child  link="$(arg robot_name)/right_inner_knuckle"/>
+    <origin xyz="0 -0.02 0.074098" rpy="0 0 0"/>
+    <mimic joint="drive_joint" multiplier="1" offset="0"/>
+  </joint>
+
+  <link name="$(arg robot_name)/right_inner_knuckle">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/right_inner_knuckle.stl"/>
+      </geometry>
+      <material name="Silver" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm_gripper_meshes/right_inner_knuckle.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="1.866E-06 -0.022047 0.026133" rpy="0 0 0" />
+      <mass value="0.023013" />
+      <inertia ixx="6.0949E-06" ixy="6.0665E-11" ixz="7.191E-11" iyy="6.0197E-06" iyz="2.7531E-06" izz="5.0784E-06"/>
+    </inertial>
+  </link>
+
+</robot>

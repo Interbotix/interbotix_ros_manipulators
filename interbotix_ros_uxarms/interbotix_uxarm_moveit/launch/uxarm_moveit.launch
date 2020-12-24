@@ -1,0 +1,78 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="use_gripper"                       default="false"/>
+  <arg name="show_gripper"                      default="$(arg use_gripper)"/>
+  <arg name="use_world_frame"                   default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="external_srdf_loc"                 default=""/>
+  <arg name="use_moveit_rviz"                   default="true"/>
+  <arg name="rviz_frame"                        default="world"/>
+  <arg name="robot_ip"                          default=""/>
+  <arg name="gripper_pub_freq"                  default="10"/>
+  <arg name="gripper_pulse_vel"                 default="1500"/>
+  <arg name="use_gazebo"                        default="false"/>
+  <arg name="use_actual"                        default="false"/>
+  <arg name="use_fake"                          default="false"/>
+  <arg name="dof"                               default="5"/>
+  <arg name="world_name"                        default="$(find interbotix_uxarm_gazebo)/worlds/uxarm_gazebo.world"/>
+
+  <include if="$(arg use_gazebo)" file="$(find interbotix_uxarm_gazebo)/launch/uxarm_gazebo.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="false"/>
+    <arg name="world_name"                        value="$(arg world_name)"/>
+    <arg name="use_trajectory_controllers"        value="true"/>
+    <arg name="dof"                               value="$(arg dof)"/>
+  </include>
+
+  <include if="$(arg use_actual)" file="$(find interbotix_uxarm_ros_control)/launch/uxarm_ros_control.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="use_gripper"                       value="$(arg use_gripper)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="false"/>
+    <arg name="robot_ip"                          value="$(arg robot_ip)"/>
+    <arg name="gripper_pub_freq"                  value="$(arg gripper_pub_freq)"/>
+    <arg name="dof"                               value="$(arg dof)"/>
+  </include>
+
+  <include if="$(arg use_fake)" file="$(find interbotix_uxarm_descriptions)/launch/uxarm_description.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="false"/>
+    <arg name="use_joint_pub"                     value="true"/>
+    <arg name="rate"                              value="100"/>
+    <arg name="source_list"                       value="[move_group/fake_controller_joint_states]"/>
+  </include>
+
+  <include file="$(find interbotix_uxarm_moveit)/launch/move_group.launch" ns="$(arg robot_name)">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="external_srdf_loc"                 value="$(arg external_srdf_loc)"/>
+    <arg name="dof"                               value="$(arg dof)"/>
+    <arg name="fake_execution"                    value="$(arg use_fake)"/>
+    <arg name="publish_monitored_planning_scene"  value="true" />
+  </include>
+
+  <include if="$(arg use_moveit_rviz)" file="$(find interbotix_uxarm_moveit)/launch/moveit_rviz.launch" ns="$(arg robot_name)">
+    <arg name="rviz_frame"                        value="$(arg rviz_frame)"/>
+    <arg name="config"                            value="true"/>
+  </include>
+
+</launch>

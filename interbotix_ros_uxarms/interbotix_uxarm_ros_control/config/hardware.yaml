@@ -1,0 +1,7 @@
+hardware_interface:
+  control_rate: 100
+  gripper_name: drive_joint
+  gripper_pulse_vel: 1500
+  use_gripper: true
+  joint_states_topic: joint_states
+  robot_state_topic: xarm_states

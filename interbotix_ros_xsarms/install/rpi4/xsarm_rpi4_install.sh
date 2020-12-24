@@ -2,13 +2,15 @@
 
 ubuntu_version="$(lsb_release -r -s)"
 
-if [ $ubuntu_version == "18.04" ]; then
+if [ $ubuntu_version == "16.04" ]; then
+  ROS_NAME="kinetic"
+elif [ $ubuntu_version == "18.04" ]; then
   ROS_NAME="melodic"
 elif [ $ubuntu_version == "20.04" ]; then
   ROS_NAME="noetic"
 else
   echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-  echo -e "Interbotix Arm only works with 18.04 or 20.04 on the Raspberry Pi"
+  echo -e "Interbotix Arm only works with 16.04, 18.04 or 20.04 on the Raspberry Pi"
   exit 1
 fi
 
@@ -72,11 +74,14 @@ if [ ! -d "$INTERBOTIX_WS/src" ]; then
   cd $INTERBOTIX_WS/src
   git clone https://github.com/Interbotix/interbotix_ros_core.git
   git clone https://github.com/Interbotix/interbotix_ros_manipulators.git
-  cd interbotix_ros_manipulators
-  git checkout $ROS_NAME
-  cd ..
   git clone https://github.com/Interbotix/interbotix_ros_toolboxes.git
-  cd $INTERBOTIX_WS/src/interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
+  cd interbotix_ros_manipulators && git checkout $ROS_NAME && cd ..
+  rm interbotix_ros_core/interbotix_ros_xseries/CATKIN_IGNORE
+  rm interbotix_ros_manipulators/interbotix_ros_xsarms/CATKIN_IGNORE
+  rm interbotix_ros_toolboxes/interbotix_xs_toolbox/CATKIN_IGNORE
+  rm interbotix_ros_toolboxes/interbotix_rpi_toolbox/CATKIN_IGNORE
+  rm interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/CATKIN_IGNORE
+  cd interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
   sudo cp 99-interbotix-udev.rules /etc/udev/rules.d/
   sudo udevadm control --reload-rules && sudo udevadm trigger
   cd $INTERBOTIX_WS

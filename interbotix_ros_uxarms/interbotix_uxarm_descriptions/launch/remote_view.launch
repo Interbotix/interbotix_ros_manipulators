@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="robot_name"                        default=""/>
+  <arg name="rvizconfig"                        default="$(find interbotix_uxarm_descriptions)/rviz/uxarm_description.rviz" />
+
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(arg rvizconfig)"
+    ns="$(arg robot_name)"/>
+
+</launch>

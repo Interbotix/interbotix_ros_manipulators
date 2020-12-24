@@ -1,0 +1,21 @@
+# position-only-ik and orientation-only-ik don't work unless position_only_ik
+# is set to true for the KDL and trac_ik plugins
+
+# interbotix_arm:
+#   kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+#   kinematics_solver_search_resolution: 0.005
+#   kinematics_solver_timeout: 0.005
+#   position_only_ik: true
+
+# interbotix_arm:
+#   kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+#   kinematics_solver_timeout: 0.005
+#   solve_type: Speed
+#   position_only_ik: true
+
+# Position-only-ik and orientation-only-ik work automatically for the LMA plugin
+
+interbotix_arm:
+  kinematics_solver: lma_kinematics_plugin/LMAKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.005

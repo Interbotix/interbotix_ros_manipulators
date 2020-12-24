@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<robot name="uxarm6" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="robot_name" default = "uxarm6"/>
+  <xacro:arg name="base_link_frame" default="base_link"/>
+  <xacro:arg name="show_gripper" default="true"/>
+  <xacro:arg name="use_world_frame" default="false"/>
+  <xacro:arg name="external_urdf_loc" default=""/>
+  <xacro:arg name="load_gazebo_configs" default="false"/>
+
+  <xacro:property name="urdf_loc" value="$(arg external_urdf_loc)"/>
+  <xacro:property name="pi_offset" value="0.00001"/>
+  <xacro:property name="gripper_frame" value="$(arg robot_name)/link6"/>
+
+  <xacro:if value="$(arg load_gazebo_configs)">
+    <xacro:include filename="$(find interbotix_uxarm_gazebo)/config/uxarm_configs.gazebo"/>
+    <xacro:if value="$(arg show_gripper)">
+      <xacro:include filename="$(find interbotix_uxarm_gazebo)/config/uxarm_gripper_configs.gazebo"/>
+    </xacro:if>
+  </xacro:if>
+
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="Silver">
+    <color rgba="0.753 0.753 0.753 1.0"/>
+  </material>
+
+  <xacro:if value="$(arg use_world_frame)">
+    <link name="world"/>
+    <joint name="fixed" type="fixed">
+      <parent link="world"/>
+      <child link="$(arg robot_name)/$(arg base_link_frame)"/>
+    </joint>
+  </xacro:if>
+
+  <link name="$(arg robot_name)/$(arg base_link_frame)">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_base.stl"/>
+      </geometry>
+      <material name="White" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_base.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.09103" rpy="0 0 0" />
+      <mass value="2.7" />
+      <inertia ixx="0.00494875" ixy="-3.5E-06" ixz="1.25E-05" iyy="0.00494174" iyz="1.67E-06" izz="0.002219" />
+    </inertial>
+  </link>
+
+  <joint name="joint1" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <parent link="$(arg robot_name)/$(arg base_link_frame)"/>
+    <child  link="$(arg robot_name)/link1"/>
+    <origin xyz="0 0 0.267" rpy="0 0 0"/>
+    <dynamics friction="0.5"/>
+  </joint>
+
+  <transmission name="tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link1.stl"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link1.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.002 0.02692 -0.01332" rpy="0 0 0"/>
+      <mass value="2.16" />
+      <inertia ixx="0.00539427" ixy="1.095E-05" ixz="1.635E-06" iyy="0.0048979" iyz="0.000793" izz="0.00311573"/>
+    </inertial>
+  </link>
+
+  <joint name="joint2" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="$(arg robot_name)/link1"/>
+    <child link="$(arg robot_name)/link2"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 0" />
+    <limit effort="100.0" lower="-2.059" upper="2.0944" velocity="${pi}"/>
+    <dynamics friction="0.5"/>
+  </joint>
+
+  <transmission name="tran2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link2.stl"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link2.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.03531 -0.21398 0.03386" rpy="0 0 0" />
+      <mass value="1.71" />
+      <!-- <inertia ixx="0.0248674" ixy="-0.00430651" ixz="-0.00067797" iyy="0.00485548" iyz="0.00457245" izz="0.02387827" /> -->
+      <inertia ixx="0.0248674" ixy="0.00430651" ixz="-0.00067797" iyy="0.00485548" iyz="0.00457245" izz="0.02387827"/>
+    </inertial>
+  </link>
+
+  <joint name="joint3" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="$(arg robot_name)/link2"/>
+    <child link="$(arg robot_name)/link3"/>
+    <origin xyz="0.0535 -0.2845 0" rpy="0 0 0" />
+    <limit effort="100.0" lower="-3.927" upper="0.19198" velocity="${pi}"/>
+    <dynamics friction="0.5"/>
+  </joint>
+
+  <transmission name="tran3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor3">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link3.stl"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link3.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.06781 0.10749 0.01457" rpy="0 0 0" />
+      <mass value="1.384" />
+      <inertia ixx="0.0053694" ixy="0.0014185" ixz="-0.00092094" iyy="0.0032423" iyz="-0.00169178" izz="0.00501731"/>
+      <!-- <inertia ixx="0.0053694" ixy="0" ixz="0" iyy="0.0032423" iyz="0" izz="0.00501731"/> -->
+    </inertial>
+  </link>
+
+  <joint name="joint4" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="$(arg robot_name)/link3"/>
+    <child link="$(arg robot_name)/link4"/>
+    <origin xyz="0.0775 0.3425 0" rpy="-1.5708 0 0"/>
+    <limit effort="100.0" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <dynamics friction="0.5"/>
+  </joint>
+
+  <transmission name="tran4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor4">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link4">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link4.stl"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link4.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00021 0.02578 -0.02538" rpy="0 0 0" />
+      <mass value="1.115" />
+      <inertia ixx="0.00439263" ixy="5.028E-05" ixz="1.374E-05" iyy="0.0040077" iyz="0.00045338" izz="0.00110321"/>
+    </inertial>
+  </link>
+
+  <joint name="joint5" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="$(arg robot_name)/link4"/>
+    <child link="$(arg robot_name)/link5"/>
+    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+    <limit effort="100.0" lower="-1.69297" upper="${pi}" velocity="${pi}"/>
+    <dynamics friction="0.5"/>
+  </joint>
+
+  <transmission name="tran5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint5">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor5">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link5">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link5.stl"/>
+      </geometry>
+      <material name="White"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link5.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.05428 0.01781 0.00543" rpy="0 0 0" />
+      <mass value="1.275" />
+      <inertia ixx="0.001202758" ixy="0.000492428" ixz="-0.00039147" iyy="0.0022876" iyz="-1.235E-04" izz="0.0026866"/>
+    </inertial>
+  </link>
+
+  <joint name="joint6" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="$(arg robot_name)/link5"/>
+    <child link="$(arg robot_name)/link6"/>
+    <origin xyz="0.076 0.097 0" rpy="-1.5708 0 0"/>
+    <limit effort="2.0" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <dynamics friction="0.5"/>
+  </joint>
+
+  <transmission name="tran6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint6">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor6">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link6">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link6.stl"/>
+      </geometry>
+      <material name="Silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://interbotix_uxarm_descriptions/meshes/uxarm6_meshes/uxarm6_link6.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0.00064 -0.00952" rpy="0 0 0" />
+      <mass value="0.1096" />
+      <inertia ixx="4.5293E-05" ixy="0" ixz="0" iyy="4.8111E-05" iyz="0" izz="7.9715E-05"/>
+    </inertial>
+  </link>
+
+  <xacro:if value="$(arg show_gripper)">
+    <xacro:include filename="$(find interbotix_uxarm_descriptions)/urdf/uxarm_gripper.urdf.xacro"/>
+  </xacro:if>
+
+  <xacro:if value="${urdf_loc != ''}">
+    <xacro:include filename="${urdf_loc}"/>
+  </xacro:if>
+
+</robot>

@@ -26,7 +26,7 @@ if [ ! -d "$INTERBOTIX_WS/src" ]; then
   cd src
   git clone https://github.com/Interbotix/interbotix_ros_manipulators.git
   cd interbotix_ros_manipulators && git checkout $ROS_NAME && cd ..
-  rm interbotix_ros_manipulators/interbotix_ros_xsarms/CATKIN_IGNORE
+  rm interbotix_ros_manipulators/interbotix_ros_uxarms/CATKIN_IGNORE
   echo "source $INTERBOTIX_WS/devel/setup.bash" >> ~/.bashrc
 else
   echo "Interbotix Arm ROS packages already installed!"

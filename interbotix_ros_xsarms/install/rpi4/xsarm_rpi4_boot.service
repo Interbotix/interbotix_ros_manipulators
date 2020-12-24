@@ -1,6 +1,6 @@
 # This service auto-launches the xsarm_joy.launch file when the computer boots.
 # This file should be copied to /lib/systemd/system. Afterwards, type...
-# 'sudo systemctl daemon-reload' followed by 'sudo systemctl enable xshexapod_rpi4_boot.service'.
+# 'sudo systemctl daemon-reload' followed by 'sudo systemctl enable xsarm_rpi4_boot.service'.
 
 [Unit]
 Description=Start X-Series Arm Joystick Control

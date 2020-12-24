@@ -1,0 +1,45 @@
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+arm_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - joint7
+  gains: # Required because we're controlling an effort interface
+    joint1: {p: 600, i: 5.0, d: 30, i_clamp: 1}
+    joint2: {p: 600, i: 5.0, d: 30, i_clamp: 1}
+    joint3: {p: 600, i: 5.0, d: 30, i_clamp: 1}
+    joint4: {p: 600, i: 5.0, d: 30, i_clamp: 1}
+    joint5: {p: 450.0, i: 5.0, d: 10, i_clamp: 1}
+    joint6: {p: 300.0, i: 5.0, d: 10, i_clamp: 1}
+    joint7: {p: 10.0, i: 0.0, d: 0.0}
+
+  constraints:
+    goal_time: 0.5
+    stopped_velocity_tolerance: 0.05
+    joint1: {trajectory: 1, goal: 0.01}
+    joint2: {trajectory: 1, goal: 0.01}
+    joint3: {trajectory: 1, goal: 0.01}
+    joint4: {trajectory: 1, goal: 0.01}
+    joint5: {trajectory: 1, goal: 0.01}
+    joint6: {trajectory: 1, goal: 0.01}
+    joint7: {trajectory: 1, goal: 0.01}
+    stop_trajectory_duration: 0.2
+    state_publish_rate:  25
+    action_monitor_rate: 10
+
+gripper_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - drive_joint
+  gains:
+    drive_joint: {p: 50.0,  d: 0.0, i: 0.0}

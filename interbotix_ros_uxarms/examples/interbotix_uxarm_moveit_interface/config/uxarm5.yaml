@@ -1,0 +1,3 @@
+joint_goal: [0, 0, 0, 0, -1.57]       # desired joint values for the joint state goal
+pose_goal: [0.3, 0, 0.2, 0, 3.14, 0]  # desired pose goal [x, y, z, roll, pitch, yaw] w.r.t the 'world' frame
+ee_link_offset: [0, 0, 0.14]          # desired offset [x, y, z] to place the virtual box relative to the end-effector frame

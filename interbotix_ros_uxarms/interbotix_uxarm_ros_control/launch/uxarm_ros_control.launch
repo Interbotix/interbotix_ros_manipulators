@@ -1,0 +1,56 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="base_link_frame"                   default="base_link"/>
+  <arg name="use_gripper"                       default="false"/>
+  <arg name="show_gripper"                      default="$(arg use_gripper)"/>
+  <arg name="use_world_frame"                   default="true"/>
+  <arg name="external_urdf_loc"                 default=""/>
+  <arg name="use_rviz"                          default="false"/>
+  <arg name="robot_ip"                          default=""/>
+  <arg name="gripper_pub_freq"                  default="10"/>
+  <arg name="gripper_pulse_vel"                 default="1500"/>
+  <arg name="dof"                               default="5"/>
+
+  <arg     if="$(arg use_gripper)" name="controller_args" default="spawn arm_controller gripper_controller"/>
+  <arg unless="$(arg use_gripper)" name="controller_args" default="spawn arm_controller"/>
+
+  <rosparam file="$(find interbotix_uxarm_ros_control)/config/$(arg dof)dof_controllers.yaml" command="load" ns="$(arg robot_name)"/>
+  <rosparam file="$(find interbotix_uxarm_ros_control)/config/hardware.yaml" command="load" ns="$(arg robot_name)"/>
+
+  <param name="$(arg robot_name)/hardware_interface/use_gripper" value="$(arg use_gripper)"/>
+  <param name="$(arg robot_name)/hardware_interface/gripper_pulse_vel" value="$(arg gripper_pulse_vel)"/>
+
+  <include file="$(find interbotix_uxarm_control)/launch/uxarm_control.launch">
+    <arg name="robot_model"                       value="$(arg robot_model)"/>
+    <arg name="robot_name"                        value="$(arg robot_name)"/>
+    <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
+    <arg name="use_gripper"                       value="$(arg use_gripper)"/>
+    <arg name="show_gripper"                      value="$(arg show_gripper)"/>
+    <arg name="use_world_frame"                   value="$(arg use_world_frame)"/>
+    <arg name="external_urdf_loc"                 value="$(arg external_urdf_loc)"/>
+    <arg name="use_rviz"                          value="$(arg use_rviz)"/>
+    <arg name="robot_ip"                          value="$(arg robot_ip)"/>
+    <arg name="gripper_pub_freq"                  value="$(arg gripper_pub_freq)"/>
+  </include>
+
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="controller_manager"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)"
+    args="$(arg controller_args)">
+  </node>
+
+  <node
+    name="ux_hardware_interface"
+    pkg="interbotix_ux_ros_control"
+    type="ux_hardware_interface"
+    output="screen"
+    ns="$(arg robot_name)">
+  </node>
+
+</launch>

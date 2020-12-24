@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/base_link">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link1">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link2">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link3">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link4">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link5">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <xacro:if value="${gripper_frame == '$(arg robot_name)/link5'}">
+      <material>Gazebo/Grey</material>
+    </xacro:if>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link6">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/White</material>
+    <xacro:if value="${gripper_frame == '$(arg robot_name)/link6'}">
+      <material>Gazebo/Grey</material>
+    </xacro:if>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="$(arg robot_name)/link7">
+    <selfCollide>true</selfCollide>
+    <material>Gazebo/Grey</material>
+    <dampingFactor>0.1</dampingFactor>
+  </gazebo>
+
+</robot>

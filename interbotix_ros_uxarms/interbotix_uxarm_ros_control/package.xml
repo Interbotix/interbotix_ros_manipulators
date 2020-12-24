@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>interbotix_uxarm_ros_control</name>
+  <version>0.0.0</version>
+  <description>The interbotix_uxarm_ros_control package</description>
+  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <license>BSD</license>
+  <!-- <url type="website">http://wiki.ros.org/interbotix_uxarm_ros_control</url> -->
+  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
+
+  <!-- The *depend tags are used to specify dependencies -->
+  <!-- Dependencies can be catkin packages or system dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>interbotix_uxarm_control</build_depend>
+  <build_depend>interbotix_ux_ros_control</build_depend>
+  <build_export_depend>interbotix_uxarm_control</build_export_depend>
+  <build_export_depend>interbotix_ux_ros_control</build_export_depend>
+  <exec_depend>interbotix_uxarm_control</exec_depend>
+  <exec_depend>interbotix_ux_ros_control</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>
