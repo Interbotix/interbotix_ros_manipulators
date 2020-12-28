@@ -63,7 +63,7 @@ A red error message might appear in the screen saying `Couldn't open joystick fo
 | gripper_pub_freq | Rate at which the gripper joint state should be published | 10 |
 | threshold | value from 0 to 1 defining joystick sensitivity; a larger number means the joystick should be less sensitive | 0.75 |
 | controller | type of controller ('ps3', 'ps4', or 'xbox360') | ps4 |
-| ee_offset | [x, y, z, roll, pitch, yaw] (m / rad) to offset the end-effector from its default pose | [0,0,0,0,0,0] |
+| ee_offset | [x, y, z, roll, pitch, yaw] (m / rad) to offset the end-effector from its default pose; the 'z' component should be set to 0.14 if using a gripper (this places the end-effector roughly between the fingers) | [0,0,0,0,0,0] |
 | launch_driver | true if the *uxarm_control.launch* file should be launched - set to false if you would like to run your own version of this file separately | true |
 
 To understand how the joystick buttons map to controlling the robot, look at the diagram and table below. Note that while the Xbox360 has a slightly different naming convention, the button placement is essentially the same:

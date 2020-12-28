@@ -8,7 +8,7 @@
   <arg name="use_world_frame"                   default="true"/>
   <arg name="external_urdf_loc"                 default=""/>
   <arg name="use_rviz"                          default="true"/>
-  <arg name="robot_ip"                          default="192.168.1.200"/>
+  <arg name="robot_ip"                          default=""/>
   <arg name="gripper_pub_freq"                  default="10"/>
   <arg name="threshold"                         default="0.75"/>
   <arg name="controller"                        default="ps4"/>
