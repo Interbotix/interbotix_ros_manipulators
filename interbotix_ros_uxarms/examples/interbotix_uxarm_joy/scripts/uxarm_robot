@@ -21,18 +21,22 @@ class ArmRobot(object):
         self.gripper_inc = 25                                               # Step size [pulse] for each iteration of the control loop when changing gripper position
         self.gripper_command = 850                                          # Current gripper pulse (ranges between 0 and 850)
         self.current_mode_status = "servo"                                  # Current Xarm mode ("servo" or "teach")
+        self.initial_pose_cmd = True                                        # True if this is the first iteration when executing a pose_cmd; False otherwise
+        self.joint_positions = []                                           # Keeps track of joint position commands when executing a pose_cmd
         self.joy_msg = ArmJoy()                                             # Custom ROS message to recieve processed Joystick commands
         self.joy_mutex = threading.Lock()                                   # Mutex to prevent reading/writing to the self.joy_msg simultaneously
         robot_model = rospy.get_param("~robot_model")
         robot_name = rospy.get_namespace().strip("/")
         ee_offset = rospy.get_param("~ee_offset")
         self.use_gripper = rospy.get_param("~use_gripper")
-        self.armbot = InterbotixGripperUX(robot_model, robot_name=robot_name, mode=1, wait_for_finish=True, ee_offset=ee_offset, pulse=850, pulse_vel=5000, init_node=False)
+        gripper = "gripper" if self.use_gripper else None
+        self.armbot = InterbotixGripperUX(robot_model, robot_name=robot_name, mode=1, wait_for_finish=True, ee_offset=ee_offset, pulse=850, pulse_vel=5000, gripper_type=gripper, init_node=False)
         self.T_sy = np.identity(4)                                                              # Identical frame pose as the robot's base_link frame - but with the yaw of the end-effector
         self.T_yb = np.identity(4)                                                              # Identical to self.T_sb but with 0 yaw
         self.T_sb = np.identity(4)                                                              # Transform of the robot's end-effector w.r.t. the base_link frame
         self.T_sy_inc_cw = ang.poseToTransformationMatrix([0, 0, 0, 0, 0, -self.rotate_step])   # Matrix used to rotate self.T_sy clockwise by self.rotate_step radians
         self.T_sy_inc_ccw = ang.poseToTransformationMatrix([0, 0, 0, 0, 0, self.rotate_step])   # Matrix used to rotate self.T_sy counterclockwise by self.rotate_step radians
+        self.home_positions = [0] * self.armbot.ux.dof                                          # Predefined 'Home' pose as specified in MoveIt
         self.hold_up_positions = [0] * self.armbot.ux.dof                                       # Predefined 'Hold-Up' pose as specified in MoveIt
         self.hold_up_positions[-2] = -math.pi/2
         self.robot_des = getattr(mrd, robot_model)
@@ -65,23 +69,18 @@ class ArmRobot(object):
         self.T_sy[:2,:2] = ang.yawToRotationMatrix(rpy[2])
         self.T_yb = np.dot(ang.transInv(self.T_sy), self.T_sb)
 
-    ### @brief Moves the robot arm to one of two preset poses
-    ### @param preset_pose - can be either "Home" or "Hold-Up" (like in MoveIt)
-    ### @param vel - max velocity [rad/s] of the joints
-    ### @param accel - max acceleration [rad/s^2] of the joints
-    def move_to_preset_pose(self, preset_pose="Home", vel=1.0, accel=5.0):
-        if preset_pose == "Home":
-            positions = [0] * self.armbot.ux.dof
-        elif preset_pose == "Hold-Up":
-            positions = self.hold_up_positions
-        mode = self.armbot.ux.mode
-        if (mode != 0):
-            self.armbot.ux.robot_smart_mode_reset(0)
-        self.armbot.ux.robot_move_joint(positions, vel, accel)
-        self.T_sb = mr.FKinSpace(self.robot_des.M, self.robot_des.Slist, positions)
-        if (mode != 0):
-            self.armbot.ux.robot_smart_mode_reset(mode)
-        self.update_T_yb()
+    ### @brief Helper function that moves the robot arm to the desired goal positions while in Mode 1
+    ### @param goal_positions - desired joint goal positions [rad]
+    def move_to_goal_positions(self, goal_positions):
+        for x in range(self.armbot.ux.dof):
+            diff = self.joint_positions[x] - goal_positions[x]
+            sign = -1.0 if diff > 0 else 1.0
+            step = 0.01 if x != self.armbot.ux.dof-2 else 0.03
+            if (abs(diff) > step):
+                self.joint_positions[x] += step * sign
+            else:
+                self.joint_positions[x] = goal_positions[x]
+        self.armbot.ux.robot_move_servoj(self.joint_positions)
 
     ### @brief ROS Callback function that recieves ArmJoy messages
     ### @param msg - ArmJoy ROS message
@@ -159,10 +158,21 @@ class ArmRobot(object):
                 self.armbot.gripper.move(self.gripper_command, delay=0)
 
         # Check the pose_cmd
-        if (msg.pose_cmd == ArmJoy.HOME_POSE):
-            self.move_to_preset_pose("Home")
-        elif (msg.pose_cmd == ArmJoy.HOLDUP_POSE):
-            self.move_to_preset_pose("Hold-Up")
+        if (msg.pose_cmd != 0):
+            if self.initial_pose_cmd == True:
+                rospy.sleep(0.2)
+                self.capture_joint_positions()
+                self.initial_pose_cmd = False
+            if (msg.pose_cmd == ArmJoy.HOME_POSE):
+                self.move_to_goal_positions(self.home_positions)
+            elif (msg.pose_cmd == ArmJoy.HOLDUP_POSE):
+                self.move_to_goal_positions(self.hold_up_positions)
+            return
+
+        if (self.initial_pose_cmd == False):
+            self.initial_pose_cmd = True
+            self.T_sb = mr.FKinSpace(self.robot_des.M, self.robot_des.Slist, self.joint_positions)
+            self.update_T_yb()
 
         # Check the waist_cmd
         if (msg.waist_cmd != 0):
@@ -230,10 +240,10 @@ class ArmRobot(object):
     ### @brief Reads the current joint states and updates the current end-effector pose with them
     ### @details - should be used whenever joints are torqued off, right after torquing them on again
     def capture_joint_positions(self):
-        joint_positions = []
+        self.joint_positions = []
         for name in self.armbot.ux.joint_names:
-            joint_positions.append(self.armbot.ux.joint_states.position[self.armbot.ux.js_index_map[name]])
-        self.T_sb = mr.FKinSpace(self.robot_des.M, self.robot_des.Slist, joint_positions)
+            self.joint_positions.append(self.armbot.ux.joint_states.position[self.armbot.ux.js_index_map[name]])
+        self.T_sb = mr.FKinSpace(self.robot_des.M, self.robot_des.Slist, self.joint_positions)
         self.update_T_yb()
 
 def main():
