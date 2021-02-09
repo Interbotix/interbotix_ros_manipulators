@@ -7,7 +7,7 @@ ror_min_neighbors: 5
 ror_radius_search: 0.01
 voxel_leaf_size: 0.004
 x_filter_max: 0.25
-x_filter_min: -0.22999999999999998
+x_filter_min: -0.25
 y_filter_max: 0.25
 y_filter_min: -0.25
 z_filter_max: 0.75
