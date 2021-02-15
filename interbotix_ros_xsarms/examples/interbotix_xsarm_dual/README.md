@@ -5,7 +5,7 @@ This package shows how to get two X-Series arms working together. While the exam
 
 ## Structure
 ![xsarm_dual_flowchart](images/xsarm_dual_flowchart.png)
-As shown above, the *interbotix_xsarm_dual* package builds on top of the *interbotix_xsarm_control* package. The number of instances that the *interbotix_xsarm_control* package is included in the 'xsarm_dual' launch file is equivalent to the number of robots being used. While the demo uses two robots, the flowchart above shows an example for three robots. See the other packages for descriptions of their nodes.
+As shown above, the *interbotix_xsarm_dual* package builds on top of the *interbotix_xsarm_control* package. The number of instances that the *interbotix_xsarm_control* package is included in the 'xsarm_dual' launch file is equivalent to the number of robots being used. See the other packages for descriptions of their nodes.
 
 ## Usage
 To get started, make sure that the U2D2s for both robots are not connected to your computer. Then connect the U2D2 that you'd like to be `robot_1` (as defined in the [demo python script](scripts/xsarm_dual.py)). Afterwards, connect the robot you'd like to be `robot_2`. The reason for this is that Linux assigns USB port names starting at 0 and going up. So the first U2D2 plugged in will be called `/dev/ttyUSB0` while the second U2D2 plugged in will be called `/dev/ttyUSB1`. If you're familiar with udev rules, you can create a unique symlink for each U2D2 by finding its serial id with the following command (make sure you do this with only one U2D2 plugged in at a time)

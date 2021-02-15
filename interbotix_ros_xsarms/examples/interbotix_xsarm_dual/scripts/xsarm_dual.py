@@ -7,6 +7,8 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 #
 # To get started, open a terminal and type 'roslaunch interbotix_xsarm_dual xsarm_dual.launch'
 # Then change to this directory and type 'python xsarm_dual.py'
+# Note that the 'robot_name' argument used when instantiating an InterbotixManipulatorXS instance
+# is the same name as the 'robot_name_X' launch file argument
 
 def robot_1():
     model_1 = "wx200"
