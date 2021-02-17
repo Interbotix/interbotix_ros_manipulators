@@ -55,14 +55,19 @@ if [ $(dpkg-query -W -f='${Status}' ros-$ROS_NAME-desktop-full 2>/dev/null | gre
   fi
   echo "source /opt/ros/$ROS_NAME/setup.bash" >> ~/.bashrc
   if [ $ROS_NAME != "noetic" ]; then
-    sudo apt -y install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+    sudo apt -y install python-rosinstall python-rosinstall-generator python-wstool build-essential
   else
-    sudo apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+    sudo apt -y install python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
   fi
   sudo rosdep init
   rosdep update
 else
   echo "ros-$ROS_NAME-desktop-full is already installed!"
+fi
+if [ $ROS_NAME != "noetic" ]; then
+  sudo apt -y install python-rosdep
+else
+  sudo apt -y install python3-rosdep
 fi
 source /opt/ros/$ROS_NAME/setup.bash
 
