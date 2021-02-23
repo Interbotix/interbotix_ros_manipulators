@@ -42,7 +42,7 @@ class ArmRobot(object):
 
     ### @brief Helper function that calculates the pose of the end-effector w.r.t. T_y
     def update_T_yb(self):
-        T_sb = self.armbot.arm.get_ee_pose()
+        T_sb = self.armbot.arm.get_ee_pose_command()
         rpy = ang.rotationMatrixToEulerAngles(T_sb[:3, :3])
         self.T_sy[:2,:2] = ang.yawToRotationMatrix(rpy[2])
         self.T_yb = np.dot(ang.transInv(self.T_sy), T_sb)
