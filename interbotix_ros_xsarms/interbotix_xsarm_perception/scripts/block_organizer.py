@@ -1,3 +1,4 @@
+import math
 import time
 import colorsys
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
@@ -14,7 +15,10 @@ from interbotix_perception_modules.pointcloud import InterbotixPointCloudInterfa
 
 def main():
     # Initialize the arm module along with the pointcloud and armtag modules
-    bot = InterbotixManipulatorXS("wx200", moving_time=1.5, accel_time=0.75)
+    bot = InterbotixManipulatorXS("wx250s")
+    bot.dxl.robot_set_motor_registers("single", "shoulder", "Position_P_Gain", 1500)
+    bot.dxl.robot_set_motor_registers("single", "elbow", "Position_P_Gain", 1500)
+    bot.dxl.robot_set_motor_registers("single", "waist", "Position_P_Gain", 1500)
     pcl = InterbotixPointCloudInterface()
     armtag = InterbotixArmTagInterface()
 
@@ -23,22 +27,23 @@ def main():
     bot.gripper.open()
 
     # get the ArmTag pose
-    bot.arm.set_ee_pose_components(y=-0.3, z=0.2)
+    bot.arm.set_ee_pose_components(y=0.3, z=0.2)
     time.sleep(0.5)
     armtag.find_ref_to_arm_base_transform()
     bot.arm.set_ee_pose_components(x=0.3, z=0.2)
 
     # get the cluster positions
-    # sort them from max to min 'y' position w.r.t. the 'wx200/base_link' frame
-    success, clusters = pcl.get_cluster_positions(ref_frame="wx200/base_link", sort_axis="y", reverse=True)
+    # sort them from max to min 'y' position w.r.t. the 'wx250s/base_link' frame
+    success, clusters = pcl.get_cluster_positions(ref_frame="wx250s/base_link", sort_axis="y", reverse=True)
     color_x_dict = {}
     # pick up all the objects and sort them into two different lines depending on their color
     for cluster in clusters:
         x, y, z = cluster["position"]
-        bot.arm.set_ee_pose_components(x=x, y=y, z=0.2, pitch=0.5)
-        bot.arm.set_ee_pose_components(x=x, y=y, z=z+0.01, pitch=0.5)
+        z_dist = 0.2 - (z + 0.02)
+        bot.arm.set_ee_pose_components(x=x, y=y, z=0.2, pitch=0.7)
+        bot.arm.set_ee_cartesian_trajectory(z=-z_dist, y=0.01)
         bot.gripper.close()
-        bot.arm.set_ee_pose_components(x=x, y=y, z=0.2, pitch=0.5)
+        bot.arm.set_ee_cartesian_trajectory(z=z_dist, y=-0.01)
 
         clr = color_compare(cluster["color"])
         if clr not in color_x_dict:
@@ -46,14 +51,14 @@ def main():
         else:
             color_x_dict[clr] += 0.07
         if (clr == "yellow"):
-            y = 0.2
+            y = -0.25
         elif (clr == "blue"):
-            y = 0.3
+            y = -0.35
 
-        bot.arm.set_ee_pose_components(x=color_x_dict[clr], y=y, z=0.2, pitch=0.5)
-        bot.arm.set_ee_pose_components(x=color_x_dict[clr], y=y, z=z+0.01, pitch=0.5)
+        bot.arm.set_ee_pose_components(x=color_x_dict[clr], y=y, z=0.2, pitch=0.7, yaw=-math.pi/2.0)
+        bot.arm.set_ee_cartesian_trajectory(z=-z_dist)
         bot.gripper.open()
-        bot.arm.set_ee_pose_components(x=color_x_dict[clr], y=y, z=0.2, pitch=0.5)
+        bot.arm.set_ee_cartesian_trajectory(z=z_dist)
 
     bot.arm.set_ee_pose_components(x=0.3, z=0.2)
     bot.arm.go_to_sleep_pose()

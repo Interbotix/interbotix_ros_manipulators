@@ -5,9 +5,9 @@ from interbotix_perception_modules.armtag import InterbotixArmTagInterface
 from interbotix_perception_modules.pointcloud import InterbotixPointCloudInterface
 
 # This script uses a color/depth camera to get the arm to find blocks and sort them by color.
-# For this demo, the arm is placed to the left of the camera facing outward. When the
-# end-effector is located at x=0, y=-0.3, z=0.2 w.r.t. the 'wx200/base_link' frame, the AR
-# tag should be clearly visible to the camera. Four small baskets should also be placed in front and to the left of the arm.
+# For this demo, the arm is placed to the right of the camera facing outward. When the
+# end-effector is located at x=0, y=0.3, z=0.2 w.r.t. the 'wx200/base_link' frame, the AR
+# tag should be clearly visible to the camera. Four small baskets should also be placed in front and to the right of the arm.
 #
 # To get started, open a terminal and type 'roslaunch interbotix_xsarm_perception xsarm_perception.launch robot_model:=wx200'
 # Then change to this directory and type 'python color_sorter.py'
@@ -19,11 +19,13 @@ def main():
     armtag = InterbotixArmTagInterface()
 
     # set initial arm and gripper pose
+    bot.dxl.robot_set_motor_registers("single", "shoulder", "Position_P_Gain", 1500)
+    bot.dxl.robot_set_motor_registers("single", "elbow", "Position_P_Gain", 1500)
     bot.arm.set_ee_pose_components(x=0.3, z=0.2)
     bot.gripper.open()
 
     # get the ArmTag pose
-    bot.arm.set_ee_pose_components(y=-0.3, z=0.2)
+    bot.arm.set_ee_pose_components(y=0.3, z=0.2)
     time.sleep(0.5)
     armtag.find_ref_to_arm_base_transform()
     bot.arm.set_ee_pose_components(x=0.3, z=0.2)
@@ -32,22 +34,22 @@ def main():
     # sort them from max to min 'x' position w.r.t. the 'wx200/base_link' frame
     success, clusters = pcl.get_cluster_positions(ref_frame="wx200/base_link", sort_axis="y", reverse=True)
 
-    # pick up all the objects and drop them in a virtual basket in front of the robot
+    # pick up all the objects and drop them in baskets
     for cluster in clusters:
         x, y, z = cluster["position"]
         bot.arm.set_ee_pose_components(x=x, y=y, z=0.1, pitch=0.5)
-        bot.arm.set_ee_pose_components(x=x, y=y, z=z+0.01, pitch=0.5)
+        bot.arm.set_ee_pose_components(x=x, y=y, z=z+0.02, pitch=0.5)
         bot.gripper.close()
         bot.arm.set_ee_pose_components(x=x, y=y, z=0.1, pitch=0.5)
         clr = color_compare(cluster["color"])
         if (clr == "red"):
-            bot.arm.set_ee_pose_components(x=0.18, y=0.1, z=0.2)
+            bot.arm.set_ee_pose_components(x=0.24, y=-0.1, z=0.2)
         elif (clr == "yellow"):
-            bot.arm.set_ee_pose_components(x=0.18, y=0.25, z=0.2)
+            bot.arm.set_ee_pose_components(x=0.38, y=-0.24, z=0.2)
         elif (clr == "purple"):
-            bot.arm.set_ee_pose_components(x=0.33, y=0.1, z=0.2)
+            bot.arm.set_ee_pose_components(x=0.24, y=-0.24, z=0.2)
         elif (clr == "blue"):
-            bot.arm.set_ee_pose_components(x=0.33, y=0.25, z=0.2)
+            bot.arm.set_ee_pose_components(x=0.38, y=-0.1, z=0.2)
         else:
             # if color cannot be recognized, then put the block back...
             bot.arm.set_ee_pose_components(x=x, y=y, z=z+0.01, pitch=0.5)

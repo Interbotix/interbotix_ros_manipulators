@@ -5,8 +5,8 @@ from interbotix_perception_modules.armtag import InterbotixArmTagInterface
 from interbotix_perception_modules.pointcloud import InterbotixPointCloudInterface
 
 # This script uses a color/depth camera to get a VX300S arm to find chess pieces on a board and sort them by color.
-# For this demo, the arm is placed at a 90 degree angle to the right of the camera. When the
-# end-effector is located at x=0.3, z=0.2 w.r.t. the 'vx300s/base_link' frame, the AR
+# For this demo, the arm is placed at a 90 degree angle to the left of the camera. When the
+# end-effector is located at x=0.5, y=-0.1 z=0.2 w.r.t. the 'vx300s/base_link' frame, the AR
 # tag should be clearly visible to the camera. Two small containers should be placed on either side of the board.
 #
 # To get started, open a terminal and type 'roslaunch interbotix_xsarm_perception xsarm_perception.launch robot_model:=vx300s'
@@ -19,13 +19,15 @@ def main():
     armtag = InterbotixArmTagInterface()
 
     # get the ArmTag pose
-    bot.arm.set_ee_pose_components(x=0.3, z=0.2)
+    bot.arm.set_ee_pose_components(x=0.5, z=0.2)
+    bot.arm.set_ee_pose_components(x=0.5, y=-0.1, z=0.2)
     time.sleep(0.5)
     armtag.find_ref_to_arm_base_transform()
+    bot.arm.set_ee_pose_components(x=0.5, z=0.2)
     bot.arm.go_to_sleep_pose()
 
     # get the cluster positions
-    # sort them from max to min 'x' position w.r.t. the 'vx300s/base_link' frame
+    # sort them from min to max 'x' position w.r.t. the 'vx300s/base_link' frame
     success, clusters = pcl.get_cluster_positions(ref_frame="vx300s/base_link", sort_axis="x", reverse=False)
 
     # set initial arm and gripper pose
