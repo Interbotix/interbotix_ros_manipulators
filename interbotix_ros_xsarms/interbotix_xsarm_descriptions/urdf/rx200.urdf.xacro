@@ -92,7 +92,7 @@
 
   <joint name="shoulder" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="18" lower="${radians(-107)}" upper="${radians(111)}" velocity="1"/>
+    <limit effort="18" lower="${radians(-108)}" upper="${radians(113)}" velocity="1"/>
     <origin rpy="0 0 0" xyz="0 0 0.03891"/>
     <parent link="$(arg robot_name)/shoulder_link"/>
     <child link="$(arg robot_name)/upper_arm_link"/>

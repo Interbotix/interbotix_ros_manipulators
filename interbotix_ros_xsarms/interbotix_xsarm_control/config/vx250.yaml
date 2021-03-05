@@ -42,7 +42,7 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 888
+    Min_Position_Limit: 887
     Max_Position_Limit: 3185
     Secondary_ID: 255
 
@@ -52,7 +52,7 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 888
+    Min_Position_Limit: 887
     Max_Position_Limit: 3185
     Secondary_ID: 2
 
@@ -62,8 +62,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 1002
-    Max_Position_Limit: 3208
+    Min_Position_Limit: 887
+    Max_Position_Limit: 3094
     Secondary_ID: 255
 
   wrist_angle:
@@ -72,8 +72,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 650
-    Max_Position_Limit: 3185
+    Min_Position_Limit: 910
+    Max_Position_Limit: 3447
     Secondary_ID: 255
 
   wrist_rotate:

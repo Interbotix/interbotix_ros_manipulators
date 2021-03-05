@@ -45,8 +45,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 763
-    Max_Position_Limit: 3310
+    Min_Position_Limit: 762
+    Max_Position_Limit: 3311
     Secondary_ID: 255
 
   shoulder_shadow:
@@ -55,8 +55,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 763
-    Max_Position_Limit: 3310
+    Min_Position_Limit: 762
+    Max_Position_Limit: 3311
     Secondary_ID: 2
 
   elbow:
@@ -65,8 +65,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 968
-    Max_Position_Limit: 3412
+    Min_Position_Limit: 682
+    Max_Position_Limit: 3129
     Secondary_ID: 255
 
   elbow_shadow:
@@ -75,8 +75,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 968
-    Max_Position_Limit: 3412
+    Min_Position_Limit: 682
+    Max_Position_Limit: 3129
     Secondary_ID: 4
 
   wrist_angle:
@@ -85,8 +85,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 650
-    Max_Position_Limit: 3185
+    Min_Position_Limit: 910
+    Max_Position_Limit: 3447
     Secondary_ID: 255
 
   wrist_rotate:

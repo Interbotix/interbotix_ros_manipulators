@@ -172,7 +172,7 @@
 
   <joint name="wrist_angle" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="5" lower="${radians(-123)}" upper="${radians(100)}" velocity="${pi}"/>
+    <limit effort="5" lower="${radians(-100)}" upper="${radians(123)}" velocity="${pi}"/>
     <origin rpy="0 0 0" xyz="0.2 0 0"/>
     <parent link="$(arg robot_name)/forearm_link"/>
     <child link="$(arg robot_name)/wrist_link"/>

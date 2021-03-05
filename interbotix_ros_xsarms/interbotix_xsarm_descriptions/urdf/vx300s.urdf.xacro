@@ -92,7 +92,7 @@
 
   <joint name="shoulder" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="20" lower="${radians(-106)}" upper="${radians(101)}" velocity="${pi}"/>
+    <limit effort="20" lower="${radians(-106)}" upper="${radians(72)}" velocity="${pi}"/>
     <origin rpy="0 0 0" xyz="0 0 0.04805"/>
     <parent link="$(arg robot_name)/shoulder_link"/>
     <child link="$(arg robot_name)/upper_arm_link"/>
@@ -212,7 +212,7 @@
 
   <joint name="wrist_angle" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="5" lower="${radians(-107)}" upper="${radians(130)}" velocity="${pi}"/>
+    <limit effort="5" lower="${radians(-107)}" upper="${radians(128)}" velocity="${pi}"/>
     <origin rpy="0 0 0" xyz="0.1 0 0"/>
     <parent link="$(arg robot_name)/lower_forearm_link"/>
     <child link="$(arg robot_name)/wrist_link"/>

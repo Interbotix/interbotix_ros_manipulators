@@ -39,8 +39,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 786
-    Max_Position_Limit: 3264
+    Min_Position_Limit: 784
+    Max_Position_Limit: 3265
     Secondary_ID: 255
 
   elbow:
@@ -49,8 +49,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 1002
-    Max_Position_Limit: 3423
+    Min_Position_Limit: 671
+    Max_Position_Limit: 3094
     Secondary_ID: 255
 
   wrist_angle:
@@ -59,8 +59,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 0
-    Max_Position_Limit: 4095
+    Min_Position_Limit: 910
+    Max_Position_Limit: 3447
     Secondary_ID: 255
 
   gripper:
