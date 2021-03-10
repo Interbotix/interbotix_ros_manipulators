@@ -8,7 +8,7 @@ arm_controller:
     - wrist_angle
     - wrist_rotate
   constraints:
-    goal_time: 0.5
+    goal_time: 1
     stopped_velocity_tolerance: 0.02
 
 gripper_controller:

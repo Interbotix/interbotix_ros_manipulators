@@ -6,7 +6,7 @@ arm_controller:
     - elbow
     - wrist_angle
   constraints:
-    goal_time: 0.5
+    goal_time: 1
     stopped_velocity_tolerance: 0.02
 
 gripper_controller:
