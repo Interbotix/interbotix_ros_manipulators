@@ -45,3 +45,4 @@ To further customize the launch file at run-time (like with a different robot mo
 | robot_name_2 | name of the second robot (typically equal to the second robot model unless both robots are of the same model) | "arm_2/$(arg robot_model_2)" |
 | base_link_2 | name of the 'root' link on the arm; typically 'base_link', but can be changed if attaching the arm to a mobile base that already has a 'base_link' frame| 'base_link' |
 | modes_2 | the file path to the 'mode config' YAML file for the second robot | refer to [xsarm_dual.launch](launch/xsarm_dual.launch) |
+| use_sim | if true, the Dynamixel simulator node is run; use Rviz to visualize the robot's motion; if false, the real Dynamixel driver node is run | false |

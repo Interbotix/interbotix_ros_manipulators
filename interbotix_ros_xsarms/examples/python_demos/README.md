@@ -45,7 +45,14 @@ To get started, open up a terminal and type (assuming a WidowX 250 is being laun
 ```
 roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250
 ```
-In another terminal, navigate to this directory and type...
+
+Note, that if you want to test out your code first on a [simulated](https://github.com/Interbotix/interbotix_ros_core/tree/main/interbotix_ros_xseries/interbotix_xs_sdk#overview) arm, you can type...
+
+```
+roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250 use_sim:=true
+```
+
+Then, in another terminal, navigate to this directory and type...
 ```
 python bartender.py        # python3 bartender.py if using ROS Noetic
 ```

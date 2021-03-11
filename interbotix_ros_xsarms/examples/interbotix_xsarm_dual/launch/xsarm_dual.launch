@@ -10,6 +10,8 @@
   <arg name="base_link_2"                       default="base_link"/>
   <arg name="modes_2"                           default="$(find xsarm_dual)/config/modes_2.yaml"/>
 
+  <arg name="use_sim"                           default="false"/>
+
   <include file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model_1)"/>
     <arg name="robot_name"                        value="$(are robot_name_1)"/>
@@ -17,6 +19,7 @@
     <arg name="use_world_frame"                   value="false"/>
     <arg name="use_rviz"                          value="false"/>
     <arg name="mode_configs"                      value="$(arg modes_1)"/>
+    <arg name="use_sim"                           value="$(arg use_sim)"/>
   </include>
 
   <include file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
@@ -26,6 +29,7 @@
     <arg name="use_world_frame"                   value="false"/>
     <arg name="use_rviz"                          value="false"/>
     <arg name="mode_configs"                      value="$(arg modes_2)"/>
+    <arg name="use_sim"                           value="$(arg use_sim)"/>
   </include>
 
 </launch>
