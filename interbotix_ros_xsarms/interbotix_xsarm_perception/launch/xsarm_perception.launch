@@ -11,9 +11,11 @@
 
   <arg name="filters"                           default="pointcloud"/>
   <arg name="color_fps"                         default="30"/>
-  <arg name="depth_fps"                         default="30"/>
   <arg name="color_width"                       default="640"/>
   <arg name="color_height"                      default="480"/>
+  <arg name="depth_fps"                         default="30"/>
+  <arg name="depth_width"                       default="640"/>
+  <arg name="depth_height"                      default="480"/>
 
   <arg name="filter_ns"                         default="pc_filter"/>
   <arg name="filter_params"                     default="$(find interbotix_xsarm_perception)/config/filter_params.yaml"/>
@@ -58,9 +60,11 @@
   <include file="$(find realsense2_camera)/launch/rs_camera.launch">
     <arg name="filters"                           value="$(arg filters)"/>
     <arg name="color_fps"                         value="$(arg color_fps)"/>
-    <arg name="depth_fps"                         value="$(arg depth_fps)"/>
     <arg name="color_width"                       value="$(arg color_width)"/>
     <arg name="color_height"                      value="$(arg color_height)"/>
+    <arg name="depth_fps"                         value="$(arg depth_fps)"/>
+    <arg name="depth_width"                       value="$(arg depth_width)"/>
+    <arg name="depth_height"                      value="$(arg depth_height)"/>
   </include>
 
   <include file="$(find interbotix_perception_modules)/launch/pc_filter.launch">
