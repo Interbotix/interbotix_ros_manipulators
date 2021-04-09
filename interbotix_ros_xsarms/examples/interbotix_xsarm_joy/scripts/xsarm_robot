@@ -23,7 +23,7 @@ class ArmRobot(object):
         self.rate = rospy.Rate(self.current_loop_rate)
         robot_model = rospy.get_param("~robot_model")
         robot_name = rospy.get_namespace().strip("/")
-        self.armbot = InterbotixManipulatorXS(robot_model, robot_name=robot_name, init_node=False)
+        self.armbot = InterbotixManipulatorXS(robot_model, robot_name=robot_name, moving_time=0.2, accel_time=0.1, init_node=False)
         self.num_joints = self.armbot.arm.group_info.num_joints
         self.waist_index = self.armbot.arm.group_info.joint_names.index("waist")
         self.waist_ll = self.armbot.arm.group_info.joint_lower_limits[self.waist_index]
@@ -113,6 +113,7 @@ class ArmRobot(object):
             elif (msg.pose_cmd == ArmJoy.SLEEP_POSE):
                 self.armbot.arm.go_to_sleep_pose(1.5, 0.75)
             self.update_T_yb()
+            self.armbot.arm.set_trajectory_time(0.2, 0.1)
 
         # Check the waist_cmd
         if (msg.waist_cmd != 0):
