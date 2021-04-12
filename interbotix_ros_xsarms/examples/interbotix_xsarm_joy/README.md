@@ -85,4 +85,6 @@ To understand how the joystick buttons map to controlling the robot, look at the
 | Left stick Up/Down | move the end-effector (defined at 'ee_gripper_link') vertically in Cartesian space |
 | Left stick Left/Right | move the end-effector (defined at 'ee_gripper_link') horizontally in Cartesian space |
 | L3 | reverses the Left stick Left/Right control |
+| R1 | if the arm has 6dof, this moves the end-effector in a negative direction along its own 'y' axis |
+| L1 | if the arm has 6dof, this moves the end-effector in a positive direction along its own 'y' axis |
 | PS | if torqued on, holding for 3 seconds will torque off the robot; if torqued off, tapping the button will torque on the robot |
