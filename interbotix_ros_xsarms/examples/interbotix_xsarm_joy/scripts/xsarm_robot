@@ -146,9 +146,9 @@ class ArmRobot(object):
                 T_yb[0, 3] -= self.translate_step
 
             # check ee_y_cmd
-            if (msg.ee_y_cmd == ArmJoy.EE_Y_INC and self.num_joints >= 6):
+            if (msg.ee_y_cmd == ArmJoy.EE_Y_INC and self.num_joints >= 6 and T_yb[0,3] > 0.3):
                 T_yb[1, 3] += self.translate_step
-            elif (msg.ee_y_cmd == ArmJoy.EE_Y_DEC and self.num_joints >= 6):
+            elif (msg.ee_y_cmd == ArmJoy.EE_Y_DEC and self.num_joints >= 6 and T_yb[0,3] > 0.3):
                 T_yb[1, 3] -= self.translate_step
 
             # check ee_z_cmd
