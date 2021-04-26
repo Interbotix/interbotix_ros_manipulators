@@ -8,6 +8,7 @@
   <arg name="playback"                          default="false"/>
   <arg name="bag_name"                          default="$(arg robot_name)_commands"/>
   <arg name="launch_driver"                     default="true"/>
+  <arg name="use_sim"                           default="false"/>
 
   <arg if="$(arg record)"   name="mode_configs" value="$(find interbotix_xsarm_puppet)/config/record_modes.yaml"/>
   <arg if="$(arg playback)" name="mode_configs" value="$(find interbotix_xsarm_puppet)/config/playback_modes.yaml"/>
@@ -18,6 +19,7 @@
     <arg name="base_link_frame"                   value="$(arg base_link_frame)"/>
     <arg name="use_rviz"                          value="$(arg use_rviz)"/>
     <arg name="mode_configs"                      value="$(arg mode_configs)"/>
+    <arg name="use_sim"                           value="$(arg use_sim)"/>
   </include>
 
   <group if="$(arg record)">

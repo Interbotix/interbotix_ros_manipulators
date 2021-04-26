@@ -11,8 +11,7 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 # is the same name as the 'robot_name_X' launch file argument
 
 def robot_1():
-    model_1 = "wx200"
-    robot_1 = InterbotixManipulatorXS(robot_model=model_1, robot_name="arm_1/" + model_1, moving_time=1.0, gripper_pressure=1.0, init_node=False)
+    robot_1 = InterbotixManipulatorXS(robot_model="wx200", robot_name="arm_1", moving_time=1.0, gripper_pressure=1.0, init_node=False)
     robot_1.arm.set_ee_pose_components(x=0.3, z=0.2)
     robot_1.gripper.open(delay=0.05)
     robot_1.arm.set_single_joint_position("waist", math.pi/4.0)
@@ -21,8 +20,7 @@ def robot_1():
     robot_1.arm.go_to_sleep_pose()
 
 def robot_2():
-    model_2 = "wx200"
-    robot_2 = InterbotixManipulatorXS(robot_model=model_2, robot_name="arm_2/" + model_2, moving_time=1.0, gripper_pressure=1.0, init_node=False)
+    robot_2 = InterbotixManipulatorXS(robot_model="wx200", robot_name="arm_2", moving_time=1.0, gripper_pressure=1.0, init_node=False)
     robot_2.arm.set_ee_pose_components(x=0.3, z=0.2)
     robot_2.gripper.open(delay=0.05)
     robot_2.arm.set_single_joint_position("waist", -math.pi/4.0)

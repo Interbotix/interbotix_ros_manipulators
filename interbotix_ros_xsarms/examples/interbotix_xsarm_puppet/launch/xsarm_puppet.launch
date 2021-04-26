@@ -9,9 +9,10 @@
   <arg name="use_puppet_rviz"                   default="true"/>
   <arg name="rvizconfig"                        default="$(find interbotix_xsarm_puppet)/rviz/xsarm_puppet.rviz" />
   <arg name="launch_driver"                     default="true"/>
+  <arg name="use_sim"                           default="false"/>
 
-  <arg name="robot_name_master"                 value="master/$(arg robot_model_master)"/>
-  <arg name="robot_name_puppet"                 value="puppet/$(arg robot_model_puppet)"/>
+  <arg name="robot_name_master"                 value="master"/>
+  <arg name="robot_name_puppet"                 value="puppet"/>
 
   <include if="$(arg launch_driver)" file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
     <arg name="robot_model"                       value="$(arg robot_model_master)"/>
@@ -20,6 +21,7 @@
     <arg name="use_world_frame"                   value="false"/>
     <arg name="use_rviz"                          value="false"/>
     <arg name="mode_configs"                      value="$(arg master_modes)"/>
+    <arg name="use_sim"                           value="$(arg use_sim)"/>
   </include>
 
   <include if="$(arg launch_driver)" file="$(find interbotix_xsarm_control)/launch/xsarm_control.launch">
@@ -29,6 +31,7 @@
     <arg name="use_world_frame"                   value="false"/>
     <arg name="use_rviz"                          value="false"/>
     <arg name="mode_configs"                      value="$(arg puppet_modes)"/>
+    <arg name="use_sim"                           value="$(arg use_sim)"/>
   </include>
 
   <node

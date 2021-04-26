@@ -47,6 +47,7 @@ The robot should now repeat the motions. When done, 'Cntrl-C' to stop all nodes.
 | playback | play-back joint commands from a bagfile to a torqued on arm | false |
 | bag_name | Desired ROS bag file name | $(arg robot_name)_commands |
 | launch_driver | true if the *xsarm_control.launch* file should be launched - set to false if you would like to run your own version of this file separately | true |
+| use_sim | if true, the Dynamixel simulator node is run; use Rviz to visualize the robot's motion; if false, the real Dynamixel driver node is run | false |
 
 ### Puppet Control
 To run this feature, plug two robots with the same number of joints (ex. the PincherX 150 and WidowX 250) into two USB ports and in a terminal, type:
@@ -63,9 +64,13 @@ It might be good idea to verify which robot is given `ttyUSB0` as its port name 
 | base_link_puppet | name of the 'root' link on the 'puppet' arm; typically 'base_link', but can be changed if attaching the arm to a mobile base that already has a 'base_link' frame| 'base_link' |
 | master_modes | the file path to the master 'mode config' YAML file | refer to [xsarm_puppet.launch](launch/xsarm_puppet.launch) |
 | puppet_modes | the file path to the puppet 'mode config' YAML file | refer to [xsarm_puppet.launch](launch/xsarm_puppet.launch) |
-| use_puppet_rviz | launches Rviz to show  both arms | true |
+| use_puppet_rviz | launches Rviz to show both arms | true |
 | rvizconfig | file path to the config file Rviz should load | refer to [xsarm_puppet.launch](launch/xsarm_puppet.launch) |
 | launch_driver | true if the *xsarm_control.launch* file should be launched - set to false if you would like to run your own version of this file separately | true |
+| use_sim | if true, the Dynamixel simulator node is run; use Rviz to visualize the robot's motion; if false, the real Dynamixel driver node is run | false |
 
 ## Notes
-There is a bag file in the [bag](bag/) directory. It was created using the 'record/playback' feature with the WidowX 250 arm. See if you can figure out what it does! As a hint, it involves rubber ducks.
+There is a bag file in the [bag](bag/) directory. It was created using the 'record/playback' feature with the WidowX 250 arm. See if you can figure out what it does! As a hint, it involves rubber ducks. To run it in simulation, type...
+```
+roslaunch interbotix_xsarm_puppet xsarm_puppet_single.launch robot_model:=wx250 use_sim:=true playback:=true bag_name:=duck_dunk
+```

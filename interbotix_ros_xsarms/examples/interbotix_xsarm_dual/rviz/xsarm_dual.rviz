@@ -3,10 +3,8 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /TF1/Frames1
-        - /TF1/Tree1
-      Splitter Ratio: 0.497967482
+      Expanded: ~
+      Splitter Ratio: 0.577777803
     Tree Height: 775
   - Class: rviz/Selection
     Name: Selection
@@ -50,62 +48,220 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        arm_1/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/ee_arm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        arm_1/ee_gripper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        arm_1/fingers_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        arm_1/forearm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/gripper_bar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/gripper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/gripper_prop_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/left_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/right_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/shoulder_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/upper_arm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_1/wrist_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel 1
+      Robot Description: arm_1/robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        arm_2/base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/ee_arm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        arm_2/ee_gripper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        arm_2/fingers_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        arm_2/forearm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/gripper_bar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/gripper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/gripper_prop_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/left_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/right_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/shoulder_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/upper_arm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        arm_2/wrist_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel 2
+      Robot Description: arm_2/robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
-        master/base_link:
+        All Enabled: false
+        arm_1/base_link:
           Value: true
-        master/ee_arm_link:
+        arm_1/ee_arm_link:
           Value: true
-        master/ee_gripper_link:
+        arm_1/ee_gripper_link:
           Value: true
-        master/fingers_link:
+        arm_1/fingers_link:
           Value: true
-        master/forearm_link:
+        arm_1/forearm_link:
           Value: true
-        master/gripper_bar_link:
+        arm_1/gripper_bar_link:
           Value: true
-        master/gripper_link:
+        arm_1/gripper_link:
           Value: true
-        master/gripper_prop_link:
+        arm_1/gripper_prop_link:
           Value: true
-        master/left_finger_link:
+        arm_1/left_finger_link:
           Value: true
-        master/right_finger_link:
+        arm_1/right_finger_link:
           Value: true
-        master/shoulder_link:
+        arm_1/shoulder_link:
           Value: true
-        master/upper_arm_link:
+        arm_1/upper_arm_link:
           Value: true
-        master/wrist_link:
+        arm_1/wrist_link:
           Value: true
-        puppet/base_link:
+        arm_2/base_link:
           Value: true
-        puppet/ee_arm_link:
+        arm_2/base_link_2:
           Value: true
-        puppet/ee_gripper_link:
+        arm_2/ee_arm_link:
           Value: true
-        puppet/fingers_link:
+        arm_2/ee_gripper_link:
           Value: true
-        puppet/forearm_link:
+        arm_2/fingers_link:
           Value: true
-        puppet/gripper_bar_link:
+        arm_2/forearm_link:
           Value: true
-        puppet/gripper_link:
+        arm_2/gripper_bar_link:
           Value: true
-        puppet/gripper_prop_link:
+        arm_2/gripper_link:
           Value: true
-        puppet/left_finger_link:
+        arm_2/gripper_prop_link:
           Value: true
-        puppet/right_finger_link:
+        arm_2/left_finger_link:
           Value: true
-        puppet/shoulder_link:
+        arm_2/right_finger_link:
           Value: true
-        puppet/upper_arm_link:
+        arm_2/shoulder_link:
           Value: true
-        puppet/wrist_link:
+        arm_2/upper_arm_link:
+          Value: true
+        arm_2/wrist_link:
           Value: true
         world:
           Value: true
@@ -113,201 +269,30 @@ Visualization Manager:
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
         world:
-          master/base_link:
-            master/shoulder_link:
-              master/upper_arm_link:
-                master/forearm_link:
-                  master/wrist_link:
-                    master/gripper_link:
-                      master/ee_arm_link:
-                        master/gripper_bar_link:
-                          master/fingers_link:
-                            master/ee_gripper_link:
+          arm_1/base_link:
+            arm_1/shoulder_link:
+              arm_1/upper_arm_link:
+                arm_1/forearm_link:
+                  arm_1/wrist_link:
+                    arm_1/gripper_link:
+                      arm_1/ee_arm_link:
+                        arm_1/gripper_bar_link:
+                          arm_1/fingers_link:
+                            arm_1/ee_gripper_link:
                               {}
-                            master/left_finger_link:
+                            arm_1/left_finger_link:
                               {}
-                            master/right_finger_link:
+                            arm_1/right_finger_link:
                               {}
-                        master/gripper_prop_link:
+                        arm_1/gripper_prop_link:
                           {}
-          puppet/base_link:
-            puppet/shoulder_link:
-              puppet/upper_arm_link:
-                puppet/forearm_link:
-                  puppet/wrist_link:
-                    puppet/gripper_link:
-                      puppet/ee_arm_link:
-                        puppet/gripper_bar_link:
-                          puppet/fingers_link:
-                            puppet/ee_gripper_link:
-                              {}
-                            puppet/left_finger_link:
-                              {}
-                            puppet/right_finger_link:
-                              {}
-                        puppet/gripper_prop_link:
-                          {}
+          arm_2/base_link_2:
+            {}
       Update Interval: 0
       Value: true
-    - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        master/base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/ee_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        master/ee_gripper_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        master/fingers_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        master/forearm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/gripper_bar_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/gripper_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/gripper_prop_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/left_finger_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/right_finger_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/shoulder_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/upper_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        master/wrist_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-      Name: RobotModel Master
-      Robot Description: master/robot_description
-      TF Prefix: ""
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
-    - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        puppet/base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/ee_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        puppet/ee_gripper_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        puppet/fingers_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        puppet/forearm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/gripper_bar_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/gripper_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/gripper_prop_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/left_finger_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/right_finger_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/shoulder_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/upper_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        puppet/wrist_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-      Name: RobotModel Puppet
-      Robot Description: puppet/robot_description
-      TF Prefix: ""
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 0; 176; 240
@@ -358,7 +343,7 @@ Window Geometry:
     collapsed: false
   Height: 1056
   Hide Left Dock: false
-  Hide Right Dock: true
+  Hide Right Dock: false
   QMainWindow State: 000000ff00000000fd00000004000000000000016a00000396fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000396000000d700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f00000396fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000396000000ad00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073f0000003efc0100000002fb0000000800540069006d006501000000000000073f0000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000005cf0000039600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
@@ -367,7 +352,7 @@ Window Geometry:
   Tool Properties:
     collapsed: false
   Views:
-    collapsed: true
+    collapsed: false
   Width: 1855
   X: 65
   Y: 24
