@@ -97,7 +97,7 @@
     <arg name="transform_filepath"                value="$(arg transform_filepath)"/>
   </include>
 
-  <node
+  <node if="$(arg use_rviz)"
     name="rviz"
     pkg="rviz"
     type="rviz"
