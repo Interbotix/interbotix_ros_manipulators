@@ -1,0 +1,94 @@
+<launch>
+
+
+  <!-- Robot 1 Args -->
+  <arg name="robot_model_1"                     default="wx200"/>
+  <arg name="robot_name_1"                      default="arm_1"/>
+  <arg name="base_link_1"                       default="base_link"/>
+  <arg name="modes_1"                           default="$(find interbotix_xsarm_dual)/config/modes_1.yaml"/>
+
+  <!-- Robot 2 Args -->
+  <arg name="robot_model_2"                     default="wx200"/>
+  <arg name="robot_name_2"                      default="arm_2"/>
+  <arg name="base_link_2"                       default="base_link"/>
+  <arg name="modes_2"                           default="$(find interbotix_xsarm_dual)/config/modes_2.yaml"/>
+
+  <!-- Common Args -->
+  <arg name="use_sim"                           default="false"/>
+  <arg name="use_rviz"                          default="false"/>
+  <arg name="rvizconfig"                        default="$(find interbotix_xsarm_dual)/rviz/xsarm_dual.rviz" />
+
+  <!-- Joy Args -->
+  <arg name="threshold"                         default="0.75"/>
+  <arg name="controller"                        default="ps4"/>
+  <arg name="topic_joy_raw" default="commands/joy_raw"/>
+
+  <!-- Launches two arms -->
+  <include file="$(find interbotix_xsarm_dual)/launch/xsarm_dual.launch">
+    <arg name="use_sim"                         value="$(arg use_sim)"/>
+    <arg name="use_dual_rviz"                   value="$(arg use_rviz)"/>
+    <arg name="robot_name_1"                    value="$(arg robot_name_1)"/>
+    <arg name="robot_name_2"                    value="$(arg robot_name_2)"/>
+  </include>
+
+  <!-- Launches joystick input node -->
+  <node
+    pkg="joy"
+    type="joy_node"
+    name="joy_node"
+    output="screen">
+    <param name="dev" value="/dev/input/js0" />
+    <remap from="joy" to="commands/joy_raw"/>
+  </node>
+
+  <!-- Robot 1 Group -->
+  <group>
+    <!-- Remaps joystick commands to top-level namespace -->
+    <remap from="commands/joy_raw" to="/commands/joy_raw"/>
+
+    <node
+      pkg="interbotix_xsarm_joy"
+      type="xsarm_joy"
+      name="xsarm_joy"
+      output="screen"
+      ns="$(arg robot_name_1)">
+      <param name="threshold" value="$(arg threshold)"/>
+      <param name="controller" value="$(arg controller)"/>
+    </node>
+
+    <node
+      pkg="interbotix_xsarm_joy"
+      type="xsarm_robot"
+      name="xsarm_robot"
+      output="screen"
+      ns="$(arg robot_name_1)">
+      <param name="robot_model" value="$(arg robot_model_1)"/>
+    </node>
+  </group>
+
+  <!-- Robot 2 Group -->
+  <group>
+    <!-- Remaps joystick commands to top-level namespace -->
+    <remap from="commands/joy_raw" to="/commands/joy_raw"/>
+    
+    <node
+      pkg="interbotix_xsarm_joy"
+      type="xsarm_joy"
+      name="xsarm_joy"
+      output="screen"
+      ns="$(arg robot_name_2)">
+      <param name="threshold" value="$(arg threshold)"/>
+      <param name="controller" value="$(arg controller)"/>
+    </node>
+
+    <node
+      pkg="interbotix_xsarm_joy"
+      type="xsarm_robot"
+      name="xsarm_robot"
+      output="screen"
+      ns="$(arg robot_name_2)">
+      <param name="robot_model" value="$(arg robot_model_2)"/>
+    </node>
+  </group>
+
+</launch>
