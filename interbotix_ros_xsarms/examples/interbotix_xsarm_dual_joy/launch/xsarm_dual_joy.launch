@@ -26,6 +26,8 @@
     <include file="$(find interbotix_xsarm_dual)/launch/xsarm_dual.launch">
         <arg name="use_sim"                         value="$(arg use_sim)"/>
         <arg name="use_dual_rviz"                   value="$(arg use_rviz)"/>
+        <arg name="robot_model_1"                    value="$(arg robot_model_1)"/>
+        <arg name="robot_model_2"                    value="$(arg robot_model_2)"/>
         <arg name="robot_name_1"                    value="$(arg robot_name_1)"/>
         <arg name="robot_name_2"                    value="$(arg robot_name_2)"/>
     </include>
