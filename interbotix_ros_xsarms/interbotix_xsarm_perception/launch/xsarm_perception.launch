@@ -23,8 +23,6 @@
   <arg name="enable_pipeline"                   default="$(arg use_pointcloud_tuner_gui)"/>
   <arg name="cloud_topic"                       default="/camera/depth/color/points"/>
 
-  <arg name="tag_id"                            default="5"/>
-  <arg name="tag_size"                          default="0.02"/>
   <arg name="tag_family"                        default="tagStandard41h12"/>
   <arg name="standalone_tags"                   default="$(find interbotix_perception_modules)/config/tags.yaml"/>
   <arg name="camera_frame"                      default="camera_color_optical_frame"/>
@@ -76,8 +74,6 @@
   </include>
 
   <include file="$(find interbotix_perception_modules)/launch/armtag.launch">
-    <arg name="tag_id"                            value="$(arg tag_id)"/>
-    <arg name="tag_size"                          value="$(arg tag_size)"/>
     <arg name="tag_family"                        value="$(arg tag_family)"/>
     <arg name="standalone_tags"                   value="$(arg standalone_tags)"/>
     <arg name="camera_frame"                      value="$(arg camera_frame)"/>
