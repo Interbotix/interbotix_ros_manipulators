@@ -81,7 +81,7 @@ if [ "$install_perception" = true ]; then
     elif [ $ubuntu_version == "18.04" ]; then
       version="2.40.0-0~realsense0.3814"
     elif [ $ubuntu_version == "20.04" ]; then
-      version="2.40.0-0~realsense0.3815"
+      version="2.48.0-0~realsense0.4976"
     fi
 
     sudo apt -y install librealsense2-udev-rules=${version}
@@ -110,7 +110,7 @@ if [ "$install_perception" = true ]; then
     cd $REALSENSE_WS/src
     git clone https://github.com/IntelRealSense/realsense-ros.git
     cd realsense-ros/
-    git checkout 2.2.20
+    git checkout 2.3.1
     cd $REALSENSE_WS
     catkin_make clean
     catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release
