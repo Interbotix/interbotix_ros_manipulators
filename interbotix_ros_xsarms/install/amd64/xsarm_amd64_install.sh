@@ -61,7 +61,11 @@ if [ $(dpkg-query -W -f='${Status}' ros-$ROS_NAME-desktop-full 2>/dev/null | gre
     sudo apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
   fi
   sudo rosdep init
-  rosdep update
+  if [ $ROS_NAME != "kinetic" ]; then
+    rosdep update
+  else
+    rosdep update --include-eol-distros
+  fi
 else
   echo "ros-$ROS_NAME-desktop-full is already installed!"
 fi
