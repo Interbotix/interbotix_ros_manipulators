@@ -77,9 +77,9 @@ if [ "$install_perception" = true ]; then
     sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
     sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -sc) main" -u
     if [ $ubuntu_version == "16.04" ]; then
-      version="2.40.0-0~realsense0.3813"
+      version="2.48.0-0~realsense0.4974"
     elif [ $ubuntu_version == "18.04" ]; then
-      version="2.40.0-0~realsense0.3814"
+      version="2.48.0-0~realsense0.4975"
     elif [ $ubuntu_version == "20.04" ]; then
       version="2.48.0-0~realsense0.4976"
     fi
