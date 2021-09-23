@@ -5,6 +5,12 @@ This package contains a small API modeled after the [Move Group C++ Interface Tu
 
 Finally, this package also contains a modified version of the [Move Group Python Interface Tutorial](https://github.com/ros-planning/moveit_tutorials/blob/kinetic-devel/doc/move_group_python_interface/scripts/move_group_python_interface_tutorial.py) script that can be used as a guide for those users who would like to interface with an Interbotix robot via the MoveIt Commander Python module.
 
+<p align="center">
+  <a href=”https://www.youtube.com/watch?v=Z9s3hRYcIp0”>
+    <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_moveit_ros.png">
+  </a>
+</p>
+
 ## Structure
 ![xsarm_moveit_interface_flowchart](images/xsarm_moveit_interface_flowchart.png)
 As shown above, this package builds on top of of the *interbotix_xsarm_moveit* package. To get familiar with that package, please refer to its README. The *interbotix_xsarm_moveit_interface* nodes are described below:

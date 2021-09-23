@@ -47,4 +47,5 @@ Feel free to send PRs to add features to currently existing Arm ROS packages or 
 
 ## Contributors
 - [Solomon Wiznitzer](https://github.com/swiz23) - **ROS Engineer**
+- [Luke Schmitt](https://github.com/lsinterbotix) - **Robotics Software Engineer**
 - [Levi Todes](https://github.com/LeTo37) - **CAD Engineer**

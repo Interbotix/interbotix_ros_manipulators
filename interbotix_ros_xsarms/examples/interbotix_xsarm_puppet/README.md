@@ -4,6 +4,13 @@
 This package demos two similar features that the Interbotix arms support. Imagine that you would like to have the robot arm perform some motions to achieve a specific task. One way of doing this would be to create a [JointTrajectory](http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectory.html) of desired joint positions at specific times which you could then command the robot. Alternatively (and much less time consuming), you could manually manipulate the arm to do the specific motions and record them in a ROS bag file. Then, you could 'play back' the bag file as many times as you like to repeat the motions on the same robot later. This 'record/playback' feature is made possible by the **xsarm_puppet_single**.
 
 Now imagine that you have two (or more) Interbotix arms with the same number of joints. What the **xsarm_puppet** allows you to do is to manually manipulate one of the arms and watch as the motion is repeated in real time on the second robot. A potential application of this could be a warehousing environment. Instead of a worker straining his back to lift a heavy package, he could manually manipulate a small version of a robotic arm to maneuver an industrial-sized arm to pick it up.
+
+<p align="center">
+    <a href=”https://www.youtube.com/watch?v=DnjbNXxBE_8?t=556”>
+        <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_multiple_arms.png">
+    </a>
+</p>
+
 ## Structure
 As shown below, the *interbotix_xsarm_puppet* package builds on top of the *interbotix_xsarm_control* package. To get familiar with that package, please look at its README. The nodes specific to this package are described below.
 

@@ -59,8 +59,20 @@ There is not much required to get the robot ready to work as most of the setup i
 2. Plug the 12V power cable into an outlet and insert the barrel plug into the barrel jack on the X-series power hub (located under the see-through acrylic on the base of the robot). You should briefly see the LEDs on the Dynamixel motors flash red.
 3. Plug in the micro-usb cable into the U2D2 (located under the see-through acrylic on the robot's base) and your computer.
 
+<p align="center">
+    <a href=”https://www.youtube.com/watch?v=o9EXEgzbAxQ”>
+        <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_arm_hardware.png">
+    </a>
+</p>
+
 ## Software Setup
 To get all the code setup, refer to the computer platform types below and run the appropriate installation script. Afterwards, continue with the [Installation Checks](#installation-checks) sub-section.
+
+<p align="center">
+    <a href=”https://www.youtube.com/watch?v=kZx2tNVfQAQ”>
+        <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_arm_ros.png">
+    </a>
+</p>
 
 ###### AMD64 Architecture
 If your computer uses an Intel or AMD based processor (which is the case for NUCs, most laptops and desktop computers), follow the commands below to download and run the installation script. Note that the script will also install the full desktop version of ROS (either Kinetic, Melodic, or Noetic) if it's not yet on your system. As an aside, if you've been using the old ROS packages from the [interbotix_ros_arms](https://github.com/Interbotix/interbotix_ros_arms) repository, and would like to migrate to using the ROS packages in this repository, *make sure that you do not already have a catkin workspace named 'interbotix_ws'*. Otherwise, the install script will not clone these packages. Either rename or delete the old 'interbotix_ws' workspace beforehand.
@@ -124,6 +136,12 @@ Now change the url inside from `https://api.ignitionfuel.org` to `https://api.ig
     You can now let go and observe how the arm stays in place.
 
 That ends the quickstart tutorial. To get familiar with the architecture and launch file arguments, refer to the READMEs of the core packages. Start with the [interbotix_xsarm_descriptions](interbotix_xsarm_descriptions/) package, then the [interbotix_xsarm_control](interbotix_xsarm_control/) package. Next, look at the [interbotix_xsarm_gazebo](interbotix_xsarm_gazebo/) package followed by the [interbotix_xsarm_ros_control](interbotix_xsarm_ros_control/) and [interbotix_xsarm_moveit](interbotix_xsarm_moveit/) packages. This is the most logical approach to take to gain a better understanding of how they relate to each other. Afterwards, feel free to check out the demo projects in the [examples](examples/) directory.
+
+<p align="center">
+    <a href=”https://www.youtube.com/watch?v=5tH0fmUuCuE”>
+        <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_xseries_arm.png">
+    </a>
+</p>
 
 ## Troubleshooting
 Refer to the guide [here](https://github.com/Interbotix/interbotix_ros_core/blob/main/interbotix_ros_xseries/interbotix_xs_sdk/TROUBLESHOOTING.md#troubleshooting-a-dynamixel-based-robot) to try to solve your problem. If you still need help, feel free to contact us as trsupport@trossenrobotics.com or submit an Issue. We strongly recommend the latter option though so that other people who may be facing the same difficulty can benefit. This repository is actively maintained and any open Issues will be addressed as soon as possible.

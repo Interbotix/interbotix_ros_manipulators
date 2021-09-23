@@ -3,6 +3,12 @@
 ## Overview
 This package contains the necessary config files to get any of the many Interbotix X-Series arms simulated in Gazebo. Specifically, it contains the [interbotix_texture.gazebo](config/interbotix_texture.gazebo) file which allows the black texture of the robotic arms to display properly (following the method explained [here](http://answers.gazebosim.org/question/16280/how-to-use-custom-textures-on-urdf-models-in-gazebo/)). It also contains YAML files with tuned PID gains for the arm and gripper joints so that ros_control can control the arms effectively. This package has one of two applications. It can either be used in conjunction with MoveIt via the FollowJointTrajectory interface or it can be used by itself via the JointPositionController interface.
 
+<p align="center">
+    <a href=”https://www.youtube.com/watch?v=k3zkgN7TYTE”>
+        <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_working_with_gazebo.png">
+    </a>
+</p>
+
 ## Structure
 ![xsarm_gazebo_flowchart](images/xsarm_gazebo_flowchart.png)
 As shown above, the *interbotix_xsarm_gazebo* package builds on top of the *interbotix_xsarm_descriptions* and *gazebo_ros* packages. To get familiar with the nodes in the *interbotix_xsarm_descriptions* package, please look at its README. The other nodes are described below:

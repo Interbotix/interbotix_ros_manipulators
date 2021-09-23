@@ -3,6 +3,12 @@
 ## Overview
 This package shows how to get two X-Series arms working together. While the example here is specifically geared for two WidowX 200 arms, there is no limit to the number of arms that can be used (except USB ports on your computer). Also, any of the X-Series arms can be used together - not just WidowX 200 arms. For the purpose of the demo, the [Interbotix Python Arm Module](https://github.com/Interbotix/interbotix_ros_toolboxes/blob/main/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/arm.py) is used, so you should familiarize yourself with the functions there and also look at the README in the [python_demos](../python_demos) directory.
 
+<p align="center">
+    <a href=”https://www.youtube.com/watch?v=DnjbNXxBE_8?t=31”>
+        <img width="410" height="auto" src="https://www.trossenrobotics.com/shared/github/github_multiple_arms.png">
+    </a>
+</p>
+
 ## Structure
 ![xsarm_dual_flowchart](images/xsarm_dual_flowchart.png)
 As shown above, the *interbotix_xsarm_dual* package builds on top of the *interbotix_xsarm_control* package. The number of instances that the *interbotix_xsarm_control* package is included in the 'xsarm_dual' launch file is equivalent to the number of robots being used. See the other packages for descriptions of their nodes.
