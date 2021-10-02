@@ -1,0 +1,35 @@
+name: Question
+description: Ask a question
+title: "[Question]: "
+labels: ["question", "manipulators"]
+assignees:
+  - LSInterbotix
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to ask a question!
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Ask your question here.
+    validations:
+      required: true
+  - type: textarea
+    id: robot_model
+    attributes:
+      label: Robot Model
+      description: Which robot are you asking about (if any)?
+      placeholder: px100, wx200, etc.
+  - type: textarea
+    id: operating_system
+    attributes:
+      label: Operating System
+      description: Which operating system are you targeting when asking this question (if any)?
+      placeholder: Ubuntu 18.04, Ubuntu 20.04, etc.
+  - type: textarea
+    id: other
+    attributes:
+      label: Anything Else
+      description: Please enter anything else you'd like to share here.

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Contact Trossen Robotics Support
+    url: https://www.trossenrobotics.com/contact.aspx
+    about: If you have any questions about missing or damaged parts.
+  - name: Discussions
+    url: https://github.com/Interbotix/.github/discussions
+    about: Ask and answer questions about Interbotix products.
