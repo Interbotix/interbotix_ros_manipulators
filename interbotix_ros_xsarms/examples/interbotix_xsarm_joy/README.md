@@ -7,8 +7,8 @@ This package can be used to control the movements of any X-Series robotic arm us
 ![xsarm_joy_flowchart](images/xsarm_joy_flowchart.png)
 As shown above, the *interbotix_xsarm_joy* package builds on top of the *interbotix_xsarm_control* package. To get pointers about the nodes in that package, please look at its README. The other nodes are described below:
 - **joy** - a ROS driver for a generic Linux joystick; it reads data from a joystick over Bluetooth and publishes  [sensor_msgs/Joy](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/Joy.html) messages to the `commands/joy_raw` topic
-- **xsarm_joy** - responsible for reading in raw [sensor_msgs/Joy](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/Joy.html) messages from the `commands/joy_raw` topic and converting them into [ArmJoy](msg/ArmJoy.msg) messages; this makes the code more readable and allows users to remap buttons very easily later.
-- **xsarm_robot** - responsible for reading in [ArmJoy](msg/ArmJoy.msg) messages and sending joint and gripper commands to the **xs_sdk** node; while the 'waist' joint can be directly controlled via the PS3/PS4 joystick, other buttons allow position-ik to be performed using all the arm joints.
+- **xsarm_joy** - responsible for reading in raw [sensor_msgs/Joy](http://docs.ros.org/melodic/api/sensor_msgs/html/msg/Joy.html) messages from the `commands/joy_raw` topic and converting them into [interbotix_xs_msgs/ArmJoy](https://github.com/Interbotix/interbotix_ros_core/tree/main/interbotix_ros_xseries/interbotix_xs_msgs/msg/ArmJoy.msg) messages; this makes the code more readable and allows users to remap buttons very easily later.
+- **xsarm_robot** - responsible for reading in [interbotix_xs_msgs/ArmJoy](https://github.com/Interbotix/interbotix_ros_core/tree/main/interbotix_ros_xseries/interbotix_xs_msgs/msg/ArmJoy.msg) messages and sending joint and gripper commands to the **xs_sdk** node; while the 'waist' joint can be directly controlled via the PS3/PS4 joystick, other buttons allow position-ik to be performed using all the arm joints.
 
 ## Bluetooth Setup
 #### Sony PS4 Controller (Recommended)

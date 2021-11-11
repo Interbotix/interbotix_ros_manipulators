@@ -3,11 +3,11 @@
 #include <ros/ros.h>
 #include <std_msgs/Int32.h>
 #include <sensor_msgs/JointState.h>
-#include "interbotix_xs_sdk/JointGroupCommand.h"
-#include "interbotix_xs_sdk/JointSingleCommand.h"
-#include "interbotix_xs_sdk/RobotInfo.h"
-#include "interbotix_xs_sdk/RegisterValues.h"
-#include "interbotix_xsarm_diagnostic_tool/JointTemps.h"
+#include "interbotix_xs_msgs/JointGroupCommand.h"
+#include "interbotix_xs_msgs/JointSingleCommand.h"
+#include "interbotix_xs_msgs/RobotInfo.h"
+#include "interbotix_xs_msgs/RegisterValues.h"
+#include "interbotix_xs_msgs/JointTemps.h"
 
 static const float PI = 3.14159265358979f;
 sensor_msgs::JointState joint_states;
@@ -23,15 +23,15 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "xsarm_diagnostic_tool");
   ros::NodeHandle nh;
-  ros::Publisher pub_group = nh.advertise<interbotix_xs_sdk::JointGroupCommand>("commands/joint_group", 1);
-  ros::Publisher pub_joint = nh.advertise<interbotix_xs_sdk::JointSingleCommand>("commands/joint_single", 1);
+  ros::Publisher pub_group = nh.advertise<interbotix_xs_msgs::JointGroupCommand>("commands/joint_group", 1);
+  ros::Publisher pub_joint = nh.advertise<interbotix_xs_msgs::JointSingleCommand>("commands/joint_single", 1);
   ros::Publisher pub_state = nh.advertise<sensor_msgs::JointState>("states/joint_observe", 1);
   ros::Publisher pub_single_temp = nh.advertise<std_msgs::Int32>("temperatures/joint_observe", 1);
-  ros::Publisher pub_group_temp = nh.advertise<interbotix_xsarm_diagnostic_tool::JointTemps>("temperatures/joint_group", 1);
+  ros::Publisher pub_group_temp = nh.advertise<interbotix_xs_msgs::JointTemps>("temperatures/joint_group", 1);
   ros::Subscriber sub_joint_states = nh.subscribe("joint_states", 1, joint_state_cb);
-  ros::ServiceClient srv_robot_info = nh.serviceClient<interbotix_xs_sdk::RobotInfo>("get_robot_info");
-  ros::ServiceClient srv_set_reg = nh.serviceClient<interbotix_xs_sdk::RegisterValues>("set_motor_registers");
-  ros::ServiceClient srv_get_reg = nh.serviceClient<interbotix_xs_sdk::RegisterValues>("get_motor_registers");
+  ros::ServiceClient srv_robot_info = nh.serviceClient<interbotix_xs_msgs::RobotInfo>("get_robot_info");
+  ros::ServiceClient srv_set_reg = nh.serviceClient<interbotix_xs_msgs::RegisterValues>("set_motor_registers");
+  ros::ServiceClient srv_get_reg = nh.serviceClient<interbotix_xs_msgs::RegisterValues>("get_motor_registers");
 
   // publish joint position commands arbitrarily at 10 Hz
   int loop_hz = 10;
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
   std::string cmd_joint, observe_joint;
   ros::param::get("~cmd_joint", cmd_joint);
   ros::param::get("~observe_joint", observe_joint);
-  interbotix_xs_sdk::RobotInfo srv_joint_info, srv_group_info;
+  interbotix_xs_msgs::RobotInfo srv_joint_info, srv_group_info;
   srv_joint_info.request.cmd_type = "single";
   srv_joint_info.request.name = cmd_joint;
   srv_group_info.request.cmd_type = "group";
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
   // Give a second for the user to let go of the robot arm after it is torqued on and holding its position
   ros::Duration(1.0).sleep();
-  interbotix_xs_sdk::JointSingleCommand initial_pos_msg;
+  interbotix_xs_msgs::JointSingleCommand initial_pos_msg;
   initial_pos_msg.name = cmd_joint;
   initial_pos_msg.cmd = 0;
   pub_joint.publish(initial_pos_msg);
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
   double time_start = ros::Time::now().toSec();
   while (ros::ok() && ros::Time::now().toSec() < (time_start + test_duration))
   {
-    interbotix_xs_sdk::JointSingleCommand msg;
+    interbotix_xs_msgs::JointSingleCommand msg;
     msg.name = cmd_joint;
     sensor_msgs::JointState js_msg;
     js_msg.header.stamp = ros::Time::now();
@@ -110,13 +110,13 @@ int main(int argc, char **argv)
     if (cntr % temp_freq == 0)
     {
       cntr = 0;
-      interbotix_xs_sdk::RegisterValues get_reg_msg;
+      interbotix_xs_msgs::RegisterValues get_reg_msg;
       get_reg_msg.request.cmd_type = "group";
       get_reg_msg.request.name = "arm";
       get_reg_msg.request.reg = "Present_Temperature";
       srv_get_reg.call(get_reg_msg);
       std_msgs::Int32 temp_msg;
-      interbotix_xsarm_diagnostic_tool::JointTemps group_temp_msg;
+      interbotix_xs_msgs::JointTemps group_temp_msg;
       temp_msg.data = get_reg_msg.response.values.at(cmd_index_map[observe_joint]);
       group_temp_msg.names = srv_group_info.response.joint_names;
       group_temp_msg.temps = get_reg_msg.response.values;
@@ -128,13 +128,13 @@ int main(int argc, char **argv)
     loop_rate.sleep();
   }
   // command arm to go to its sleep pose
-  interbotix_xs_sdk::RegisterValues set_reg_msg;
+  interbotix_xs_msgs::RegisterValues set_reg_msg;
   set_reg_msg.request.cmd_type = "group";
   set_reg_msg.request.name = "arm";
   set_reg_msg.request.reg = "Profile_Velocity";
   set_reg_msg.request.value = 30;
   srv_set_reg.call(set_reg_msg);
-  interbotix_xs_sdk::JointGroupCommand msg;
+  interbotix_xs_msgs::JointGroupCommand msg;
   msg.name = "arm";
   msg.cmd = srv_group_info.response.joint_sleep_positions;
   pub_group.publish(msg);

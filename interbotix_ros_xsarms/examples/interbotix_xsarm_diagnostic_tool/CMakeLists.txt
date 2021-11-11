@@ -8,29 +8,13 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  interbotix_xs_msgs
   interbotix_xsarm_control
-  message_generation
   rosbag
   roscpp
   rospy
   rqt_plot
   sensor_msgs
-)
-
-################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  JointTemps.msg
-)
-
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
 )
 
 ###################################
@@ -39,7 +23,7 @@ generate_messages(
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
 catkin_package(
- CATKIN_DEPENDS interbotix_xsarm_control message_generation rosbag roscpp rospy rqt_plot sensor_msgs
+ CATKIN_DEPENDS interbotix_xs_msgs interbotix_xsarm_control rosbag roscpp rospy rqt_plot sensor_msgs
 )
 
 ###########

@@ -8,6 +8,7 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  interbotix_xs_msgs
   interbotix_xsarm_control
   roscpp
   sensor_msgs
@@ -20,7 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Declare things to be passed to dependent projects
 catkin_package(
  INCLUDE_DIRS include
- CATKIN_DEPENDS interbotix_xsarm_control roscpp sensor_msgs
+ CATKIN_DEPENDS interbotix_xs_msgs interbotix_xsarm_control roscpp sensor_msgs
 )
 
 ###########

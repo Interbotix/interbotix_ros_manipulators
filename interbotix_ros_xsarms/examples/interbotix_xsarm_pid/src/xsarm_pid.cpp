@@ -1,14 +1,14 @@
 #include <ros/ros.h>
 #include <unordered_map>
 #include "interbotix_xsarm_pid/pid.h"
-#include "interbotix_xs_sdk/RobotInfo.h"
-#include "interbotix_xs_sdk/JointGroupCommand.h"
+#include "interbotix_xs_msgs/RobotInfo.h"
+#include "interbotix_xs_msgs/JointGroupCommand.h"
 #include <sensor_msgs/JointState.h>
 
 MultiPID pid_cntlrs;
 ros::Publisher pub_group;
 sensor_msgs::JointState joint_states;
-interbotix_xs_sdk::RobotInfo group_info;
+interbotix_xs_msgs::RobotInfo group_info;
 std::unordered_map<std::string, size_t> js_index_map;
 /// @brief ROS Subscriber callback function to get joint states
 /// @param msg - most up-to-date joint state message
@@ -25,7 +25,7 @@ void pid_controller(const ros::TimerEvent&)
   for (auto const& name : group_info.response.joint_names)
     group_states.push_back(joint_states.position.at(js_index_map[name]));
   pid_cntlrs.multi_pid_compute_control(group_command.data(), group_states);
-  interbotix_xs_sdk::JointGroupCommand msg;
+  interbotix_xs_msgs::JointGroupCommand msg;
   msg.name = "arm";
   for (auto const& value : group_command)
     msg.cmd.push_back(value);
@@ -53,8 +53,8 @@ int main(int argc, char **argv)
   ros::param::get(control_mode + "/u_min", u_min);
   ros::param::get(control_mode + "/u_max", u_max);
   ros::Subscriber sub_joint_states = nh.subscribe("joint_states", 1, joint_state_cb);
-  pub_group = nh.advertise<interbotix_xs_sdk::JointGroupCommand>("commands/joint_group", 1);
-  ros::ServiceClient srv_robot_info = nh.serviceClient<interbotix_xs_sdk::RobotInfo>("get_robot_info");
+  pub_group = nh.advertise<interbotix_xs_msgs::JointGroupCommand>("commands/joint_group", 1);
+  ros::ServiceClient srv_robot_info = nh.serviceClient<interbotix_xs_msgs::RobotInfo>("get_robot_info");
   srv_robot_info.waitForExistence();
   group_info.request.cmd_type = "group";
   group_info.request.name = "arm";
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
   }
 
   // Command all joints to '0' pwm/current, essentially torquing them off
-  interbotix_xs_sdk::JointGroupCommand msg;
+  interbotix_xs_msgs::JointGroupCommand msg;
   msg.name = "arm";
   msg.cmd = std::vector<float>(group_info.response.num_joints, 0);
   pub_group.publish(msg);
