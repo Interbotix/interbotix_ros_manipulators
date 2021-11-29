@@ -4,7 +4,7 @@ import copy
 import rospy
 import threading
 import numpy as np
-from interbotix_xsarm_joy.msg import ArmJoy
+from interbotix_xs_msgs.msg import ArmJoy
 from interbotix_common_modules import angle_manipulation as ang
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
 
