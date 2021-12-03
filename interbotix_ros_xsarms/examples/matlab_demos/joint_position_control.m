@@ -15,4 +15,4 @@ bot.arm.go_to_home_pose();
 bot.arm.go_to_sleep_pose();
 
 rosshutdown
-bot.stop_timers()
+bot.stop_timers();

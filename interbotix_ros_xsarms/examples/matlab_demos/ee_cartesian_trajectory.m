@@ -16,4 +16,4 @@ bot.arm.set_ee_cartesian_trajectory(x=0.2);
 bot.arm.go_to_sleep_pose();
 
 rosshutdown
-bot.stop_timers()
+bot.stop_timers();

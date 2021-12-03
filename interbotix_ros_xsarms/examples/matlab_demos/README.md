@@ -61,7 +61,7 @@ You should observe the robot pick up a virtual bottle (from behind a virtual bar
 
 The other scripts work in a similar fashion, but you must make sure to change the robot name in the file to the arm you have. You might also have to adjust the commanded poses/trajectories if working with smaller arm models (like the PincherX 100) as some of them might by physically unattainable. To make things easier, each script also outlines the commands necessary to get the robot moving!
 
-Note that MATLAB does not delete timers when a workspace is cleared. A buildup of timers will accumulate if not handled properly, and your machine will slow down. To prevent this from occurring, you can run the stop_timers() method of the InterbotixManipulatorXS class at the end of each of your scripts. You can also run the commands `stop(timerfindall)` and `delete(timerfindall)`, though this may have unintended consequences if you have timers in objects other than the arm.
+Note that MATLAB does not delete timers when a workspace is cleared. A buildup of timers will accumulate if not handled properly, and your machine will slow down. To prevent this from occurring, you can run the `stop_timers()` method of the InterbotixManipulatorXS class at the end of each of your scripts. You can also run the commands `stop(timerfindall)` and `delete(timerfindall)`, though this may have unintended consequences if you have timers in objects other than the arm.
 
 ## Notes
 

@@ -15,4 +15,4 @@ arm.gripper.close(2.0);
 arm.gripper.open(2.0);
 
 rosshutdown
-% bot.stop_timers()
+bot.stop_timers();

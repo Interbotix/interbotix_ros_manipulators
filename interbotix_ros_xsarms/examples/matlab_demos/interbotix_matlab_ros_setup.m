@@ -22,6 +22,7 @@ function success = interbotix_matlab_ros_setup(options)
     addpath("../../../../interbotix_ros_toolboxes/third_party_libraries/ModernRobotics/mr")
 
     disp("Adding Python to path...")
+    pe = pyenv("Version", options.py3path)
     if count(py.sys.path,'') == 0
         insert(py.sys.path,int32(0),'');
         if ~str2double(pyenv.Version) > 3.0
