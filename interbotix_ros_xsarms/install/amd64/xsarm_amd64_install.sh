@@ -21,6 +21,13 @@ else
   install_perception=false
 fi
 
+read -p "Install the MATLAB API (requries that you have MATLAB installed on your system)? " resp
+if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
+  install_matlab=true
+else
+  install_matlab=false
+fi 
+
 echo "Ubuntu $ubuntu_version detected. ROS-$ROS_NAME chosen for installation.";
 
 echo -e "\e[1;33m ******************************************** \e[0m"
@@ -162,6 +169,11 @@ if [ ! -d "$INTERBOTIX_WS/src" ]; then
   fi
   rm interbotix_ros_toolboxes/interbotix_xs_toolbox/CATKIN_IGNORE
   rm interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/CATKIN_IGNORE
+  if [ "$install_matlab" = true ]; then
+    cd interbotix_ros_toolboxes
+    git submodule update --init --recursive
+    cd ..
+  fi
   cd interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk
   sudo cp 99-interbotix-udev.rules /etc/udev/rules.d/
   sudo udevadm control --reload-rules && sudo udevadm trigger
