@@ -17,6 +17,12 @@ body:
     validations:
       required: true
   - type: textarea
+    id: platform
+    attributes:
+      label: Platform
+      description: Which platform would you like to see this feature on?
+      placeholder: xsarms, uxarms, etc.
+  - type: textarea
     id: problem
     attributes:
       label: Is your feature request related to a problem? Please describe.
