@@ -9,7 +9,7 @@ function success = interbotix_build_ros1_messages(options)
     try % try setting the Python version required to build ros messages
         pyenv("Version", options.py27path);
     catch ME
-        warning("Try setting your pyenv to 2.7 when you first open MATLAB.")
+        warning("Try setting your pyenv to Version 2.7 when you first open MATLAB.")
         rethrow(ME)
     end
     if ~exist(rel_core_msgs_path, 'dir') && ~any(strcmp(rosmsg("list"), "interbotix_xs_msgs/JointSingleCommand"))
