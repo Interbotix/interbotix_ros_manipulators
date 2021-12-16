@@ -15,10 +15,10 @@ GitHub Landing Page: Explains repository structure and contains a single directo
 │       ├── Demo Arm ROS Package 1
 │       ├── Demo Arm ROS Package 2
 │       ├── Demo Arm ROS Package X
-│       └── Python Scripts: contains 'demo' Python scripts that build upon modules in the interbotix_ros_toolboxes repository
-│           ├── Demo Python Script 1
-│           ├── Demo Python Script 2
-|           └── Demo Python Script X
+│       └── Demo Scripts: contains example scripts that build upon the interface modules in the interbotix_ros_toolboxes repository
+│           ├── Demo Script 1
+│           ├── Demo Script 2
+|           └── Demo Script X
 ├── LICENSE
 └── README.md
 ```
@@ -31,14 +31,14 @@ As shown above, there are five main levels to this repository. To clarify some o
     - *interbotix_XXarm_moveit* - sets up the proper configurations and makes it possible to control an arm via MoveIt
     - *interbotix_XXarm_gazebo* - sets up the proper configurations and makes it possible to control a Gazebo simulated arm
     - *interbotix_XXarm_ros_control*  - ROS control package used with MoveIt to control the physical arms
-    - *interbotix_XXarm_descriptions* - contains URDFs and meshes of the arms, making it possible to visualize them in Rviz
+    - *interbotix_XXarm_descriptions* - contains URDFs and meshes of the arms, making it possible to visualize them in RViz
 
 - **Demo Arm ROS Package** - This refers to demo ROS packages that build upon the **Core Arm ROS Packages**. ROS researchers could use these packages as references to learn how to develop their own ROS packages and to get a feel for how the robot works. Typical demos for a given manipulator type include:
     - *interbotix_XXarm_joy* - manipulate an arm's end-effector using a joystick controller
     - *interbotix_XXarm_puppet* - make one or more 'puppet' arms copy the motion of a 'master' arm
     - *interbotix_XXarm_moveit_interface* - learn how to use MoveIt!'s MoveGroup Python or C++ APIs to control a robot arm
 
-- **Demo Python Script** - This refers to demo Python scripts that build upon modules in the *interbotix_ros_toolboxes* repository. These modules essentially abstract away all ROS code, making it easy for a researcher with no ROS experience to interface with an arm as if it was just another Python object. It also makes sequencing robot motion a piece of cake.
+- **Demo Script** - This refers to demo scripts that build upon the interface modules in the *interbotix_ros_toolboxes* repository. These modules essentially abstract away all ROS code, making it easy for a researcher with no ROS experience to interface with an arm as if it was just another object. It also makes sequencing robot motion a piece of cake. These scripts are written in languages that users may feel more comfortable with like Python and MATLAB.
 
 Over time, the repo will grow to include more types of manipulators.
 
