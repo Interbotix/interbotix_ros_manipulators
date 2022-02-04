@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>interbotix_ros_xsarms</name>
+  <version>0.0.0</version>
+  <description>The interbotix_ros_xsarms metapackage</description>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
+  <license>BSD</license>
+
+  <author email="trsupport@trossenrobotics.com">Luke Schmitt</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>interbotix_xs_sdk</exec_depend>
+  <exec_depend>interbotix_xs_modules</exec_depend>
+  <exec_depend>interbotix_xsarm_control</exec_depend>
+  <exec_depend>interbotix_xsarm_descriptions</exec_depend>
+  <exec_depend>interbotix_xsarm_gazebo</exec_depend>
+  <exec_depend>interbotix_xsarm_moveit</exec_depend>
+  <exec_depend>interbotix_xsarm_perception</exec_depend>
+  <exec_depend>interbotix_xsarm_ros_control</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
