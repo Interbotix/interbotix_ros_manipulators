@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>interbotix_ros_xsarms_examples</name>
+  <version>0.0.0</version>
+  <description>The interbotix_ros_xsarms_examples metapackage</description>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
+  <license>BSD</license>
+
+  <!-- <url type="website">http://wiki.ros.org/interbotix_ros_xsarms</url> -->
+  <author email="trsupport@trossenrobotics.com">Luke Schmitt</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>interbotix_ros_xsarms</exec_depend>
+  <exec_depend>interbotix_xsarm_diagnostic_tool</exec_depend>
+  <exec_depend>interbotix_xsarm_dual</exec_depend>
+  <exec_depend>interbotix_xsarm_dual_joy</exec_depend>
+  <exec_depend>interbotix_xsarm_joy</exec_depend>
+  <exec_depend>interbotix_xsarm_moveit_interface</exec_depend>
+  <exec_depend>interbotix_xsarm_pid</exec_depend>
+  <exec_depend>interbotix_xsarm_puppet</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
