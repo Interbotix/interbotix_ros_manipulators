@@ -43,6 +43,10 @@ add_executable(xsarm_diagnostic_tool src/xsarm_diagnostic_tool.cpp)
 target_link_libraries(xsarm_diagnostic_tool ${catkin_LIBRARIES})
 add_dependencies(xsarm_diagnostic_tool ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_executable(xsarm_diagnostic_listener src/xsarm_diagnostic_listener.cpp)
+target_link_libraries(xsarm_diagnostic_listener ${catkin_LIBRARIES})
+add_dependencies(xsarm_diagnostic_listener ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 #############
 ## Install ##
 #############

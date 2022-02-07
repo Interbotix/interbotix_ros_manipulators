@@ -1,0 +1,26 @@
+<launch>
+
+  <arg name="robot_model"                       default=""/>
+  <arg name="robot_name"                        default="$(arg robot_model)"/>
+  <arg name="listener_config"                   default="$(find interbotix_xsarm_diagnostic_tool)/config/listener.yaml"/>
+  <arg name="bag_name"                          default="listener_diagnostics"/>
+
+  <rosparam file="$(arg listener_config)" command="load" ns="$(arg robot_name)"/>
+  
+  <node
+    name="xsarm_diagnostic_listener"
+    pkg="interbotix_xsarm_diagnostic_tool"
+    type="xsarm_diagnostic_listener"
+    respawn="false"
+    output="screen"
+    ns="$(arg robot_name)">
+  </node>
+
+  <node
+    name="rosbag_record_states"
+    pkg="rosbag"
+    type="record"
+    args="record -O $(find interbotix_xsarm_diagnostic_tool)/bag/$(arg bag_name) /$(arg robot_name)/joint_states /$(arg robot_name)/temperatures/joint_group">
+  </node>
+
+</launch>

@@ -1,0 +1,7 @@
+observed_joints:
+  - waist
+  - shoulder
+  - elbow
+  - forearm_roll
+  - wrist_angle
+  - wrist_rotate
