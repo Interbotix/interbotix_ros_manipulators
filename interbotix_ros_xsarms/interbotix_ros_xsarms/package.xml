@@ -8,17 +8,17 @@
 
   <author email="trsupport@trossenrobotics.com">Luke Schmitt</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>interbotix_xs_sdk</exec_depend>
-  <exec_depend>interbotix_xs_modules</exec_depend>
+  <!-- <exec_depend>interbotix_xs_modules</exec_depend> -->
   <exec_depend>interbotix_xsarm_control</exec_depend>
   <exec_depend>interbotix_xsarm_descriptions</exec_depend>
-  <exec_depend>interbotix_xsarm_gazebo</exec_depend>
-  <exec_depend>interbotix_xsarm_moveit</exec_depend>
-  <exec_depend>interbotix_xsarm_perception</exec_depend>
-  <exec_depend>interbotix_xsarm_ros_control</exec_depend>
+  <!-- <exec_depend>interbotix_xsarm_gazebo</exec_depend> -->
+  <!-- <exec_depend>interbotix_xsarm_moveit</exec_depend> -->
+  <!-- <exec_depend>interbotix_xsarm_perception</exec_depend> -->
+  <!-- <exec_depend>interbotix_xsarm_ros_control</exec_depend> -->
 
   <export>
-    <metapackage/>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
