@@ -10,28 +10,17 @@
 
   <!-- The *depend tags are used to specify dependencies -->
   <!-- Dependencies can be catkin packages or system dependencies -->
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>joint_state_publisher</build_depend>
-  <build_depend>joint_state_publisher_gui</build_depend>
-  <build_depend>robot_state_publisher</build_depend>
-  <build_depend>roslaunch</build_depend>
-  <build_depend>rviz</build_depend>
-  <build_depend>xacro</build_depend>
-  <build_export_depend>joint_state_publisher</build_export_depend>
-  <build_export_depend>joint_state_publisher_gui</build_export_depend>
-  <build_export_depend>robot_state_publisher</build_export_depend>
-  <build_export_depend>roslaunch</build_export_depend>
-  <build_export_depend>rviz</build_export_depend>
-  <build_export_depend>xacro</build_export_depend>
-  <exec_depend>joint_state_publisher</exec_depend>
-  <exec_depend>joint_state_publisher_gui</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>roslaunch</exec_depend>
-  <exec_depend>rviz</exec_depend>
-  <exec_depend>xacro</exec_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>joint_state_publisher</depend>
+  <depend>joint_state_publisher_gui</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>rviz2</depend>
+  <depend>xacro</depend>
+  <depend>urdf</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
+    <build_type>ament_cmake</build_type>
     <!-- Other tools can request additional information be placed here -->
   </export>
 </package>
