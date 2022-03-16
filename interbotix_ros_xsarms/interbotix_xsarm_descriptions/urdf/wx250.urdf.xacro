@@ -13,6 +13,33 @@
   <xacro:property name="urdf_loc" value="$(arg external_urdf_loc)"/>
   <xacro:property name="pi_offset" value="0.00001"/>
 
+  <xacro:property name="waist_limit_lower"          value="${-pi + pi_offset}"/>
+  <xacro:property name="waist_limit_upper"          value="${pi - pi_offset}"/>
+  <xacro:property name="waist_limit_vel"            value="${pi}"/>
+
+  <xacro:property name="shoulder_limit_lower"       value="${radians(-108)}"/>
+  <xacro:property name="shoulder_limit_upper"       value="${radians(114)}"/>
+  <xacro:property name="shoulder_limit_vel"         value="${pi}"/>
+
+  <xacro:property name="elbow_limit_lower"          value="${radians(-123)}"/>
+  <xacro:property name="elbow_limit_upper"          value="${radians(92)}"/>
+  <xacro:property name="elbow_limit_vel"            value="${pi}"/>
+
+  <xacro:property name="wrist_angle_limit_lower"    value="${radians(-100)}"/>
+  <xacro:property name="wrist_angle_limit_upper"    value="${radians(123)}"/>
+  <xacro:property name="wrist_angle_limit_vel"      value="${pi}"/>
+
+  <xacro:property name="wrist_rotate_limit_lower"   value="${-pi + pi_offset}"/>
+  <xacro:property name="wrist_rotate_limit_upper"   value="${pi - pi_offset}"/>
+  <xacro:property name="wrist_rotate_limit_vel"     value="${pi}"/>
+
+  <xacro:property name="gripper_limit_vel"          value="${pi}"/>
+
+  <xacro:property name="finger_limit_effort"        value="5"/>
+  <xacro:property name="finger_limit_lower"         value="0.015"/>
+  <xacro:property name="finger_limit_upper"         value="0.037"/>
+  <xacro:property name="finger_limit_vel"           value="1"/>
+
   <xacro:if value="$(arg load_gazebo_configs)">
     <xacro:include filename="$(find interbotix_xsarm_gazebo)/config/interbotix_texture.gazebo"/>
   </xacro:if>
@@ -52,22 +79,12 @@
 
   <joint name="waist" type="revolute">
     <axis xyz="0 0 1"/>
-    <limit effort="10" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <limit effort="10" lower="${waist_limit_lower}" upper="${waist_limit_upper}" velocity="${waist_limit_vel}"/>
     <origin rpy="0 0 0" xyz="0 0 0.072"/>
     <parent link="$(arg robot_name)/$(arg base_link_frame)"/>
     <child link="$(arg robot_name)/shoulder_link"/>
     <dynamics friction="0.1"/>
   </joint>
-
-  <transmission name="trans_waist">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="waist">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="waist_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
   <link name="$(arg robot_name)/shoulder_link">
     <visual>
@@ -92,22 +109,12 @@
 
   <joint name="shoulder" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="20" lower="${radians(-108)}" upper="${radians(114)}" velocity="${pi}"/>
+    <limit effort="20" lower="${shoulder_limit_lower}" upper="${shoulder_limit_upper}" velocity="${shoulder_limit_vel}"/>
     <origin rpy="0 0 0" xyz="0 0 0.03865"/>
     <parent link="$(arg robot_name)/shoulder_link"/>
     <child link="$(arg robot_name)/upper_arm_link"/>
     <dynamics friction="0.1"/>
   </joint>
-
-  <transmission name="trans_shoulder">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="shoulder">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="shoulder_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
   <link name="$(arg robot_name)/upper_arm_link">
     <visual>
@@ -132,22 +139,12 @@
 
   <joint name="elbow" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="15" lower="${radians(-123)}" upper="${radians(92)}" velocity="${pi}"/>
+    <limit effort="15" lower="${elbow_limit_lower}" upper="${elbow_limit_upper}" velocity="${elbow_limit_vel}"/>
     <origin rpy="0 0 0" xyz="0.04975 0 0.25"/>
     <parent link="$(arg robot_name)/upper_arm_link"/>
     <child link="$(arg robot_name)/forearm_link"/>
     <dynamics friction="0.1"/>
   </joint>
-
-  <transmission name="trans_elbow">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="elbow">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="elbow_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
   <link name="$(arg robot_name)/forearm_link">
     <visual>
@@ -172,22 +169,12 @@
 
  <joint name="wrist_angle" type="revolute">
     <axis xyz="0 1 0"/>
-    <limit effort="5" lower="${radians(-100)}" upper="${radians(123)}" velocity="${pi}"/>
+    <limit effort="5" lower="${wrist_angle_limit_lower}" upper="${wrist_angle_limit_upper}" velocity="${wrist_angle_limit_vel}"/>
     <origin rpy="0 0 0" xyz="0.25 0 0"/>
     <parent link="$(arg robot_name)/forearm_link"/>
     <child link="$(arg robot_name)/wrist_link"/>
     <dynamics friction="0.1"/>
   </joint>
-
-  <transmission name="trans_wrist_angle">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="wrist_angle">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="wrist_angle_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
   <link name="$(arg robot_name)/wrist_link">
     <visual>
@@ -212,22 +199,12 @@
 
   <joint name="wrist_rotate" type="revolute">
     <axis xyz="1 0 0"/>
-    <limit effort="1" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <limit effort="1" lower="${wrist_rotate_limit_lower}" upper="${wrist_rotate_limit_upper}" velocity="${wrist_rotate_limit_vel}"/>
     <origin rpy="0 0 0" xyz="0.065 0 0"/>
     <parent link="$(arg robot_name)/wrist_link"/>
     <child link="$(arg robot_name)/gripper_link"/>
     <dynamics friction="0.1"/>
   </joint>
-
-  <transmission name="trans_wrist_rotate">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="wrist_rotate">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="wrist_rotate_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
   <link name="$(arg robot_name)/gripper_link">
     <visual>
@@ -266,22 +243,12 @@
 
   <joint name="gripper" type="continuous">
     <axis xyz="1 0 0"/>
-    <limit effort="1" velocity="${pi}"/>
+    <limit effort="1" velocity="${gripper_limit_vel}"/>
     <origin rpy="0 0 0" xyz="0.0055 0 0"/>
     <parent link="$(arg robot_name)/ee_arm_link"/>
     <child link="$(arg robot_name)/gripper_prop_link"/>
     <dynamics friction="0.1"/>
   </joint>
-
-  <transmission name="trans_gripper">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="gripper">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="gripper_motor">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
 
   <link name="$(arg robot_name)/gripper_prop_link">
     <visual>
@@ -390,22 +357,12 @@
 
       <joint name="left_finger" type="prismatic">
         <axis xyz="0 1 0"/>
-        <limit effort="5" lower="0.015" upper="0.037" velocity="1"/>
+        <limit effort="${finger_limit_effort}" lower="${finger_limit_lower}" upper="${finger_limit_upper}" velocity="${finger_limit_vel}"/>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <parent link="$(arg robot_name)/fingers_link"/>
         <child link="$(arg robot_name)/left_finger_link"/>
         <dynamics friction="0.1"/>
       </joint>
-
-      <transmission name="trans_left_finger">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_finger">
-          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_finger_motor">
-          <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-      </transmission>
 
       <link name="$(arg robot_name)/left_finger_link">
         <visual>
@@ -430,7 +387,7 @@
 
       <joint name="right_finger" type="prismatic">
         <axis xyz="0 1 0"/>
-        <limit effort="5" lower="-0.037" upper="-0.015" velocity="1"/>
+        <limit effort="${finger_limit_effort}" lower="${-finger_limit_upper}" upper="${-finger_limit_lower}" velocity="${finger_limit_vel}"/>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <parent link="$(arg robot_name)/fingers_link"/>
         <child link="$(arg robot_name)/right_finger_link"/>
@@ -439,16 +396,6 @@
           <mimic joint="left_finger" multiplier="-1" offset="0"/>
         </xacro:unless>
       </joint>
-
-      <transmission name="trans_right_finger">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="right_finger">
-          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="right_finger_motor">
-          <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-      </transmission>
 
       <link name="$(arg robot_name)/right_finger_link">
         <visual>
@@ -492,5 +439,55 @@
   <xacro:if value="${urdf_loc != ''}">
     <xacro:include filename="${urdf_loc}"/>
   </xacro:if>
+
+  <ros2_control name="XSHardwareInterface" type="system">
+    <hardware>
+      <plugin>interbotix_xs_ros_control/XSHardwareInterface</plugin>
+    </hardware>
+    <joint name="waist">
+      <command_interface name="position">
+        <param name="min">"${waist_limit_lower}"</param>
+        <param name="max">"${waist_limit_upper}"</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+    <joint name="shoulder">
+      <command_interface name="position">
+        <param name="min">"${shoulder_limit_lower}"</param>
+        <param name="max">"${shoulder_limit_upper}"</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+    <joint name="elbow">
+      <command_interface name="position">
+        <param name="min">"${elbow_limit_lower}"</param>
+        <param name="max">"${elbow_limit_upper}"</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+    <joint name="wrist_angle">
+      <command_interface name="position">
+        <param name="min">"${wrist_angle_limit_lower}"</param>
+        <param name="max">"${wrist_angle_limit_upper}"</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+    <joint name="wrist_rotate">
+      <command_interface name="position">
+        <param name="min">"${wrist_rotate_limit_lower}"</param>
+        <param name="max">"${wrist_rotate_limit_upper}"</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+    <xacro:if value="$(arg show_gripper_fingers)">
+      <joint name="left_finger">
+        <command_interface name="position">
+          <param name="min">"${finger_limit_lower}"</param>
+          <param name="max">"${-finger_limit_lower}"</param>
+        </command_interface>
+        <state_interface name="position"/>
+      </joint>
+    </xacro:if>
+  </ros2_control>
 
 </robot>
