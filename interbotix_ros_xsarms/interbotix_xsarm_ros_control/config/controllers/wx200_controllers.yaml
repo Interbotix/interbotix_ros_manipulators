@@ -1,0 +1,36 @@
+/**:
+  ros__parameters:
+    update_rate: 10 # Hz
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+/wx200:
+  arm_controller:
+    ros__parameters:
+      type: FollowJointTrajectory
+      joints:
+        - waist
+        - shoulder
+        - elbow
+        - wrist_angle
+        - wrist_rotate
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
+      state_publish_rate: 50.0 # Hz Defaults to 50
+      action_monitor_rate: 20.0 # Hz Defaults to 20
+      constraints:
+        stopped_velocity_tolerance: 0.02
+        goal_time: 1.0
+/wx200:
+  gripper_controller:
+    ros__parameters:
+      type: FollowJointTrajectory
+      joints:
+        - left_finger
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
