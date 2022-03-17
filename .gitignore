@@ -1,1 +1,6 @@
 *.pyc
+*.egg-info/
+
+*.bag
+!waist_diagnostics.bag
+!duck_dunk.bag
