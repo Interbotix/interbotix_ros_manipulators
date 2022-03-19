@@ -1,4 +1,4 @@
-<package>
+<package format="3">
 
   <name>interbotix_xsarm_moveit</name>
   <version>0.3.0</version>
@@ -6,7 +6,7 @@
      An automatically generated package with all the configuration and launch files for using an Interbotix Arm with the MoveIt! Motion Planning Framework
   </description>
   <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
-  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
 
   <license>BSD</license>
 
@@ -14,21 +14,26 @@
   <url type="bugtracker">https://github.com/ros-planning/moveit/issues</url>
   <url type="repository">https://github.com/ros-planning/moveit</url>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>moveit_ros_move_group</run_depend>
-  <run_depend>moveit_simple_controller_manager</run_depend>
-  <run_depend>moveit_fake_controller_manager</run_depend>
-  <run_depend>moveit_kinematics</run_depend>
-  <run_depend>moveit_planners_ompl</run_depend>
-  <run_depend>moveit_ros_visualization</run_depend>
-  <run_depend>moveit_setup_assistant</run_depend>
-  <run_depend>joint_state_publisher</run_depend>
-  <run_depend>robot_state_publisher</run_depend>
-  <run_depend>xacro</run_depend>
-  <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
-  <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>moveit_simple_controller_manager</exec_depend>
+  <exec_depend>moveit_fake_controller_manager</exec_depend>
+  <exec_depend>moveit_kinematics</exec_depend>
+  <exec_depend>moveit_planners_ompl</exec_depend>
+  <exec_depend>moveit_ros_visualization</exec_depend>
+  <exec_depend>moveit_setup_assistant</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  
+  <!-- <exec_depend>interbotix_xsarm_gazebo</exec_depend> -->
+  <exec_depend>interbotix_xsarm_descriptions</exec_depend>
+  <exec_depend>interbotix_xsarm_ros_control</exec_depend>
+  
+  <depend>backward-ros</depend>
 
-  <run_depend>interbotix_xsarm_gazebo</run_depend>
-  <run_depend>interbotix_xsarm_descriptions</run_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 
 </package>

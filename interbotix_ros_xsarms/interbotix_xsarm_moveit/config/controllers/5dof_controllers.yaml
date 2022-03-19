@@ -1,9 +1,21 @@
-controller_list:
-  - name: "arm_controller"
-    action_ns: follow_joint_trajectory
-    type: FollowJointTrajectory
-    joints: [waist, shoulder, elbow, wrist_angle, wrist_rotate]
-  - name: "gripper_controller"
-    action_ns: follow_joint_trajectory
-    type: FollowJointTrajectory
-    joints: [left_finger, right_finger]
+controller_names:
+  - /wx250/arm_controller
+  - /wx250/gripper_controller
+
+/wx250/arm_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - waist
+    - shoulder
+    - elbow
+    - wrist_angle
+    - wrist_rotate
+
+/wx250/gripper_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - left_finger
