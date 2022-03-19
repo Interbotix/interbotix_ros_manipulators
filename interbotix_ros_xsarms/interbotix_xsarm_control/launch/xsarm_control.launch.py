@@ -1,7 +1,4 @@
-from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
-from launch_ros.actions import Node
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import (
@@ -16,136 +13,121 @@ from launch.substitutions import (
     PathJoinSubstitution,
     TextSubstitution,
 )
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
 
-    robot_model = LaunchConfiguration("robot_model")
-    robot_name = LaunchConfiguration("robot_name")
-    base_link_frame = LaunchConfiguration("base_link_frame")
-    show_ar_tag = LaunchConfiguration("show_ar_tag")
-    show_gripper_bar = LaunchConfiguration("show_gripper_bar")
-    show_gripper_fingers = LaunchConfiguration("show_gripper_fingers")
-    use_world_frame = LaunchConfiguration("use_world_frame")
-    external_urdf_loc = LaunchConfiguration("external_urdf_loc")
-    use_rviz = LaunchConfiguration("use_rviz")
-    motor_configs = LaunchConfiguration("motor_configs")
-    mode_configs = LaunchConfiguration("mode_configs")
-    load_configs = LaunchConfiguration("load_configs")
-    use_sim = LaunchConfiguration("use_sim")
-    load_gazebo_configs = LaunchConfiguration("load_gazebo_configs")
-    model = LaunchConfiguration("model")
+    robot_model_launch_arg = LaunchConfiguration("robot_model")
+    robot_name_launch_arg = LaunchConfiguration("robot_name")
+    base_link_frame_launch_arg = LaunchConfiguration("base_link_frame")
+    show_ar_tag_launch_arg = LaunchConfiguration("show_ar_tag")
+    show_gripper_bar_launch_arg = LaunchConfiguration("show_gripper_bar")
+    show_gripper_fingers_launch_arg = LaunchConfiguration("show_gripper_fingers")
+    use_world_frame_launch_arg = LaunchConfiguration("use_world_frame")
+    external_urdf_loc_launch_arg = LaunchConfiguration("external_urdf_loc")
+    use_rviz_launch_arg = LaunchConfiguration("use_rviz")
+    motor_configs_launch_arg = LaunchConfiguration("motor_configs")
+    mode_configs_launch_arg = LaunchConfiguration("mode_configs")
+    load_configs_launch_arg = LaunchConfiguration("load_configs")
+    use_sim_launch_arg = LaunchConfiguration("use_sim")
+    load_gazebo_configs_launch_arg = LaunchConfiguration("load_gazebo_configs")
+    model_launch_arg = LaunchConfiguration("model")
 
-    motor_configs = PathJoinSubstitution(
+    motor_configs_launch_arg = PathJoinSubstitution(
         [
-            get_package_share_directory("interbotix_xsarm_control"),
+            FindPackageShare("interbotix_xsarm_control"),
             "config",
-            robot_model.perform(context) + ".yaml",
+            f"{robot_model_launch_arg.perform(context)}.yaml",
         ]
     )
 
-    mode_configs = PathJoinSubstitution(
+    mode_configs_launch_arg = PathJoinSubstitution(
         [
-            get_package_share_directory("interbotix_xsarm_control"),
+            FindPackageShare("interbotix_xsarm_control"),
             "config",
             "modes.yaml",
         ]
     )
 
-    load_configs = LaunchConfiguration("load_configs", default="false")
-
-    description_prefix = get_package_share_directory("interbotix_xsarm_descriptions")
-
     urdf_path = PathJoinSubstitution(
         [
-            get_package_share_directory("interbotix_xsarm_descriptions"),
+            FindPackageShare("interbotix_xsarm_descriptions"),
             "urdf",
-            robot_model,
+            robot_model_launch_arg,
         ]
     )
 
-    model = Command(
+    model_launch_arg = Command(
         [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            urdf_path,
-            ".urdf.xacro" " ",
-            "robot_name:=",
-            robot_name,
-            " ",
-            "base_link_frame:=",
-            base_link_frame,
-            " ",
-            "show_ar_tag:=",
-            show_ar_tag,
-            " ",
-            "show_gripper_bar:=",
-            show_gripper_bar,
-            " ",
-            "show_gripper_fingers:=",
-            show_gripper_fingers,
-            " ",
-            "use_world_frame:=",
-            use_world_frame,
-            " ",
-            "external_urdf_loc:=",
-            external_urdf_loc,
-            " ",
-            "load_gazebo_configs:=",
-            load_gazebo_configs,
+            FindExecutable(name="xacro"), " ", urdf_path, ".urdf.xacro ",
+            "robot_name:=", robot_name_launch_arg, " ",
+            "base_link_frame:=", base_link_frame_launch_arg, " ",
+            "show_ar_tag:=", show_ar_tag_launch_arg, " ",
+            "show_gripper_bar:=", show_gripper_bar_launch_arg, " ",
+            "show_gripper_fingers:=", show_gripper_fingers_launch_arg, " ",
+            "use_world_frame:=", use_world_frame_launch_arg, " ",
+            "external_urdf_loc:=", external_urdf_loc_launch_arg, " ",
+            "load_gazebo_configs:=", load_gazebo_configs_launch_arg, " ",
         ]
     )
 
-    xsarm_description_launch = IncludeLaunchDescription(
+    xsarm_description_launch_include = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
                 PathJoinSubstitution(
-                    [description_prefix, "launch", "xsarm_description.launch.py"]
+                    [
+                        FindPackageShare("interbotix_xsarm_descriptions"),
+                        "launch",
+                        "xsarm_description.launch.py"
+                    ]
                 )
             ]
         ),
         launch_arguments={
-            "robot_model": robot_model,
-            "robot_name": robot_name,
-            "base_link_frame": base_link_frame,
-            "show_ar_tag": show_ar_tag,
-            "show_gripper_bar": show_gripper_bar,
-            "show_gripper_fingers": show_gripper_fingers,
-            "use_world_frame": use_world_frame,
-            "external_urdf_loc": external_urdf_loc,
-            "use_rviz": use_rviz,
+            "robot_model": robot_model_launch_arg,
+            "robot_name": robot_name_launch_arg,
+            "base_link_frame": base_link_frame_launch_arg,
+            "show_ar_tag": show_ar_tag_launch_arg,
+            "show_gripper_bar": show_gripper_bar_launch_arg,
+            "show_gripper_fingers": show_gripper_fingers_launch_arg,
+            "use_world_frame": use_world_frame_launch_arg,
+            "external_urdf_loc": external_urdf_loc_launch_arg,
+            "use_rviz": use_rviz_launch_arg,
         }.items(),
     )
 
     xs_sdk_node = Node(
-        condition=UnlessCondition(use_sim),
+        condition=UnlessCondition(use_sim_launch_arg),
         package="interbotix_xs_sdk",
         executable="xs_sdk",
         name="xs_sdk",
-        namespace=robot_name,
+        namespace=robot_name_launch_arg,
         arguments=[],
         parameters=[
             {
-                "motor_configs": motor_configs,
-                "mode_configs": mode_configs,
-                "load_configs": load_configs,
-                "robot_description": model,
+                "motor_configs": motor_configs_launch_arg,
+                "mode_configs": mode_configs_launch_arg,
+                "load_configs": load_configs_launch_arg,
+                "robot_description": model_launch_arg,
             }
         ],
         output="screen",
     )
+    
     xs_sdk_sim_node = Node(
-        condition=IfCondition(use_sim),
+        condition=IfCondition(use_sim_launch_arg),
         package="interbotix_xs_sdk",
         executable="xs_sdk_sim",
         name="xs_sdk_sim",
-        namespace=robot_name,
+        namespace=robot_name_launch_arg,
         arguments=[],
         parameters=[
             {
-                "motor_configs": motor_configs,
-                "mode_configs": mode_configs,
-                "robot_description": model,
+                "motor_configs": motor_configs_launch_arg,
+                "mode_configs": mode_configs_launch_arg,
+                "robot_description": model_launch_arg,
             }
         ],
         output="screen",
@@ -154,7 +136,7 @@ def launch_setup(context, *args, **kwargs):
     return [
         xs_sdk_node,
         xs_sdk_sim_node,
-        xsarm_description_launch,
+        xsarm_description_launch_include,
     ]
 
 
@@ -164,6 +146,21 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "robot_model",
                 default_value=TextSubstitution(text=""),
+                choices=(
+                    "px100",
+                    "px150",
+                    "rx150",
+                    "rx200",
+                    "wx200",
+                    "wx250",
+                    "wx250s",
+                    "vx250",
+                    "vx300",
+                    "vx300s",
+                    "mobile_px100",
+                    "mobile_wx200",
+                    "mobile_wx250s",
+                ),
                 description=(
                     "model type of the Interbotix Arm such as 'wx200' or 'rx150'"
                 ),
