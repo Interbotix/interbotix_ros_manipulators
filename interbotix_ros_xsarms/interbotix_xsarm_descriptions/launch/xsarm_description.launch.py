@@ -1,7 +1,4 @@
-from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
-from launch_ros.actions import Node
 from launch.conditions import IfCondition
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import (
@@ -11,99 +8,91 @@ from launch.substitutions import (
     PathJoinSubstitution,
     TextSubstitution,
 )
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-    robot_model = LaunchConfiguration("robot_model")
-    robot_name = LaunchConfiguration("robot_name")
-    base_link_frame = LaunchConfiguration("base_link_frame")
-    show_ar_tag = LaunchConfiguration("show_ar_tag")
-    show_gripper_bar = LaunchConfiguration("show_gripper_bar")
-    show_gripper_fingers = LaunchConfiguration("show_gripper_fingers")
-    use_world_frame = LaunchConfiguration("use_world_frame")
-    external_urdf_loc = LaunchConfiguration("external_urdf_loc")
-    use_rviz = LaunchConfiguration("use_rviz")
-    load_gazebo_configs = LaunchConfiguration("load_gazebo_configs")
-    use_joint_pub = LaunchConfiguration("use_joint_pub")
-    use_joint_pub_gui = LaunchConfiguration("use_joint_pub_gui")
-    rvizconfig = LaunchConfiguration("rvizconfig")
-    model = LaunchConfiguration("model")
+    robot_model_launch_arg = LaunchConfiguration("robot_model")
+    robot_name_launch_arg = LaunchConfiguration("robot_name")
+    base_link_frame_launch_arg = LaunchConfiguration("base_link_frame")
+    show_ar_tag_launch_arg = LaunchConfiguration("show_ar_tag")
+    show_gripper_bar_launch_arg = LaunchConfiguration("show_gripper_bar")
+    show_gripper_fingers_launch_arg = LaunchConfiguration("show_gripper_fingers")
+    use_world_frame_launch_arg = LaunchConfiguration("use_world_frame")
+    external_urdf_loc_launch_arg = LaunchConfiguration("external_urdf_loc")
+    use_rviz_launch_arg = LaunchConfiguration("use_rviz")
+    load_gazebo_configs_launch_arg = LaunchConfiguration("load_gazebo_configs")
+    use_joint_pub_launch_arg = LaunchConfiguration("use_joint_pub")
+    use_joint_pub_gui_launch_arg = LaunchConfiguration("use_joint_pub_gui")
+    rviz_config_launch_arg = LaunchConfiguration("rvizconfig")
+    model_launch_arg = LaunchConfiguration("model")
 
-    xsarm_descriptions_prefix = get_package_share_directory(
-        "interbotix_xsarm_descriptions"
-    )
-
-    rvizconfig = PathJoinSubstitution(
-        [xsarm_descriptions_prefix, "rviz", "xsarm_description.rviz"]
-    )
-
-    urdf_path = PathJoinSubstitution([xsarm_descriptions_prefix, "urdf", robot_model])
-
-    model = Command(
+    rviz_config_launch_arg = PathJoinSubstitution(
         [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            urdf_path,
-            ".urdf.xacro" " ",
-            "robot_name:=",
-            robot_name,
-            " ",
-            "base_link_frame:=",
-            base_link_frame,
-            " ",
-            "show_ar_tag:=",
-            show_ar_tag,
-            " ",
-            "show_gripper_bar:=",
-            show_gripper_bar,
-            " ",
-            "show_gripper_fingers:=",
-            show_gripper_fingers,
-            " ",
-            "use_world_frame:=",
-            use_world_frame,
-            " ",
-            "external_urdf_loc:=",
-            external_urdf_loc,
-            " ",
-            "load_gazebo_configs:=",
-            load_gazebo_configs,
+            FindPackageShare("interbotix_xsarm_descriptions"), 
+            "rviz",
+            "xsarm_description.rviz",
         ]
     )
 
-    robot_description = {"robot_description": model}
+    urdf_path = PathJoinSubstitution(
+        [
+            FindPackageShare("interbotix_xsarm_descriptions"),
+            "urdf",
+            robot_model_launch_arg
+        ]
+    )
+
+    model_launch_arg = Command(
+        [
+            FindExecutable(name="xacro"), " ", urdf_path, ".urdf.xacro ",
+            "robot_name:=", robot_name_launch_arg, " ",
+            "base_link_frame:=", base_link_frame_launch_arg, " ",
+            "show_ar_tag:=", show_ar_tag_launch_arg, " ",
+            "show_gripper_bar:=", show_gripper_bar_launch_arg, " ",
+            "show_gripper_fingers:=", show_gripper_fingers_launch_arg, " ",
+            "use_world_frame:=", use_world_frame_launch_arg, " ",
+            "external_urdf_loc:=", external_urdf_loc_launch_arg, " ",
+            "load_gazebo_configs:=", load_gazebo_configs_launch_arg, " ",
+        ]
+    )
 
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        parameters=[robot_description],
-        namespace=robot_name,
+        parameters=[
+            {
+                "robot_description": model_launch_arg
+            }
+        ],
+        namespace=robot_name_launch_arg,
         output={"both": "log"},
     )
 
     joint_state_publisher_node = Node(
-        condition=IfCondition(use_joint_pub),
+        condition=IfCondition(use_joint_pub_launch_arg),
         package="joint_state_publisher",
         executable="joint_state_publisher",
-        namespace=robot_name,
+        namespace=robot_name_launch_arg,
         output={"both": "log"},
     )
 
     joint_state_publisher_gui_node = Node(
-        condition=IfCondition(use_joint_pub_gui),
+        condition=IfCondition(use_joint_pub_gui_launch_arg),
         package="joint_state_publisher_gui",
         executable="joint_state_publisher_gui",
-        namespace=robot_name,
+        namespace=robot_name_launch_arg,
         output={"both": "log"},
     )
 
     rviz2_node = Node(
-        condition=IfCondition(use_rviz),
+        condition=IfCondition(use_rviz_launch_arg),
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        namespace=robot_name,
-        arguments=["-d", rvizconfig],
+        namespace=robot_name_launch_arg,
+        arguments=["-d", rviz_config_launch_arg],
         output={"both": "log"},
     )
 
@@ -121,6 +110,21 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "robot_model",
                 default_value=TextSubstitution(text=""),
+                choices=(
+                    "px100",
+                    "px150",
+                    "rx150",
+                    "rx200",
+                    "wx200",
+                    "wx250",
+                    "wx250s",
+                    "vx250",
+                    "vx300",
+                    "vx300s",
+                    "mobile_px100",
+                    "mobile_wx200",
+                    "mobile_wx250s",
+                ),
                 description=(
                     "model type of the Interbotix Arm such as 'wx200' or 'rx150'"
                 ),
