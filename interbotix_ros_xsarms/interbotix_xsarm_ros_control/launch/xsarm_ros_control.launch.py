@@ -64,12 +64,20 @@ def launch_setup(context, *args, **kwargs):
 
     robot_description = {"robot_description": model_launch_arg}
 
-    controllers = PathJoinSubstitution(
+    controllers_config = PathJoinSubstitution(
         [
             FindPackageShare("interbotix_xsarm_ros_control"),
             "config",
             "controllers",
             f"{robot_model_launch_arg.perform(context)}_controllers.yaml",
+        ]
+    )
+
+    hardware_config = PathJoinSubstitution(
+        [
+            FindPackageShare("interbotix_xsarm_ros_control"),
+            "config",
+            "hardware.yaml",
         ]
     )
 
@@ -104,7 +112,11 @@ def launch_setup(context, *args, **kwargs):
         package="controller_manager",
         executable="ros2_control_node",
         namespace=robot_name_launch_arg,
-        parameters=[robot_description, controllers],
+        parameters=[
+            robot_description,
+            controllers_config,
+            hardware_config,
+        ],
         output={"both": "screen"},
     )
 
