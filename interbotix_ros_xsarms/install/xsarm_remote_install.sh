@@ -4,15 +4,13 @@ read -p "What is the hostname of the robot computer (type 'hostname' in a termin
 
 ubuntu_version="$(lsb_release -r -s)"
 
-if [ $ubuntu_version == "16.04" ]; then
-  ROS_NAME="kinetic"
-elif [ $ubuntu_version == "18.04" ]; then
+if [ $ubuntu_version == "18.04" ]; then
   ROS_NAME="melodic"
 elif [ $ubuntu_version == "20.04" ]; then
   ROS_NAME="noetic"
 else
   echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-  echo -e "Interbotix Remote Arm only works with 16.04, 18.04, or 20.04"
+  echo -e "Interbotix Remote Arm only works with 18.04 or 20.04"
   exit 1
 fi
 

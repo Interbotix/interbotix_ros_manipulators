@@ -2,15 +2,13 @@
 
 ubuntu_version="$(lsb_release -r -s)"
 
-if [ $ubuntu_version == "16.04" ]; then
-  ROS_NAME="kinetic"
-elif [ $ubuntu_version == "18.04" ]; then
+if [ $ubuntu_version == "18.04" ]; then
   ROS_NAME="melodic"
 elif [ $ubuntu_version == "20.04" ]; then
   ROS_NAME="noetic"
 else
   echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-  echo -e "Interbotix Arm only works with 16.04, 18.04, or 20.04"
+  echo -e "Interbotix Arm only works with 18.04 or 20.04"
   exit 1
 fi
 
@@ -68,11 +66,7 @@ if [ $(dpkg-query -W -f='${Status}' ros-$ROS_NAME-desktop-full 2>/dev/null | gre
     sudo apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
   fi
   sudo rosdep init
-  if [ $ROS_NAME != "kinetic" ]; then
-    rosdep update
-  else
-    rosdep update --include-eol-distros
-  fi
+  rosdep update
 else
   echo "ros-$ROS_NAME-desktop-full is already installed!"
 fi
@@ -87,9 +81,7 @@ if [ "$install_perception" = true ]; then
     echo "Installing librealsense2..."
     sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
     sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -sc) main" -u
-    if [ $ubuntu_version == "16.04" ]; then
-      version="2.48.0-0~realsense0.4974"
-    elif [ $ubuntu_version == "18.04" ]; then
+    if [ $ubuntu_version == "18.04" ]; then
       version="2.48.0-0~realsense0.4975"
     elif [ $ubuntu_version == "20.04" ]; then
       version="2.48.0-0~realsense0.4976"
@@ -148,7 +140,6 @@ if [ "$install_perception" = true ]; then
     echo "Apriltag ROS Wrapper already installed!"
   fi
   source $APRILTAG_WS/devel_isolated/setup.bash
-
 fi
 
 # Step 4: Install Arm packages

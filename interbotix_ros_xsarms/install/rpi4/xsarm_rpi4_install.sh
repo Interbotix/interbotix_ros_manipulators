@@ -2,22 +2,20 @@
 
 ubuntu_version="$(lsb_release -r -s)"
 
-if [ $ubuntu_version == "16.04" ]; then
-  ROS_NAME="kinetic"
-elif [ $ubuntu_version == "18.04" ]; then
+if [ $ubuntu_version == "18.04" ]; then
   ROS_NAME="melodic"
 elif [ $ubuntu_version == "20.04" ]; then
   ROS_NAME="noetic"
 else
   echo -e "Unsupported Ubuntu verison: $ubuntu_version"
-  echo -e "Interbotix Arm only works with 16.04, 18.04 or 20.04 on the Raspberry Pi"
+  echo -e "Interbotix Arm only works with 18.04 or 20.04 on the Raspberry Pi"
   exit 1
 fi
 
-read -p "What is your robot model? (ex. wx200): " ROBOT_MODEL
 read -p "Run the Joystick ROS package at system boot? " resp
 if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
   run_joy_at_boot=true
+  read -p "What is your robot model? (ex. wx200): " ROBOT_MODEL
 else
   run_joy_at_boot=false
 fi
