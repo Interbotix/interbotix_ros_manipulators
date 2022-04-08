@@ -1,54 +1,51 @@
-function success = interbotix_matlab_ros_setup(options)
+function success = interbotix_matlab_ros_setup()
     % Run this file before using the xs arm examples    
-    arguments
-        options.py3path string = "/usr/bin/python3.8"
-    end
 
     success = false;
 
     here = pwd;
-    rel_core_msgs_path      = "../../../../interbotix_ros_core/interbotix_ros_xseries/matlab_msg_gen_ros1/";
-    rel_common_modules_path = "../../../../interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_common_modules/src/interbotix_common_modules";
+    rel_core_msgs_path = "../../../../interbotix_ros_core/interbotix_ros_xseries/matlab_msg_gen_ros1/";
+    rel_mr_lib         = "../../../../interbotix_ros_toolboxes/third_party_libraries/ModernRobotics/mr";
 
-    disp("Adding interbotix_xs_msgs to path...")
-    addpath(rel_core_msgs_path + "glnxa64/install/m")
-
-    % adds interbotix matlab modules to path
-    disp("Adding XS modules to path...")
-    addpath("../../../../interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules")
-
-    % adds modern robotics library to path
-    disp("Adding Modern Robotics library to path...")
-    addpath("../../../../interbotix_ros_toolboxes/third_party_libraries/ModernRobotics/mr")
-
-    disp("Adding Python to path...")
-    if pyenv().Status == "Loaded"
-        if str2double(pyenv().Version) < 3.0
-            warning("Python version should be >3.6! You may have trouble running some functions!")
-            warning("Restart MATLAB and try to run pyenv with a supported version.")
+    fprintf("Adding interbotix_xs_msgs to path...")
+    if (isfolder(rel_core_msgs_path + "glnxa64/install/m"))
+        addpath(rel_core_msgs_path + "glnxa64/install/m")
+        if any(strcmp(rosmsg("list"), "interbotix_xs_msgs/JointSingleCommand"))
+            fprintf(" Done\n")
+        else
+            fprintf("\n")
+            warning("Interbotix messages directory was found but messages were not added to the path. Try deleting the 'matlab_msg_gen_ros1' directory and rebuilding using the interbotix_build_ros1_messages function.")
             return
         end
     else
-        pyenv("Version", options.py3path);
+        fprintf("\n")
+        warning("Could not find interbotix messages. Were they built using the interbotix_build_ros1_messages function?")
+        return
     end
 
-    disp("Adding interbotix_common_modules to path...")
-    pysyspath = py.sys.path;
-    pysyspath.append(rel_common_modules_path);
-    try
-        % try to import a module from common modules to test if imports work properly
-        ang = py.importlib.import_module('angle_manipulation');
-        clear ang;
-    catch ME
-        warning("Could not import interbotix_common_modules.angle_manipulation library. Check Python Path.")
-        rethrow(ME)
+    % adds modern robotics library to path
+    fprintf("Adding Modern Robotics library to path... \b")
+    if (isfolder(rel_mr_lib))
+        addpath(rel_mr_lib)
+        try
+            NearZero(0.0);
+            fprintf(" Done\n")
+        catch
+            fprintf("\n")
+            fprintf("Modern Robotics library's directory was added to the path but basic functions were not found.\n")
+            return
+        end
+    else
+        fprintf("\n")
+        warning("Could not find the Modern Robotics library. Was the ModernRobotics submodule updated in 'interbotix_ros_toolboxes/third_party_libraries'?")
+        return
     end
+    addpath(rel_mr_lib)
 
-    disp("Done with startup. You can now run MATLAB scripts using the xs modules.")
+    fprintf("Done with startup. You can now run MATLAB scripts using the xs modules.\n")
     
     cd(here)
     fprintf("Running in directory '%s'\n", here)
 
     success = true;
-
 end
