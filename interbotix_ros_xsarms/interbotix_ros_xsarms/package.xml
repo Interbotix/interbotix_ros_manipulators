@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>interbotix_ros_xsarms</name>
   <version>0.0.0</version>
   <description>The interbotix_ros_xsarms metapackage</description>
@@ -10,13 +11,16 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>interbotix_xs_sdk</depend>
-  <!-- <depend>interbotix_xs_modules</depend> -->
+  <depend>interbotix_xs_modules</depend>
   <depend>interbotix_xsarm_control</depend>
   <depend>interbotix_xsarm_descriptions</depend>
-  <!-- <depend>interbotix_xsarm_gazebo</depend> -->
-  <!-- <depend>interbotix_xsarm_moveit</depend> -->
-  <!-- <depend>interbotix_xsarm_perception</depend> -->
-  <!-- <depend>interbotix_xsarm_ros_control</depend> -->
+  <depend>interbotix_xsarm_sim</depend>
+  <depend>interbotix_xsarm_moveit</depend>
+  <depend>interbotix_xsarm_perception</depend>
+  <depend>interbotix_xsarm_ros_control</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
