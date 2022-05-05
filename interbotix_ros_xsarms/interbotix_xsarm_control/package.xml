@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>interbotix_xsarm_control</name>
   <version>0.0.0</version>
   <description>The interbotix_xsarm_control package</description>
-  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
   <license>BSD</license>
-  <!-- <url type="website">http://wiki.ros.org/interbotix_xsarm_control</url> -->
-  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
+  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
 
-  <!-- The *depend tags are used to specify dependencies -->
-  <!-- Dependencies can be catkin packages or system dependencies -->
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>interbotix_xs_sdk</depend>
+  <depend>interbotix_xs_modules</depend>
+  <depend>interbotix_xsarm_descriptions</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-  <depend>interbotix_xs_sdk</depend>
-  <!-- <depend>interbotix_xs_modules</depend> -->
-  <depend>interbotix_xsarm_descriptions</depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
   <export>
-    <build_type>ament_cmake</build_type>  </export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
