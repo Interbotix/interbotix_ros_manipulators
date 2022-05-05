@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>interbotix_xsarm_sim</name>
+  <version>0.0.0</version>
+  <description>The interbotix_xsarm_sim package</description>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
+  <license>BSD</license>
+  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>interbotix_xsarm_descriptions</depend>
+  <depend>interbotix_xs_modules</depend>
+  <depend>interbotix_xs_ros_control</depend>
+  <depend>interbotix_common_sim</depend>
+  <depend>controller_manager</depend>
+  <depend>effort_controllers</depend>
+  <depend>gazebo_ros</depend>
+  <depend>gazebo_ros2_control</depend>
+  <depend>joint_state_controller</depend>
+  <depend>joint_trajectory_controller</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

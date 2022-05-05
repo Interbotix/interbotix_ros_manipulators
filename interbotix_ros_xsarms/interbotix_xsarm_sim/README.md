@@ -1,4 +1,4 @@
-# interbotix_xsarm_gazebo
+# interbotix_xsarm_sim
 
 [![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/gazebo_simulation_configuration.html)
 

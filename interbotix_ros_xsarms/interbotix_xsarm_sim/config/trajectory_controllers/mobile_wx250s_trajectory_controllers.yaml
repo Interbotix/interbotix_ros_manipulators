@@ -1,0 +1,54 @@
+/mobile_wx250s:
+  controller_manager:
+    ros__parameters:
+      update_rate: 1000
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+      arm_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+      gripper_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+/mobile_wx250s:
+  arm_controller:
+    ros__parameters:
+      joints:
+        - waist
+        - shoulder
+        - elbow
+        - forearm_roll
+        - wrist_angle
+        - wrist_rotate
+      interface_name: position
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
+      state_publish_rate: 50.0 # Hz Defaults to 50
+      action_monitor_rate: 20.0 # Hz Defaults to 20
+      constraints:
+        stopped_velocity_tolerance: 0.02
+        goal_time: 1.0
+/mobile_wx250s:
+  gripper_controller:
+    ros__parameters:
+      joints:
+        - left_finger
+        - right_finger
+      interface_name: position
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
+/mobile_wx250s:
+  joint_state_broadcaster:
+    ros__parameters:
+      joints:
+        - waist
+        - shoulder
+        - elbow
+        - forearm_roll
+        - wrist_angle
+        - wrist_rotate
+        - gripper
+        - left_finger
+        - right_finger
