@@ -1,4 +1,11 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(interbotix_ros_xsarms_examples)
-find_package(catkin REQUIRED)
-catkin_metapackage()
+find_package(ament_cmake REQUIRED)
+unset(CATKIN_INSTALL_INTO_PREFIX_ROOT)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()
