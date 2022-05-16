@@ -1,29 +1,23 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>interbotix_xsarm_perception</name>
   <version>0.0.0</version>
   <description>The interbotix_xsarm_perception package</description>
-  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
   <license>BSD</license>
-  <!-- <url type="website">http://wiki.ros.org/interbotix_xsarm_perception</url> -->
-  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
+  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
 
-  <!-- The *depend tags are used to specify dependencies -->
-  <!-- Dependencies can be catkin packages or system dependencies -->
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>interbotix_perception_modules</build_depend>
-  <build_depend>interbotix_xsarm_control</build_depend>
-  <build_depend>realsense2_camera</build_depend>
-  <build_export_depend>interbotix_perception_modules</build_export_depend>
-  <build_export_depend>interbotix_xsarm_control</build_export_depend>
-  <build_export_depend>realsense2_camera</build_export_depend>
-  <exec_depend>interbotix_perception_modules</exec_depend>
-  <exec_depend>interbotix_xsarm_control</exec_depend>
-  <exec_depend>realsense2_camera</exec_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
+  <depend>interbotix_perception_modules</depend>
+  <depend>interbotix_xsarm_control</depend>
+  <depend>realsense2_camera</depend>
+
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+
   <export>
-    <!-- Other tools can request additional information be placed here -->
-
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
