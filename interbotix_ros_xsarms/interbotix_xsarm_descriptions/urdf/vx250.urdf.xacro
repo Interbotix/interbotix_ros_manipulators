@@ -23,19 +23,19 @@
   <xacro:property name="hardware_type"              value="$(arg hardware_type)"/>
   <xacro:property name="pi_offset"                  value="0.00001"/>
 
-  <xacro:property name="waist_limit_effort"         value="8"/>
+  <xacro:property name="waist_limit_effort"         value="10"/>
   <xacro:property name="waist_limit_lower"          value="${-pi + pi_offset}"/>
   <xacro:property name="waist_limit_upper"          value="${pi - pi_offset}"/>
   <xacro:property name="waist_limit_vel"            value="${pi}"/>
 
-  <xacro:property name="shoulder_limit_effort"      value="18"/>
-  <xacro:property name="shoulder_limit_lower"       value="${radians(-108)}"/>
-  <xacro:property name="shoulder_limit_upper"       value="${radians(113)}"/>
+  <xacro:property name="shoulder_limit_effort"      value="20"/>
+  <xacro:property name="shoulder_limit_lower"       value="${radians(-102)}"/>
+  <xacro:property name="shoulder_limit_upper"       value="${radians(100)}"/>
   <xacro:property name="shoulder_limit_vel"         value="1"/>
 
-  <xacro:property name="elbow_limit_effort"         value="13"/>
-  <xacro:property name="elbow_limit_lower"          value="${radians(-108)}"/>
-  <xacro:property name="elbow_limit_upper"          value="${radians(93)}"/>
+  <xacro:property name="elbow_limit_effort"         value="15"/>
+  <xacro:property name="elbow_limit_lower"          value="${radians(-102)}"/>
+  <xacro:property name="elbow_limit_upper"          value="${radians(92)}"/>
   <xacro:property name="elbow_limit_vel"            value="${pi}"/>
 
   <xacro:property name="wrist_angle_limit_effort"   value="5"/>

@@ -29,13 +29,13 @@
   <xacro:property name="waist_limit_vel"            value="${pi}"/>
 
   <xacro:property name="shoulder_limit_effort"      value="20"/>
-  <xacro:property name="shoulder_limit_lower"       value="${radians(-110)}"/>
+  <xacro:property name="shoulder_limit_lower"       value="${radians(-108)}"/>
   <xacro:property name="shoulder_limit_upper"       value="${radians(114)}"/>
   <xacro:property name="shoulder_limit_vel"         value="${pi}"/>
 
   <xacro:property name="elbow_limit_effort"         value="15"/>
   <xacro:property name="elbow_limit_lower"          value="${radians(-123)}"/>
-  <xacro:property name="elbow_limit_upper"          value="${radians(93)}"/>
+  <xacro:property name="elbow_limit_upper"          value="${radians(92)}"/>
   <xacro:property name="elbow_limit_vel"            value="${pi}"/>
 
   <xacro:property name="wrist_angle_limit_effort"   value="5"/>
