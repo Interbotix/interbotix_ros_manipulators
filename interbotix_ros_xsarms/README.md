@@ -7,8 +7,8 @@
 ## Overview
 
 Welcome to the *interbotix_ros_xsarms* sub-repo! This sub-repository contains ROS packages meant to be used with the many [X-Series robotic arms](https://www.trossenrobotics.com/robotic-arms/ros-research-arms.aspx)  sold by Trossen Robotics. Packages were tested on Ubuntu Linux 18.04 and 20.04 using ROS Melodic and Noetic respectively. Additionally, all ROS nodes were written using Python or C++. However, any programming language capable of sending ROS messages can be used to control the robots. To that effect, the core packages inside this repo are as follows:
-- **interbotix_xsarm_moveit** - contains the config files necessary to launch an arm using MoveIt either in Gazebo, on the physical robot, or just in RViz
-- **interbotix_xsarm_gazebo** - contains the config files necessary to launch an arm in Gazebo, including tuned PID gains for ros_control
+- **interbotix_xsarm_moveit** - contains the config files necessary to launch an arm using MoveIt either in simulation, on the physical robot, or just in RViz
+- **interbotix_xsarm_sim** - contains the config files necessary to launch an arm in various simulators
 - **interbotix_xsarm_control** - contains the motor configuration files and the 'root' launch file that is responsible for launching the robot arm
 - **interbotix_xsarm_ros_control** - contains the config files necessary to setup ROS controllers between MoveIt and the physical robot arm
 - **interbotix_xsarm_descriptions** - contains the meshes and URDFs (including accurate inertial models for the links) for all arm platforms
@@ -46,8 +46,7 @@ Look for the [![View Documentation](https://trossenrobotics.com/docs/docs_button
 To contribute your own custom X-Series arm in this repo, you will need to do the following steps:
 - Create a motor config file similar to the YAML files found [here](interbotix_xsarm_control/config/) (excluding the 'modes.yaml' file). To get familiar with the parameter names, checkout the [Motor Config Template](https://github.com/Interbotix/interbotix_ros_core/blob/main/interbotix_ros_xseries/interbotix_xs_sdk/config/motor_configs_template.yaml). Note that the name of this file is what defines your *robot_model* name, and should be used when naming other files like the URDF.
 - Create a URDF similar in structure to the ones found [here](interbotix_xsarm_descriptions/urdf/). Don't forget to put all necessary meshes in the [meshes](interbotix_xsarm_descriptions/meshes/) directory! As an FYI, you should follow the naming convention for the links, joints, and frame poses as found in the other arm files for consistency.
-- Create a set of Gazebo/ROS position controllers similar to the ones found [here](interbotix_xsarm_gazebo/config/position_controllers/).
-- Create a set of Gazebo/ROS trajectory controllers similar to the ones found [here](interbotix_xsarm_gazebo/config/trajectory_controllers/).
+- Create a set of Gazebo/ROS trajectory controllers similar to the ones found [here](interbotix_xsarm_sim/config/trajectory_controllers/).
 - Create an SRDF file for Moveit similar to the ones found [here](interbotix_xsarm_moveit/config/srdf/). You should first use the MoveIt Setup Assistant Wizard for this step and then edit the generated SRDF file based on the structure of those files.
 - Add the appropriate Screw axes and M matrices to the [mr_descriptions.py](https://github.com/Interbotix/interbotix_ros_toolboxes/blob/main/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/mr_descriptions.py) and [mr_descriptions.m](https://github.com/Interbotix/interbotix_ros_toolboxes/blob/main/interbotix_xs_toolbox/interbotix_xs_modules/src/interbotix_xs_modules/mr_descriptions.m) modules. For help doing this, refer to Chapter 4 in [Modern Robotics](http://hades.mech.northwestern.edu/images/7/7f/MR.pdf) and [this video](https://www.youtube.com/watch?v=cKHsil0V6Qk&ab_channel=NorthwesternRobotics), or check out our [kinematics_from_description](https://github.com/Interbotix/kinematics_from_description) tool.
 - Make sure to follow the same naming convention, structure, and documentation procedures as found in the repo before making a PR.
