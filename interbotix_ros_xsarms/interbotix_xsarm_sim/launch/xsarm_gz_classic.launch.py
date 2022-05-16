@@ -28,10 +28,13 @@
 
 from pathlib import Path
 
-from interbotix_xs_modules.xs_launch import (
-    declare_interbotix_xsarm_robot_description_launch_arguments,
+from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
 )
+from interbotix_xs_modules.xs_launch import (
+    declare_interbotix_xsarm_robot_description_launch_arguments,
+)
+from interbotix_xs_modules.xs_launch.xs_launch import determine_use_sim_time_param
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
@@ -56,14 +59,21 @@ def launch_setup(context, *args, **kwargs):
     robot_model_launch_arg = LaunchConfiguration('robot_model')
     robot_name_launch_arg = LaunchConfiguration('robot_name')
     use_rviz_launch_arg = LaunchConfiguration('use_rviz')
+    rviz_config_launch_arg = LaunchConfiguration('rvizconfig')
     world_filepath_launch_arg = LaunchConfiguration('world_filepath')
     use_gazebo_gui_launch_arg = LaunchConfiguration('use_gazebo_gui')
     verbose_launch_arg = LaunchConfiguration('verbose')
     debug_launch_arg = LaunchConfiguration('debug')
     paused_launch_arg = LaunchConfiguration('paused')
     recording_launch_arg = LaunchConfiguration('recording')
-    use_sim_time_launch_arg = LaunchConfiguration('use_sim_time')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
+    hardware_type_launch_arg = LaunchConfiguration('hardware_type')
+
+    # sets use_sim_time parameter to 'true' if using gazebo hardware
+    use_sim_time_param = determine_use_sim_time_param(
+        context=context,
+        hardware_type_launch_arg=hardware_type_launch_arg
+    )
 
     # Set ignition resource path
     gz_resource_path_env_var = SetEnvironmentVariable(
@@ -139,7 +149,7 @@ def launch_setup(context, *args, **kwargs):
             'joint_state_broadcaster',
         ],
         parameters=[{
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
     )
 
@@ -154,7 +164,7 @@ def launch_setup(context, *args, **kwargs):
             'arm_controller',
         ],
         parameters=[{
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }]
     )
 
@@ -169,7 +179,7 @@ def launch_setup(context, *args, **kwargs):
             'gripper_controller',
         ],
         parameters=[{
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }]
     )
 
@@ -185,7 +195,8 @@ def launch_setup(context, *args, **kwargs):
             'robot_model': robot_model_launch_arg,
             'robot_name': robot_name_launch_arg,
             'use_rviz': use_rviz_launch_arg,
-            'use_sim_time': use_sim_time_launch_arg,
+            'rvizconfig': rviz_config_launch_arg,
+            'use_sim_time': use_sim_time_param,
             'robot_description': robot_description_launch_arg,
         }.items(),
     )
@@ -246,6 +257,17 @@ def generate_launch_description():
             default_value='true',
             choices=('true', 'false'),
             description='launches RViz if set to true',
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'rvizconfig',
+            default_value=PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_sim'),
+                'rviz',
+                'xsarm_gz_classic.rviz',
+            ]),
+            description='file path to the config file RViz should load',
         )
     )
     declared_arguments.append(
