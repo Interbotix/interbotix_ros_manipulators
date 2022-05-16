@@ -8,17 +8,18 @@ Welcome to the *interbotix_ros_manipulators* repository! This repo contains cust
 ```
 GitHub Landing Page: Explains repository structure and contains a single directory for each type of manipulator.
 ├── Manipulator Type X Landing Page: Contains 'core' arm ROS packages.
+│   ├── Manipulator Control/Bringup ROS Package
+│   │   └── Demo Scripts: contains example scripts that build upon the interface modules in the interbotix_ros_toolboxes repository
+│   │       ├── Demo Script 1
+│   │       ├── Demo Script 2
+|   |       └── Demo Script X
 │   ├── Core Arm ROS Package 1
 │   ├── Core Arm ROS Package 2
 │   ├── Core Arm ROS Package X
 │   └── Examples: contains 'demo' arm ROS packages that build upon some of the 'core' arm ROS packages
 │       ├── Demo Arm ROS Package 1
 │       ├── Demo Arm ROS Package 2
-│       ├── Demo Arm ROS Package X
-│       └── Demo Scripts: contains example scripts that build upon the interface modules in the interbotix_ros_toolboxes repository
-│           ├── Demo Script 1
-│           ├── Demo Script 2
-|           └── Demo Script X
+│       └── Demo Arm ROS Package X
 ├── LICENSE
 └── README.md
 ```
@@ -27,9 +28,9 @@ As shown above, there are five main levels to this repository. To clarify some o
 - **Manipulator Type** - Any robotic arm that can use the same *interbotix_XXarm_control* package is considered to be of the same type. For the most part, this division lies on the type of actuator that makes up the robot. As an example, all the X-Series arms are considered the same type of manipulator since they all use various Dynamixel X-Series servos (despite the fact that they come in different sizes, DOF, and motor versions). However, a robotic arm made up of some other manufacturer's servos, or even half made up of Dynamixel servos and half made up of some other manufacturer's servos would be considered a different manipulator type.
 
 - **Core Arm ROS Package** - This refers to 'High Profile' ROS packages that are essential to make a given arm work. Examples of 'High Profile' ROS packages include:
-    - *interbotix_XXarm_control* - sets up the proper configurations and makes it possible to control the physical arm
+    - *interbotix_XXarm_control/_bringup* - sets up the proper configurations and makes it possible to control the physical arm
     - *interbotix_XXarm_moveit* - sets up the proper configurations and makes it possible to control an arm via MoveIt
-    - *interbotix_XXarm_gazebo* - sets up the proper configurations and makes it possible to control a Gazebo simulated arm
+    - *interbotix_XXarm_sim* - sets up the proper configurations and makes it possible to control arms in various simulators (Gazebo, Gazebo Classic, etc.)
     - *interbotix_XXarm_ros_control*  - ROS control package used with MoveIt to control the physical arms
     - *interbotix_XXarm_descriptions* - contains URDFs and meshes of the arms, making it possible to visualize them in RViz
 
