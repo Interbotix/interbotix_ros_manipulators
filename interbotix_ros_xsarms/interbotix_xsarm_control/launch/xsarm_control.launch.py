@@ -26,10 +26,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from interbotix_xs_modules.xs_launch import (
-    declare_interbotix_xsarm_robot_description_launch_arguments,
+from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
 )
+from interbotix_xs_modules.xs_launch import (
+    declare_interbotix_xsarm_robot_description_launch_arguments,
+)
+from interbotix_xs_modules.xs_launch.xs_launch import determine_use_sim_time_param
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
@@ -56,6 +59,13 @@ def launch_setup(context, *args, **kwargs):
     load_configs_launch_arg = LaunchConfiguration('load_configs')
     use_sim_launch_arg = LaunchConfiguration('use_sim')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
+    hardware_type_launch_arg = LaunchConfiguration('hardware_type')
+
+    # sets use_sim_time parameter to 'true' if using gazebo hardware
+    use_sim_time_param = determine_use_sim_time_param(
+        context=context,
+        hardware_type_launch_arg=hardware_type_launch_arg
+    )
 
     xsarm_description_launch_include = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -70,6 +80,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_name': robot_name_launch_arg,
             'use_rviz': use_rviz_launch_arg,
             'robot_description': robot_description_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }.items(),
     )
 
@@ -85,6 +96,7 @@ def launch_setup(context, *args, **kwargs):
             'mode_configs': mode_configs_launch_arg,
             'load_configs': load_configs_launch_arg,
             'robot_description': robot_description_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
         output={'both': 'screen'},
     )
@@ -100,6 +112,7 @@ def launch_setup(context, *args, **kwargs):
             'motor_configs': motor_configs_launch_arg,
             'mode_configs': mode_configs_launch_arg,
             'robot_description': robot_description_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
         output={'both': 'screen'},
     )
@@ -184,6 +197,18 @@ def generate_launch_description():
                 'if true, the DYNAMIXEL simulator node is run; use RViz to visualize the'
                 " robot's motion; if false, the real DYNAMIXEL driver node is run"
             ),
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='false',
+            choices=('true', 'false'),
+            description=(
+                'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
+                "published over the ROS topic /clock; this value is automatically set to 'true' if"
+                ' using Gazebo hardware'
+            )
         )
     )
     declared_arguments.extend(
