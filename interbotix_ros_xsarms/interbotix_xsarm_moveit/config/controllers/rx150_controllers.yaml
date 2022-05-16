@@ -1,0 +1,21 @@
+controller_names:
+  - /rx150/arm_controller
+  - /rx150/gripper_controller
+
+/rx150/arm_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - waist
+    - shoulder
+    - elbow
+    - wrist_angle
+    - wrist_rotate
+
+/rx150/gripper_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - left_finger

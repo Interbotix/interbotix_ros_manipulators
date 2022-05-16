@@ -1,36 +1,33 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-
   <name>interbotix_xsarm_moveit</name>
   <version>0.3.0</version>
-  <description>
-     An automatically generated package with all the configuration and launch files for using an Interbotix Arm with the MoveIt! Motion Planning Framework
-  </description>
-  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
+  <description>The interbotix_xsarm_moveit package</description>
   <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
-
   <license>BSD</license>
-
-  <url type="website">http://moveit.ros.org/</url>
-  <url type="bugtracker">https://github.com/ros-planning/moveit/issues</url>
-  <url type="repository">https://github.com/ros-planning/moveit</url>
+  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <exec_depend>moveit_ros_move_group</exec_depend>
-  <exec_depend>moveit_simple_controller_manager</exec_depend>
-  <exec_depend>moveit_fake_controller_manager</exec_depend>
-  <exec_depend>moveit_kinematics</exec_depend>
-  <exec_depend>moveit_planners_ompl</exec_depend>
-  <exec_depend>moveit_ros_visualization</exec_depend>
-  <exec_depend>moveit_setup_assistant</exec_depend>
-  <exec_depend>joint_state_publisher</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>xacro</exec_depend>
-  
-  <!-- <exec_depend>interbotix_xsarm_gazebo</exec_depend> -->
-  <exec_depend>interbotix_xsarm_descriptions</exec_depend>
-  <exec_depend>interbotix_xsarm_ros_control</exec_depend>
-  
-  <depend>backward-ros</depend>
+  <depend>moveit_ros_move_group</depend>
+  <depend>moveit_simple_controller_manager</depend>
+  <depend>moveit_kinematics</depend>
+  <depend>moveit_planners_ompl</depend>
+  <depend>moveit_ros_visualization</depend>
+  <depend>moveit_setup_assistant</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>xacro</depend>
+
+  <depend>interbotix_xs_modules</depend>
+  <depend>interbotix_xsarm_sim</depend>
+  <depend>interbotix_xsarm_descriptions</depend>
+  <depend>interbotix_xsarm_ros_control</depend>
+
+  <!-- <depend>backward-ros</depend> -->
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

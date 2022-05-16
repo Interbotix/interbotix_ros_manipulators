@@ -1,0 +1,21 @@
+controller_names:
+  - /mobile_wx200/arm_controller
+  - /mobile_wx200/gripper_controller
+
+/mobile_wx200/arm_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - waist
+    - shoulder
+    - elbow
+    - wrist_angle
+    - wrist_rotate
+
+/mobile_wx200/gripper_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - left_finger

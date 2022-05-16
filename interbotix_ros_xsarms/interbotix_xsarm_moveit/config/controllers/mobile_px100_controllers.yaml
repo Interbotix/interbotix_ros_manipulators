@@ -1,0 +1,20 @@
+controller_names:
+  - /mobile_px100/arm_controller
+  - /mobile_px100/gripper_controller
+
+/mobile_px100/arm_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - waist
+    - shoulder
+    - elbow
+    - wrist_angle
+
+/mobile_px100/gripper_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - left_finger

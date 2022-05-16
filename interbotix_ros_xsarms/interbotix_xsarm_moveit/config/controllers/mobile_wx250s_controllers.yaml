@@ -1,0 +1,22 @@
+controller_names:
+  - /mobile_wx250s/arm_controller
+  - /mobile_wx250s/gripper_controller
+
+/mobile_wx250s/arm_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - waist
+    - shoulder
+    - elbow
+    - forearm_roll
+    - wrist_angle
+    - wrist_rotate
+
+/mobile_wx250s/gripper_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - left_finger
