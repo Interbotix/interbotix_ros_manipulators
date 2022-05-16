@@ -26,10 +26,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from interbotix_xs_modules.xs_launch import (
-    declare_interbotix_xsarm_robot_description_launch_arguments,
+from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
 )
+from interbotix_xs_modules.xs_launch import (
+    declare_interbotix_xsarm_robot_description_launch_arguments,
+)
+from interbotix_xs_modules.xs_launch.xs_launch import determine_use_sim_time_param
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition
@@ -46,16 +49,22 @@ def launch_setup(context, *args, **kwargs):
     use_rviz_launch_arg = LaunchConfiguration('use_rviz')
     use_joint_pub_launch_arg = LaunchConfiguration('use_joint_pub')
     use_joint_pub_gui_launch_arg = LaunchConfiguration('use_joint_pub_gui')
-    use_sim_time_launch_arg = LaunchConfiguration('use_sim_time')
     rviz_config_launch_arg = LaunchConfiguration('rvizconfig')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
+    hardware_type_launch_arg = LaunchConfiguration('hardware_type')
+
+    # sets use_sim_time parameter to 'true' if using gazebo hardware
+    use_sim_time_param = determine_use_sim_time_param(
+        context=context,
+        hardware_type_launch_arg=hardware_type_launch_arg
+    )
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{
             'robot_description': robot_description_launch_arg,
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
         namespace=robot_name_launch_arg,
         output={'both': 'log'},
@@ -67,7 +76,7 @@ def launch_setup(context, *args, **kwargs):
         executable='joint_state_publisher',
         namespace=robot_name_launch_arg,
         parameters=[{
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
         output={'both': 'log'},
     )
@@ -78,7 +87,7 @@ def launch_setup(context, *args, **kwargs):
         executable='joint_state_publisher_gui',
         namespace=robot_name_launch_arg,
         parameters=[{
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
         output={'both': 'log'},
     )
@@ -93,7 +102,7 @@ def launch_setup(context, *args, **kwargs):
             '-d', rviz_config_launch_arg,
         ],
         parameters=[{
-            'use_sim_time': use_sim_time_launch_arg,
+            'use_sim_time': use_sim_time_param,
         }],
         output={'both': 'log'},
     )
