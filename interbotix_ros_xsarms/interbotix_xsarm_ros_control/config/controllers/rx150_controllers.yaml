@@ -1,16 +1,16 @@
-/wx200:
-  controller_manager:
-    ros__parameters:
-      update_rate: 50 # Hz
-      arm_controller:
-        type: joint_trajectory_controller/JointTrajectoryController
-      gripper_controller:
-        type: joint_trajectory_controller/JointTrajectoryController
-      joint_state_broadcaster:
-        type: joint_state_broadcaster/JointStateBroadcaster
-/wx200:
+/**:
+  ros__parameters:
+    update_rate: 10 # Hz
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+/rx150:
   arm_controller:
     ros__parameters:
+      type: FollowJointTrajectory
       joints:
         - waist
         - shoulder
@@ -26,23 +26,24 @@
       constraints:
         stopped_velocity_tolerance: 0.02
         goal_time: 1.0
-/wx200:
+/rx150:
   gripper_controller:
     ros__parameters:
+      type: FollowJointTrajectory
       joints:
         - left_finger
       command_interfaces:
         - position
       state_interfaces:
         - position
-/wx200:
+/rx150:
   joint_state_broadcaster:
     ros__parameters:
+      type: JointStateBroadcaster
       joints:
         - waist
         - shoulder
         - elbow
         - wrist_angle
         - wrist_rotate
-        - gripper
         - left_finger

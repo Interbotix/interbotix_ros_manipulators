@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>interbotix_xsarm_ros_control</name>
   <version>0.0.0</version>
   <description>The interbotix_xsarm_ros_control package</description>
-  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <maintainer email="luke@trossenrobotics.com">Luke Schmitt</maintainer>
   <license>BSD</license>
-  <!-- <url type="website">http://wiki.ros.org/interbotix_xsarm_ros_control</url> -->
-  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
 
-  <!-- The *depend tags are used to specify dependencies -->
-  <!-- Dependencies can be catkin packages or system dependencies -->
+  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
+
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>interbotix_xsarm_control</depend>
   <depend>interbotix_xs_ros_control</depend>
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>joint_trajectory_controller</exec_depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
   <export>
-    <!-- Other tools can request additional information be placed here -->
     <build_type>ament_cmake</build_type>
   </export>
 </package>

@@ -1,4 +1,4 @@
-/wx200:
+/mobile_px100:
   controller_manager:
     ros__parameters:
       update_rate: 50 # Hz
@@ -8,15 +8,15 @@
         type: joint_trajectory_controller/JointTrajectoryController
       joint_state_broadcaster:
         type: joint_state_broadcaster/JointStateBroadcaster
-/wx200:
+/mobile_px100:
   arm_controller:
     ros__parameters:
+      type: FollowJointTrajectory
       joints:
         - waist
         - shoulder
         - elbow
         - wrist_angle
-        - wrist_rotate
       command_interfaces:
         - position
       state_interfaces:
@@ -26,7 +26,7 @@
       constraints:
         stopped_velocity_tolerance: 0.02
         goal_time: 1.0
-/wx200:
+/mobile_px100:
   gripper_controller:
     ros__parameters:
       joints:
@@ -35,7 +35,7 @@
         - position
       state_interfaces:
         - position
-/wx200:
+/mobile_px100:
   joint_state_broadcaster:
     ros__parameters:
       joints:
@@ -43,6 +43,4 @@
         - shoulder
         - elbow
         - wrist_angle
-        - wrist_rotate
-        - gripper
         - left_finger
