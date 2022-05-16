@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>interbotix_xsarm_dual</name>
   <version>0.0.0</version>
   <description>The interbotix_xsarm_dual package</description>
-  <maintainer email="trsupport@trossenrobotics.com">Solomon Wiznitzer</maintainer>
+  <maintainer email="trsupport@trossenrobotics.com">Luke Schmitt</maintainer>
   <license>BSD</license>
   <!-- <url type="website">http://wiki.ros.org/interbotix_xsarm_dual</url> -->
-  <author email="solomon@trossenrobotics.com">Solomon Wiznitzer</author>
+  <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
 
   <!-- The *depend tags are used to specify dependencies -->
   <!-- Dependencies can be catkin packages or system dependencies -->
