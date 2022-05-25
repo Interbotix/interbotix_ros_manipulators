@@ -17,7 +17,6 @@
   <depend>effort_controllers</depend>
   <depend>gazebo_ros</depend>
   <depend>gazebo_ros2_control</depend>
-  <depend>joint_state_controller</depend>
   <depend>joint_trajectory_controller</depend>
 
   <test_depend>ament_lint_auto</test_depend>
