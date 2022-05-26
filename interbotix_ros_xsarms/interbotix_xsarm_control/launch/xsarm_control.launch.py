@@ -98,7 +98,10 @@ def launch_setup(context, *args, **kwargs):
             'robot_description': robot_description_launch_arg,
             'use_sim_time': use_sim_time_param,
         }],
-        output={'both': 'screen'},
+        output={
+            'stdout': 'screen',
+            'stderr': 'screen',
+        },
     )
 
     xs_sdk_sim_node = Node(
@@ -114,7 +117,10 @@ def launch_setup(context, *args, **kwargs):
             'robot_description': robot_description_launch_arg,
             'use_sim_time': use_sim_time_param,
         }],
-        output={'both': 'screen'},
+        output={
+            'stdout': 'screen',
+            'stderr': 'screen',
+        },
     )
 
     return [
@@ -130,6 +136,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.'
         )
     )
     declared_arguments.append(
@@ -137,7 +144,7 @@ def generate_launch_description():
             'robot_name',
             default_value=LaunchConfiguration('robot_model'),
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
@@ -146,7 +153,7 @@ def generate_launch_description():
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description='launches RViz if set to true',
+            description='launches RViz if set to `true`.',
         )
     )
     declared_arguments.append(
@@ -158,7 +165,7 @@ def generate_launch_description():
                 LaunchConfiguration('robot_model')]),
                 '.yaml'
             ],
-            description="the file path to the 'motor config' YAML file",
+            description="the file path to the 'motor config' YAML file.",
         )
     )
     declared_arguments.append(
@@ -169,7 +176,7 @@ def generate_launch_description():
                 'config',
                 'modes.yaml',
             ]),
-            description="the file path to the 'mode config' YAML file",
+            description="the file path to the 'mode config' YAML file.",
         )
     )
     declared_arguments.append(
@@ -182,9 +189,9 @@ def generate_launch_description():
                 "(under the 'motors' heading) in a Motor Config file should be written "
                 "to the motors; as the values being written are stored in each motor's "
                 'EEPROM (which means the values are retained even after a power cycle), '
-                'this can be set to false after the first time using the robot. Setting '
-                'to false also shortens the node startup time by a few seconds and '
-                'preserves the life of the EEPROM'
+                'this can be set to `false` after the first time using the robot. Setting '
+                'to `false` also shortens the node startup time by a few seconds and '
+                'preserves the life of the EEPROM.'
             ),
         )
     )
@@ -194,8 +201,8 @@ def generate_launch_description():
             default_value='false',
             choices=('true', 'false'),
             description=(
-                'if true, the DYNAMIXEL simulator node is run; use RViz to visualize the'
-                " robot's motion; if false, the real DYNAMIXEL driver node is run"
+                'if `true`, the DYNAMIXEL simulator node is run; use RViz to visualize the'
+                " robot's motion; if `false`, the real DYNAMIXEL driver node is run."
             ),
         )
     )
@@ -206,8 +213,8 @@ def generate_launch_description():
             choices=('true', 'false'),
             description=(
                 'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
-                "published over the ROS topic /clock; this value is automatically set to 'true' if"
-                ' using Gazebo hardware'
+                'published over the ROS topic /clock; this value is automatically set to `true` if'
+                ' using Gazebo hardware.'
             )
         )
     )

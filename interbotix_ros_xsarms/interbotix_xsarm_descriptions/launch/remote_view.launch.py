@@ -41,7 +41,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_name',
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         ),
         DeclareLaunchArgument(
@@ -51,7 +51,7 @@ def generate_launch_description():
                 'rviz',
                 'xsarm_description.rviz'
             ]),
-            description='file path to the config file RViz should load',
+            description='file path to the config file RViz should load.',
         ),
     ]
 

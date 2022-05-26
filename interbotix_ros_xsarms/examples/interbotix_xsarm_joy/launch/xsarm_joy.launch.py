@@ -134,7 +134,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
-            description="model type of the Interbotix Arm such as 'wx200' or 'rx150'",
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.',
         )
     )
     declared_arguments.append(
@@ -142,7 +142,7 @@ def generate_launch_description():
             'robot_name',
             default_value=LaunchConfiguration('robot_model'),
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
@@ -151,7 +151,7 @@ def generate_launch_description():
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description='launches RViz if set to true',
+            description='launches RViz if set to `true`.',
         )
     )
     declared_arguments.append(
@@ -162,7 +162,7 @@ def generate_launch_description():
                 'config',
                 'modes.yaml',
             ]),
-            description="the file path to the 'mode config' YAML file",
+            description="the file path to the 'mode config' YAML file.",
         )
     )
     declared_arguments.append(
@@ -170,8 +170,8 @@ def generate_launch_description():
             'threshold',
             default_value='0.75',
             description=(
-                'value from 0 to 1 defining joystick sensitivity; a larger number means '
-                'the joystick should be less sensitive'
+                'value from 0 to 1 defining joystick sensitivity; a larger number means the '
+                'joystick should be less sensitive.'
             ),
         )
     )
@@ -179,7 +179,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'controller',
             default_value=('ps4', 'ps3', 'xbox360'),
-            description='type of controller',
+            description='type of controller.',
 
         )
     )
@@ -189,8 +189,8 @@ def generate_launch_description():
             default_value='true',
             choices=('true', 'false'),
             description=(
-                'true if xsarm_control should be launched - set to false if you would '
-                'like to run your own version of this file separately'
+                '`true` if xsarm_control should be launched - set to `false` if you would like to '
+                'run your own version of this file separately.'
             ),
         )
     )
@@ -200,8 +200,8 @@ def generate_launch_description():
             default_value='false',
             choices=('true', 'false'),
             description=(
-                'if true, the DYNAMIXEL simulator node is run; use RViz to visualize the'
-                " robot's motion; if false, the real DYNAMIXEL driver node is run"
+                "if `true`, the DYNAMIXEL simulator node is run; use RViz to visualize the robot's"
+                ' motion; if `false`, the real DYNAMIXEL driver node is run.'
             ),
         )
     )

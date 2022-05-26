@@ -240,6 +240,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.'
         )
     )
     declared_arguments.append(
@@ -247,7 +248,7 @@ def generate_launch_description():
             'robot_name',
             default_value=LaunchConfiguration('robot_model'),
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
@@ -256,7 +257,7 @@ def generate_launch_description():
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description='launches RViz if set to true',
+            description='launches RViz if set to `true`.',
         )
     )
     declared_arguments.append(
@@ -267,7 +268,7 @@ def generate_launch_description():
                 'rviz',
                 'xsarm_gz_classic.rviz',
             ]),
-            description='file path to the config file RViz should load',
+            description='file path to the config file RViz should load.',
         )
     )
     declared_arguments.append(
@@ -278,7 +279,7 @@ def generate_launch_description():
                 'worlds',
                 'interbotix.world',
             ]),
-            description="the file path to the Gazebo 'world' file to load",
+            description="the file path to the Gazebo 'world' file to load.",
         )
     )
     declared_arguments.append(
@@ -286,7 +287,7 @@ def generate_launch_description():
             'use_gazebo_gui',
             default_value='true',
             choices=('true', 'false'),
-            description='launches the Gazebo GUI if true',
+            description='launches the Gazebo GUI if `true`.',
         )
     )
     declared_arguments.append(
@@ -294,7 +295,7 @@ def generate_launch_description():
             'verbose',
             default_value='false',
             choices=('true', 'false'),
-            description='launches Gazebo with verbose console logging if true',
+            description='launches Gazebo with verbose console logging if `true`.',
         )
     )
     declared_arguments.append(
@@ -302,7 +303,7 @@ def generate_launch_description():
             'debug',
             default_value='false',
             choices=('true', 'false'),
-            description='start gzserver in debug mode using gdb',
+            description='start gzserver in debug mode using gdb.',
         )
     )
     declared_arguments.append(
@@ -310,7 +311,7 @@ def generate_launch_description():
             'paused',
             default_value='false',
             choices=('true', 'false'),
-            description='start Gazebo in a paused state',
+            description='start Gazebo in a paused state.',
         )
     )
     declared_arguments.append(
@@ -318,7 +319,7 @@ def generate_launch_description():
             'recording',
             default_value='false',
             choices=('true', 'false'),
-            description='enable Gazebo state log recording',
+            description='enable Gazebo state log recording.',
         )
     )
     declared_arguments.append(
@@ -328,17 +329,7 @@ def generate_launch_description():
             choices=('true', 'false'),
             description=(
                 'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
-                'published over the ROS topic /clock'
-            )
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'controller_type',
-            default_value='trajectory',
-            choices=('position', 'trajectory'),
-            description=(
-                'load controllers for arbitrary positions or trajectories for the arm in Gazebo'
+                'published over the ROS topic /clock.'
             )
         )
     )

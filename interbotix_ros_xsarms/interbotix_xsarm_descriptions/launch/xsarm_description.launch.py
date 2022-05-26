@@ -121,7 +121,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
-            description="model type of the Interbotix Arm such as 'wx200' or 'rx150'",
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.'
         )
     )
     declared_arguments.append(
@@ -129,7 +129,7 @@ def generate_launch_description():
             'robot_name',
             default_value=LaunchConfiguration('robot_model'),
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
@@ -138,7 +138,7 @@ def generate_launch_description():
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description='launches RViz if set to true',
+            description='launches RViz if set to `true`.',
         )
     )
     declared_arguments.append(
@@ -146,7 +146,7 @@ def generate_launch_description():
             'use_joint_pub',
             default_value='false',
             choices=('true', 'false'),
-            description='launches the joint_state_publisher node',
+            description='launches the joint_state_publisher node.',
         )
     )
     declared_arguments.append(
@@ -154,7 +154,7 @@ def generate_launch_description():
             'use_joint_pub_gui',
             default_value='false',
             choices=('true', 'false'),
-            description='launches the joint_state_publisher GUI',
+            description='launches the joint_state_publisher GUI.',
         )
     )
     declared_arguments.append(
@@ -165,7 +165,7 @@ def generate_launch_description():
                 'rviz',
                 'xsarm_description.rviz',
             ]),
-            description='file path to the config file RViz should load',
+            description='file path to the config file RViz should load.',
         )
     )
     declared_arguments.append(
@@ -175,7 +175,7 @@ def generate_launch_description():
             choices=('true', 'false'),
             description=(
                 'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
-                'published over the ROS topic /clock'
+                'published over the ROS topic /clock.'
             )
         )
     )

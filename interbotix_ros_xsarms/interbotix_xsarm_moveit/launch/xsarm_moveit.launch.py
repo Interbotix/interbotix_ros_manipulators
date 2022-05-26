@@ -33,9 +33,9 @@ from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
 )
 from interbotix_xs_modules.xs_launch import (
-    determine_use_sim_time_param,
     construct_semantic_robot_description_command,
     declare_interbotix_xsarm_robot_description_launch_arguments,
+    determine_use_sim_time_param,
 )
 from launch import LaunchDescription
 from launch.actions import (
@@ -309,7 +309,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
-            description="model type of the Interbotix Arm such as 'wx200' or 'rx150'",
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.',
         )
     )
     declared_arguments.append(
@@ -317,7 +317,7 @@ def generate_launch_description():
             'robot_name',
             default_value=LaunchConfiguration('robot_model'),
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
@@ -327,7 +327,7 @@ def generate_launch_description():
             default_value=TextSubstitution(text=''),
             description=(
                 'the file path to the custom semantic description file that you would like to '
-                "include in the Interbotix robot's semantic description"
+                "include in the Interbotix robot's semantic description."
             ),
         )
     )
@@ -339,7 +339,7 @@ def generate_launch_description():
                 'config',
                 'modes.yaml',
             ]),
-            description="the file path to the 'mode config' YAML file",
+            description="the file path to the 'mode config' YAML file.",
         )
     )
     declared_arguments.append(
@@ -347,7 +347,7 @@ def generate_launch_description():
             'use_moveit_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description="launches RViz with MoveIt's RViz configuration",
+            description="launches RViz with MoveIt's RViz configuration/",
         )
     )
     declared_arguments.append(
@@ -355,8 +355,8 @@ def generate_launch_description():
             'rviz_frame',
             default_value='world',
             description=(
-                "defines the fixed frame parameter in RViz. Note that if 'use_world_frame' is "
-                'false, this parameter should be changed to a frame that exists'
+                'defines the fixed frame parameter in RViz. Note that if `use_world_frame` is '
+                '`false`, this parameter should be changed to a frame that exists.'
             ),
         )
     )
@@ -368,7 +368,7 @@ def generate_launch_description():
                 'rviz',
                 'xsarm_moveit.rviz'
             ]),
-            description='file path to the config file RViz should load',
+            description='file path to the config file RViz should load.',
         )
     )
     declared_arguments.append(
@@ -379,7 +379,7 @@ def generate_launch_description():
                 'worlds',
                 'interbotix.world',
             ]),
-            description="the file path to the Gazebo 'world' file to load",
+            description="the file path to the Gazebo 'world' file to load.",
         )
     )
     declared_arguments.append(
@@ -389,8 +389,8 @@ def generate_launch_description():
             choices=('true', 'false'),
             description=(
                 'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
-                "published over the ROS topic /clock; this value is automatically set to 'true' if"
-                ' using Gazebo hardware'
+                'published over the ROS topic /clock; this value is automatically set to `true` if'
+                ' using Gazebo hardware.'
             )
         )
     )

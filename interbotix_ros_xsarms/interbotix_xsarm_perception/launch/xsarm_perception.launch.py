@@ -205,6 +205,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
+            description="model type of the Interbotix Arm such as `wx200` or `rx150`.",
         )
     )
     declared_arguments.append(
@@ -212,7 +213,7 @@ def generate_launch_description():
             'robot_name',
             default_value=LaunchConfiguration('robot_model'),
             description=(
-                'name of the robot (typically equal to `robot_model`, but could be anything)'
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
@@ -233,7 +234,7 @@ def generate_launch_description():
                 "values being written are stored in each motor's EEPROM (which means the values "
                 'are retained even after a power cycle), this can be set to false after the first '
                 'time using the robot. Setting to false also shortens the node startup time by a '
-                'few seconds and preserves the life of the EEPROM'
+                'few seconds and preserves the life of the EEPROM.'
             ),
         )
     )
@@ -249,14 +250,14 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'rbg_camera_profile',
             default_value='640x480x30',
-            description='profile for the rbg camera image stream, in `<width>x<height>x<fps>`',
+            description='profile for the rbg camera image stream, in `<width>x<height>x<fps>`.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             'depth_module_profile',
             default_value='640x480x30',
-            description='profile for the depth module stream, in `<width>x<height>x<fps>`',
+            description='profile for the depth module stream, in `<width>x<height>x<fps>`.',
         )
     )
     declared_arguments.append(
@@ -264,7 +265,7 @@ def generate_launch_description():
             'rs_camera_logging_level',
             default_value='info',
             choices=('debug', 'info', 'warn', 'error', 'fatal'),
-            description='set the logging level for the realsense2_camera launch include',
+            description='set the logging level for the realsense2_camera launch include.',
         )
     )
     declared_arguments.append(
@@ -272,7 +273,7 @@ def generate_launch_description():
             'rs_camera_output_location',
             default_value='screen',
             choices=('screen', 'log'),
-            description='set the logging location for the realsense2_camera launch include',
+            description='set the logging location for the realsense2_camera launch include.',
         )
     )
     declared_arguments.append(
@@ -290,7 +291,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'filter_ns',
             default_value='pc_filter',
-            description='namespace where the pointcloud related nodes and parameters are located',
+            description='namespace where the pointcloud related nodes and parameters are located.',
         )
     )
     declared_arguments.append(
@@ -302,7 +303,7 @@ def generate_launch_description():
                 'filter_params.yaml'
             ]),
             description=(
-                'file location of the parameters used to tune the perception pipeline filters'
+                'file location of the parameters used to tune the perception pipeline filters.'
             ),
         )
     )
@@ -311,7 +312,7 @@ def generate_launch_description():
             'use_pointcloud_tuner_gui',
             default_value='false',
             choices=('true', 'false'),
-            description='whether to show a GUI that a user can use to tune filter parameters',
+            description='whether to show a GUI that a user can use to tune filter parameters.',
         )
     )
     declared_arguments.append(
@@ -331,7 +332,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'cloud_topic',
             default_value='/camera/depth/color/points',
-            description='the absolute ROS topic name to subscribe to raw pointcloud data',
+            description='the absolute ROS topic name to subscribe to raw pointcloud data.',
         )
     )
     declared_arguments.append(
@@ -342,42 +343,42 @@ def generate_launch_description():
                 'config',
                 'tags.yaml'
             ]),
-            description='parameter file location for the AprilTag configuration',
+            description='parameter file location for the AprilTag configuration.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             'camera_frame',
             default_value='camera_color_optical_frame',
-            description='the camera frame in which the AprilTag will be detected',
+            description='the camera frame in which the AprilTag will be detected.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             'apriltag_ns',
             default_value='apriltag',
-            description='namespace where the AprilTag related nodes and parameters are located',
+            description='namespace where the AprilTag related nodes and parameters are located.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             'camera_color_topic',
             default_value='camera/color/image_raw',
-            description='the absolute ROS topic name to subscribe to color images',
+            description='the absolute ROS topic name to subscribe to color images.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             'camera_info_topic',
             default_value='camera/color/camera_info',
-            description='the absolute ROS topic name to subscribe to the camera color info',
+            description='the absolute ROS topic name to subscribe to the camera color info.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             'armtag_ns',
             default_value='armtag',
-            description='name-space where the Armtag related nodes and parameters are located',
+            description='name-space where the Armtag related nodes and parameters are located.',
         )
     )
     declared_arguments.append(
@@ -386,7 +387,7 @@ def generate_launch_description():
             default_value=LaunchConfiguration('camera_frame'),
             description=(
                 'the reference frame that the armtag node should use when publishing a static '
-                'transform for where the arm is relative to the camera'
+                'transform for where the arm is relative to the camera,'
             ),
         )
     )
@@ -394,13 +395,11 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'arm_base_frame',
             default_value=[
-                LaunchConfiguration('robot_name'),
-                '/',
-                LaunchConfiguration('base_link_frame')
+                LaunchConfiguration('robot_name'), '/', LaunchConfiguration('base_link_frame')
             ],
             description=(
                 'the child frame that the armtag node should use when publishing a static '
-                'transform for where the arm is relative to the camera'
+                'transform for where the arm is relative to the camera.'
             ),
         )
     )
@@ -408,13 +407,11 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'arm_tag_frame',
             default_value=[
-                LaunchConfiguration('robot_name'),
-                '/',
-                'ar_tag_link'
+                LaunchConfiguration('robot_name'), '/', 'ar_tag_link'
             ],
             description=(
                 'name of the frame on the arm where the AprilTag is located (typically defined in '
-                'the URDF)'
+                'the URDF).'
             ),
         )
     )
@@ -425,7 +422,7 @@ def generate_launch_description():
             choices=('true', 'false'),
             description=(
                 'whether to show a GUI that a user can use to publish the `ref_frame` to '
-                '`arm_base_frame` transform'
+                '`arm_base_frame` transform.'
             ),
         )
     )
@@ -438,7 +435,8 @@ def generate_launch_description():
                 'whether only the position component of the detected AprilTag pose should be used '
                 'when calculating the `ref_frame` to `arm_base_frame` transform; this should only '
                 'be set to `true` if a TF chain already exists connecting the camera and arm '
-                'base_link frame, and you just want to use the AprilTag to refine the pose further'
+                'base_link frame, and you just want to use the AprilTag to refine the pose '
+                'further.'
             ),
         )
     )
@@ -452,7 +450,7 @@ def generate_launch_description():
                 'static_transforms.yaml file at startup; this should only be set to `false` if a '
                 'TF chain already exists connecting the camera and arm base_link frame (typically '
                 'defined in a URDF), and you would rather use that TF chain as opposed to the one '
-                'specified in the static_transforms.yaml file'
+                'specified in the static_transforms.yaml file.'
             ),
         )
     )
@@ -467,7 +465,7 @@ def generate_launch_description():
             description=(
                 'filepath to the static_transforms.yaml file used by the static_trans_pub node; if'
                 ' the file does not exist yet, this is where you wouldd like the file to be '
-                'generated'
+                'generated.'
             ),
         )
     )
@@ -476,7 +474,7 @@ def generate_launch_description():
             'use_rviz',
             default_value='true',
             choices=('true', 'false'),
-            description='launches RViz if set to `true`',
+            description='launches RViz if set to `true`.',
         )
     )
     declared_arguments.append(
@@ -487,7 +485,7 @@ def generate_launch_description():
                     '/',
                     LaunchConfiguration('base_link_frame')
             ],
-            description='desired `fixed frame` in RViz',
+            description='desired `fixed frame` in RViz.',
         )
     )
     declared_arguments.append(
@@ -498,7 +496,7 @@ def generate_launch_description():
                 'rviz',
                 'xsarm_perception.rviz'
             ]),
-            description='filepath to the RViz config file',
+            description='filepath to the RViz config file.',
         )
     )
 
