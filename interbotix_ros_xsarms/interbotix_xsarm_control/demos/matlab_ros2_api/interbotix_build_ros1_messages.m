@@ -6,7 +6,7 @@ function success = interbotix_build_ros1_messages(options)
 
     success = false;
 
-    rel_core_msgs_path = "../../../../interbotix_ros_core/interbotix_ros_xseries/matlab_msg_gen_ros1/";
+    rel_core_msgs_path = "../../../../../interbotix_ros_core/interbotix_ros_xseries/matlab_msg_gen_ros1/";
 
     try % try setting the Python version required to build ros messages
         pyenv("Version", options.py27path);
