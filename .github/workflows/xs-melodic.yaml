@@ -1,0 +1,31 @@
+name: build-xs-melodic
+
+on:
+  push:
+    branches:
+      - melodic
+      - devel
+  pull_request:
+    branches:
+      - melodic
+      - devel
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  xs-melodic:
+    strategy:
+      matrix:
+        env:
+          - {ROS_DISTRO: melodic,  ROS_REPO: main, BUILDER: catkin_make}
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout ROS Manipulators
+        uses: actions/checkout@v3
+      - name: Run Install Script
+        run: |
+          chmod +x ./interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh
+          ./interbotix_ros_xsarms/install/amd64/xsarm_amd64_install.sh -n -d melodic
