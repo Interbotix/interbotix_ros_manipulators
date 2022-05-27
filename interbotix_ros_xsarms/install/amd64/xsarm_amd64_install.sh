@@ -449,6 +449,7 @@ function install_ros2() {
     rm interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs/COLCON_IGNORE
     cd interbotix_ros_core
     git submodule update --init interbotix_ros_xseries/dynamixel_workbench_toolbox
+    git submodule update --init interbotix_ros_xseries/interbotix_xs_driver
     cd ..
     if [ "$INSTALL_MATLAB" = true ]; then
       cd interbotix_ros_toolboxes
