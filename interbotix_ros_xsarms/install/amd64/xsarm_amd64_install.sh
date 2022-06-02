@@ -3,46 +3,6 @@
 # USAGE: ./xsarm_amd64_install.sh [-h][-d DISTRO][-p PATH][-n]
 #
 # Install the Interbotix X-Series Arms packages and their dependencies.
-#
-# Options:
-#
-#  -h             Display this help message and quit
-#
-#  -d DISTRO      Install the DISTRO ROS distro compatible with your Ubuntu version. See
-#                 'https://github.com/Interbotix/.github/blob/main/SECURITY.md' for the list of
-#                 supported distributions. If not specified, installs the ROS1 Distro compatible with
-#                 your Ubuntu version.
-#
-#  -p PATH        Sets the absolute install location for the Interbotix workspace. If not specified,
-#                 the Interbotix workspace directory will default to '~/interbotix_ws'.
-#
-#  -n             Install all packages and dependencies without prompting. This is useful if
-#                 you're running this script in a non-interactive terminal like when building a
-#                 Docker image.
-#
-# Examples:
-#
-#   ./xsarm_amd64_install.sh --help
-#     This will display this help message and quit.
-#
-#   ./xsarm_amd64_install.sh
-#     This will install just the ROS1 distro compatible with your Ubuntu version. It will prompt you
-#     to ask if you want to install certain packages and dependencies.
-#
-#   ./xsarm_amd64_install.sh -d noetic
-#     This will install ROS1 Noetic assuming that your Ubuntu version is compatible.
-#
-#   ./xsarm_amd64_install.sh -n
-#     Skip prompts and install all packages and dependencies.
-#
-#   ./xsarm_amd64_install.sh -d galactic
-#     Install ROS2 Galactic assuming that your Ubuntu version is compatible.
-#
-#   ./xsarm_amd64_install.sh -d galactic -n
-#     Install ROS2 Galactic and all packages and dependencies without prompts.
-#
-#   ./xsarm_amd64_install.sh -p ~/custom_ws
-#     Installs the Interbotix packages under the '~/custom_ws' path.
 
 OFF='\033[0m'
 RED='\033[0;31m'
@@ -68,7 +28,7 @@ NONINTERACTIVE=false
 DISTRO_SET_FROM_CL=false
 INSTALL_PATH=~/interbotix_ws
 
-_usage="${BOLD}USAGE: ./xsarm_amd64_install.sh [-h][-d DISTRO][-p PATH][-a]${NORM}
+_usage="${BOLD}USAGE: ./xsarm_amd64_install.sh [-h][-d DISTRO][-p PATH][-n]${NORM}
 
 Install the Interbotix X-Series Arms packages and their dependencies.
 
@@ -90,7 +50,7 @@ Options:
 
 Examples:
 
-  ./xsarm_amd64_install.sh ${BOLD}--help${NORM}
+  ./xsarm_amd64_install.sh ${BOLD}-h${NORM}
     This will display this help message and quit.
 
   ./xsarm_amd64_install.sh
@@ -200,6 +160,7 @@ function install_essential_packages() {
 function install_ros1() {
   # Step 1: Install ROS
   if [ $(dpkg-query -W -f='${Status}' ros-$ROS_DISTRO_TO_INSTALL-desktop-full 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    echo -e "${GRN}Installing ROS1 $ROS_DISTRO_TO_INSTALL desktop...${OFF}"
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
     sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
@@ -226,7 +187,7 @@ function install_ros1() {
 
     # Step 2A: Install librealsense2
     if [ $(dpkg-query -W -f='${Status}' librealsense2 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-      echo "Installing librealsense2..."
+      echo -e "${GRN}Installing librealsense2...${OFF}"
       sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
       sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -sc) main" -u
       if [ $UBUNTU_VERSION == "18.04" ]; then
@@ -257,7 +218,7 @@ function install_ros1() {
     # Step 2B: Install realsense2 ROS Wrapper
     REALSENSE_WS=~/realsense_ws
     if [ ! -d "$REALSENSE_WS/src" ]; then
-      echo "Installing RealSense ROS Wrapper..."
+      echo -e "${GRN}Installing RealSense ROS Wrapper...${OFF}"
       mkdir -p $REALSENSE_WS/src
       cd $REALSENSE_WS/src
       git clone https://github.com/IntelRealSense/realsense-ros.git -b 2.3.1
@@ -278,7 +239,7 @@ function install_ros1() {
     # Step 3: Install apriltag ROS Wrapper
     APRILTAG_WS=~/apriltag_ws
     if [ ! -d "$APRILTAG_WS/src" ]; then
-      echo "Installing Apriltag ROS Wrapper..."
+      echo -e "${GRN}Installing Apriltag ROS Wrapper...${OFF}"
       mkdir -p $APRILTAG_WS/src
       cd $APRILTAG_WS/src
       git clone https://github.com/AprilRobotics/apriltag.git
@@ -300,7 +261,7 @@ function install_ros1() {
 
   # Step 4: Install Arm packages
   if [ ! -d "$INSTALL_PATH/src" ]; then
-    echo "Installing ROS packages for the Interbotix Arm..."
+    echo -e "${GRN}Installing ROS packages for the Interbotix Arm...${OFF}"
     mkdir -p $INSTALL_PATH/src
     cd $INSTALL_PATH/src
     git clone https://github.com/Interbotix/interbotix_ros_core.git -b $ROS_DISTRO_TO_INSTALL
@@ -340,6 +301,7 @@ function install_ros1() {
 function install_ros2() {
   # Step 1: Install ROS2
   if [ $(dpkg-query -W -f='${Status}' ros-$ROS_DISTRO_TO_INSTALL-desktop 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    echo -e "${GRN}Installing ROS2 $ROS_DISTRO_TO_INSTALL desktop...${OFF}"
     sudo apt install -y software-properties-common
     sudo add-apt-repository universe
     sudo apt install -y curl gnupg lsb-release
@@ -364,7 +326,7 @@ function install_ros2() {
 
     # Step 2A: Install librealsense2
     if [ $(dpkg-query -W -f='${Status}' librealsense2 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-      echo "Installing librealsense2..."
+      echo -e "${GRN}Installing librealsense2...${OFF}"
       sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
       sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -sc) main" -u
       version="2.50.0-0~realsense0.6128"
@@ -433,7 +395,7 @@ function install_ros2() {
 
   # Step 4: Install Arm packages
   if [ ! -d "$INSTALL_PATH/src" ]; then
-    echo "Installing ROS packages for the Interbotix Arm..."
+    echo -e "${GRN}Installing ROS packages for the Interbotix Arm...${OFF}"
     mkdir -p $INSTALL_PATH/src
     cd $INSTALL_PATH/src
     git clone https://github.com/Interbotix/interbotix_ros_core.git -b $ROS_DISTRO_TO_INSTALL
@@ -477,7 +439,7 @@ function install_ros2() {
 function setup_env_vars() {
   # Step 5: Setup Environment Variables
   if [ -z "$ROS_IP" ]; then
-    echo "Setting up Environment Variables..."
+    echo -e "${GRN}Setting up Environment Variables...${OFF}"
     echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
     echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
   else
@@ -512,9 +474,8 @@ if [ "$DISTRO_SET_FROM_CL" = false ]; then
   elif [ $UBUNTU_VERSION == "20.04" ]; then
     ROS_DISTRO_TO_INSTALL="noetic"
   else
-    log "Unsupported Ubuntu verison: $UBUNTU_VERSION." RED
-    log "Interbotix Arm only works with Ubuntu 18.04 bionic or 20.04 focal on your hardware." RED
-    failed
+    echo -e "${BOLD}${RED}Unsupported Ubuntu verison: $UBUNTU_VERSION.${NORM}${OFF}"
+    failed "Interbotix Arm only works with Ubuntu 18.04 bionic or 20.04 focal on your hardware."
   fi
 fi
 
@@ -543,6 +504,7 @@ if [ "$NONINTERACTIVE" = false ]; then
   echo -e "\tROS Distribution:           ROS${ROS_VERSION_TO_INSTALL} ${ROS_DISTRO_TO_INSTALL}"
   echo -e "\tInstall Perception Modules: ${INSTALL_PERCEPTION}"
   echo -e "\tInstall MATLAB Modules:     ${INSTALL_MATLAB}"
+  echo -e "\tInstallation path:          ${INSTALL_PATH}"
   echo -e "\nIs this correct?\n${PROMPT}${NORM}${OFF}\c"
   read -r resp
 
@@ -587,5 +549,5 @@ setup_env_vars
 end_time="$(date -u +%s)"
 elapsed="$(($end_time-$start_time))"
 
-echo -e "${GRN}Installation complete, took $elapsed seconds in total.${NORM}${OFF}"
-echo -e "${GRN}NOTE: Remember to reboot the computer before using the robot!${NORM}${OFF}"
+echo -e "${GRN}Installation complete, took $elapsed seconds in total.${OFF}"
+echo -e "${GRN}NOTE: Remember to reboot the computer before using the robot!${OFF}"
