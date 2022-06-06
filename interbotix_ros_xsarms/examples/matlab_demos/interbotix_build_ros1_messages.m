@@ -1,19 +1,12 @@
-function success = interbotix_build_ros1_messages(options)
-    % Run this function to build the Interbotix ROS Messages for use with MATLAB
-    arguments
-        options.py27path string = "/usr/bin/python2.7" % absolute path to python2.7 executable
-    end
+function success = interbotix_build_ros1_messages()
+    % Run this function to build the Interbotix X-Series ROS Messages for use with MATLAB
+    % Some users have faced issues with MATLAB release 2022a that were fixed following the advice here:
+    %   https://www.mathworks.com/matlabcentral/answers/1690800-error-in-building-custom-ros-messages
 
     success = false;
 
     rel_core_msgs_path = "../../../../interbotix_ros_core/interbotix_ros_xseries/matlab_msg_gen_ros1/";
 
-    try % try setting the Python version required to build ros messages
-        pyenv("Version", options.py27path);
-    catch ME
-        warning("Try setting your pyenv to Version 2.7 when you first open MATLAB.")
-        rethrow(ME)
-    end
     if ~exist(rel_core_msgs_path, 'dir') && ~any(strcmp(rosmsg("list"), "interbotix_xs_msgs/JointSingleCommand"))
         disp("Building messages...")
         rosgenmsg(rel_core_msgs_path + "../")
