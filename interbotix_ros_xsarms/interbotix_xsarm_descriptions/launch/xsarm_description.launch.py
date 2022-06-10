@@ -86,9 +86,6 @@ def launch_setup(context, *args, **kwargs):
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
         namespace=robot_name_launch_arg,
-        parameters=[{
-            'use_sim_time': use_sim_time_param,
-        }],
         output={'both': 'log'},
     )
 
