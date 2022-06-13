@@ -455,7 +455,7 @@ do
     n) NONINTERACTIVE=true;;
     d) ROS_DISTRO_TO_INSTALL="$OPTARG" && DISTRO_SET_FROM_CL=true;;
     p) INSTALL_PATH="$OPTARG";;
-    *) echo "Unknown argument $OPTION" help && exit 0;;
+    *) echo "Unknown argument $OPTION" && help && exit 0;;
   esac
 done
 shift "$(($OPTIND -1))"
