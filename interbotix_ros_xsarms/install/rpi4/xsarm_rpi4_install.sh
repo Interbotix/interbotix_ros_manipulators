@@ -21,10 +21,12 @@ ROS2_VALID_DISTROS=('galactic')
 BIONIC_VALID_DISTROS=('melodic')
 FOCAL_VALID_DISTROS=('noetic' 'galactic')
 
+NONINTERACTIVE=false
 INSTALL_PATH=~/interbotix_ws
 DISTRO_SET_FROM_CL=false
+RUN_JOY_AT_BOOT=false
 
-_usage="${BOLD}USAGE: ./xsarm_rpi4_install.sh [-h][-p PATH]${NORM}
+_usage="${BOLD}USAGE: ./xsarm_rpi4_install.sh [-h][-d DISTRO][-j ROBOT_MODEL][-p PATH][-n]${NORM}
 
 Install the Interbotix X-Series Arms Raspberry Pi packages and their dependencies.
 
@@ -32,8 +34,20 @@ Options:
 
   -h              Display this help message and quit
 
+  -d DISTRO       Install the DISTRO ROS distro compatible with your Ubuntu version. See
+                  'https://github.com/Interbotix/.github/blob/main/SECURITY.md' for the list of
+                  supported distributions. If not given, installs the ROS1 Distro compatible with
+                  your Ubuntu version.
+
+  -j ROBOT_MODEL  Configure and load the joystick control boot service without prompts. ROBOT_MODEL
+                  is the codename of the robot that the RPi will be controlling.
+
   -p PATH         Sets the absolute install location for the Interbotix workspace. If not specified,
                   the Interbotix workspace directory will default to '~/interbotix_ws'.
+
+  -n              Install all packages and configures boot service without prompting. This is useful
+                  if you're running this script in a non-interactive terminal like when building a
+                  Docker image. Requires the -j flag to be set.
 
 Examples:
 
@@ -44,7 +58,14 @@ Examples:
     This will install just the ROS1 distro compatible with your Ubuntu version. It will prompt you
     to ask if you want to install certain packages and dependencies.
 
-  ./xsarm_rpi4_install.sh -p ~/custom_ws
+  ./xsarm_rpi4_install.sh ${BOLD}-j wx200${NORM}
+    Configures and installs the joystick control boot service with the WidowX-200 robot.
+
+  ./xsarm_rpi4_install.sh ${BOLD}-n -j wx200${NORM}
+    Configures and installs the joystick control boot service with the WidowX-200 robot without
+    prompting.
+
+  ./xsarm_rpi4_install.sh ${BOLD}-p ~/custom_ws${NORM}
     Installs the Interbotix packages under the '~/custom_ws' path."
 
 function help() {
@@ -297,13 +318,15 @@ ros2 launch interbotix_xsarm_joy xsarm_joy.launch.py use_rviz:=false robot_model
 }
 
 # parse command line arguments
-while getopts 'hd:p:' OPTION;
+while getopts 'hj:d:p:n' OPTION;
 do
   case "$OPTION" in
     h) help && exit 0;;
+    n) NONINTERACTIVE=true;;
     d) ROS_DISTRO_TO_INSTALL="$OPTARG" && DISTRO_SET_FROM_CL=true;;
+    j) RUN_JOY_AT_BOOT=true && ROBOT_MODEL="$OPTARG";;
     p) INSTALL_PATH="$OPTARG";;
-    *) echo "Unknown argument $OPTION" help && exit 0;;
+    *) echo "Unknown argument $OPTION" && help && exit 0;;
   esac
 done
 shift "$(($OPTIND -1))"
@@ -330,30 +353,34 @@ fi
 check_ubuntu_version
 validate_distro
 
-echo -e "${BLU}${BOLD}Run the Joystick ROS package at system boot?\n$PROMPT${NORM}${OFF}\c"
-read -r resp
-if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
-  RUN_JOY_AT_BOOT=true
-  echo -e "${BLU}${BOLD}What is the codename of your robot model? (ex. wx200 for a WidowX-200)\n$PROMPT${NORM}${OFF}\c"
-  read -r ROBOT_MODEL
-else
-  RUN_JOY_AT_BOOT=false
-fi
+if [ "$NONINTERACTIVE" = false ]; then
+  if [ "$RUN_JOY_AT_BOOT" = false ]; then
+    echo -e "${BLU}${BOLD}Run the Joystick ROS package at system boot?\n$PROMPT${NORM}${OFF}\c"
+    read -r resp
+    if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
+      RUN_JOY_AT_BOOT=true
+      echo -e "${BLU}${BOLD}What is the codename of your robot model? (ex. wx200 for a WidowX-200)\n$PROMPT${NORM}${OFF}\c"
+      read -r ROBOT_MODEL
+    else
+      RUN_JOY_AT_BOOT=false
+    fi
+  fi
 
-echo -e "${BLU}${BOLD}RASPBERRY PI INSTALLATION SUMMARY:"
-echo -e "\tROS Distribution:              ROS ${ROS_DISTRO_TO_INSTALL}"
-echo -e "\tRun joystick control on boot:  ${RUN_JOY_AT_BOOT}"
-if [[ "$RUN_JOY_AT_BOOT" = true ]]; then
-  echo -e "\tRobot codename:                ${ROBOT_MODEL}"
-fi
-echo -e "\tInstallation path:             ${INSTALL_PATH}"
-echo -e "\nIs this correct?\n${PROMPT}${NORM}${OFF}\c"
-read -r resp
+  echo -e "${BLU}${BOLD}RASPBERRY PI INSTALLATION SUMMARY:"
+  echo -e "\tROS Distribution:              ROS ${ROS_DISTRO_TO_INSTALL}"
+  echo -e "\tRun joystick control on boot:  ${RUN_JOY_AT_BOOT}"
+  if [[ "$RUN_JOY_AT_BOOT" = true ]]; then
+    echo -e "\tRobot codename:                ${ROBOT_MODEL}"
+  fi
+  echo -e "\tInstallation path:             ${INSTALL_PATH}"
+  echo -e "\nIs this correct?\n${PROMPT}${NORM}${OFF}\c"
+  read -r resp
 
-if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
-  :
-else
-  help && exit 0
+  if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
+    :
+  else
+    help && exit 0
+  fi
 fi
 
 echo -e "\n\n"
