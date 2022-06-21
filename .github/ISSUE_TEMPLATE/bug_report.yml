@@ -13,7 +13,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: Also tell us, what did you expect to happen?
+      description: Also tell us what you expected to happen.
       placeholder: Tell us what you see!
     validations:
       required: true
@@ -25,12 +25,31 @@ body:
       placeholder: px100, wx200, etc.
     validations:
       required: true
-  - type: textarea
+  - type: dropdown
     id: operating_system
     attributes:
       label: Operating System
       description: Which operating system are you seeing this problem on?
-      placeholder: Ubuntu 18.04, Ubuntu 20.04, etc.
+      multiple: true
+      options:
+        - Ubuntu 18.04
+        - Ubuntu 20.04
+        - Ubuntu 22.04
+        - Other (Describe in "Anything Else")
+    validations:
+      required: true
+  - type: dropdown
+    id: ros_distro
+    attributes:
+      label: ROS Distro
+      description: Which distribution of ROS are you seeing this problem on?
+      multiple: true
+      options:
+        - ROS1 Melodic
+        - ROS1 Noetic
+        - ROS2 Galactic
+        - ROS2 Rolling
+        - Other (Describe in "Anything Else")
     validations:
       required: true
   - type: textarea

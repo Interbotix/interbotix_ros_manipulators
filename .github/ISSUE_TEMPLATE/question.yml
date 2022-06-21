@@ -22,12 +22,33 @@ body:
       label: Robot Model
       description: Which robot are you asking about (if any)?
       placeholder: px100, wx200, etc.
-  - type: textarea
+  - type: dropdown
     id: operating_system
     attributes:
       label: Operating System
-      description: Which operating system are you targeting when asking this question (if any)?
-      placeholder: Ubuntu 18.04, Ubuntu 20.04, etc.
+      description: Which operating system are you targeting when asking this question?
+      multiple: true
+      options:
+        - Ubuntu 18.04
+        - Ubuntu 20.04
+        - Ubuntu 22.04
+        - Other (Describe in "Anything Else")
+    validations:
+      required: true
+  - type: dropdown
+    id: ros_version
+    attributes:
+      label: ROS Version
+      description: Which version of ROS are you seeing this problem on?
+      multiple: true
+      options:
+        - ROS1 Melodic
+        - ROS1 Noetic
+        - ROS2 Galactic
+        - ROS2 Rolling
+        - Other (Describe in "Anything Else")
+    validations:
+      required: true
   - type: textarea
     id: other
     attributes:

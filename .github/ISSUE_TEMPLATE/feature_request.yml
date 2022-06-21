@@ -32,7 +32,6 @@ body:
     attributes:
       label: Suggested code
       description: Please suggest any code or commands that you think would help with implementing the feature. This will be automatically formatted into code, so no need for backticks.
-      render: shell
   - type: textarea
     id: other
     attributes:
