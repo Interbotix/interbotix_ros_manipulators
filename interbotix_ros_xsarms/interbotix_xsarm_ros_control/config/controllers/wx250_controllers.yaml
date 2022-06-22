@@ -1,4 +1,4 @@
-/wx250:
+/$(var robot_name):
   controller_manager:
     ros__parameters:
       update_rate: 50 # Hz
@@ -8,7 +8,7 @@
         type: joint_trajectory_controller/JointTrajectoryController
       joint_state_broadcaster:
         type: joint_state_broadcaster/JointStateBroadcaster
-/wx250:
+/$(var robot_name):
   arm_controller:
     ros__parameters:
       joints:
@@ -21,12 +21,12 @@
         - position
       state_interfaces:
         - position
-      state_publish_rate: 50.0 # Hz Defaults to 50
-      action_monitor_rate: 20.0 # Hz Defaults to 20
+      state_publish_rate: 50.0 # Hz
+      action_monitor_rate: 20.0 # Hz
       constraints:
         stopped_velocity_tolerance: 0.02
         goal_time: 1.0
-/wx250:
+/$(var robot_name):
   gripper_controller:
     ros__parameters:
       joints:
@@ -35,7 +35,7 @@
         - position
       state_interfaces:
         - position
-/wx250:
+/$(var robot_name):
   joint_state_broadcaster:
     ros__parameters:
       joints:

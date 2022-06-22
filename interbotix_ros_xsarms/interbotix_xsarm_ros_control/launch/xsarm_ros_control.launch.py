@@ -48,6 +48,7 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterFile
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -67,12 +68,15 @@ def launch_setup(context, *args, **kwargs):
         hardware_type_launch_arg=hardware_type_launch_arg
     )
 
-    ros2_control_controllers_config = PathJoinSubstitution([
-        FindPackageShare('interbotix_xsarm_ros_control'),
-        'config',
-        'controllers',
-        f'{robot_model_launch_arg.perform(context)}_controllers.yaml',
-    ])
+    ros2_control_controllers_config_parameter_file = ParameterFile(
+        param_file=PathJoinSubstitution([
+            FindPackageShare('interbotix_xsarm_ros_control'),
+            'config',
+            'controllers',
+            f'{robot_model_launch_arg.perform(context)}_controllers.yaml',
+        ]),
+        allow_substs=True
+    )
 
     xsarm_control_launch_include = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -125,7 +129,7 @@ def launch_setup(context, *args, **kwargs):
         namespace=robot_name_launch_arg,
         parameters=[
             {'robot_description': robot_description_launch_arg},
-            ros2_control_controllers_config,
+            ros2_control_controllers_config_parameter_file,
         ],
         output={'both': 'screen'},
     )
