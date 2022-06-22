@@ -1,6 +1,6 @@
 # interbotix_xsarm_moveit_interface
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/moveit_interface_and_api.html)
+[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://www.trossenrobotics.com/docs/interbotix_xsarms/ros2_packages/moveit_interface_and_api.html)
 
 ## Overview
 

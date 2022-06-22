@@ -1,6 +1,6 @@
 # interbotix_xsarm_moveit
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/moveit_motion_planning_configuration.html)
+[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://www.trossenrobotics.com/docs/interbotix_xsarms/ros2_packages/moveit_motion_planning_configuration.html)
 
 ## Overview
 
