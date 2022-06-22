@@ -60,6 +60,7 @@ def launch_setup(context, *args, **kwargs):
     use_sim_launch_arg = LaunchConfiguration('use_sim')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
     hardware_type_launch_arg = LaunchConfiguration('hardware_type')
+    xs_driver_logging_level_launch_arg = LaunchConfiguration('xs_driver_logging_level')
 
     # sets use_sim_time parameter to 'true' if using gazebo hardware
     use_sim_time_param = determine_use_sim_time_param(
@@ -97,6 +98,7 @@ def launch_setup(context, *args, **kwargs):
             'load_configs': load_configs_launch_arg,
             'robot_description': robot_description_launch_arg,
             'use_sim_time': use_sim_time_param,
+            'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
         }],
         output={
             'stdout': 'screen',
@@ -193,6 +195,14 @@ def generate_launch_description():
                 'to `false` also shortens the node startup time by a few seconds and '
                 'preserves the life of the EEPROM.'
             ),
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'xs_driver_logging_level',
+            default_value='INFO',
+            choices=('DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'),
+            description='set the logging level of the X-Series Driver.'
         )
     )
     declared_arguments.append(

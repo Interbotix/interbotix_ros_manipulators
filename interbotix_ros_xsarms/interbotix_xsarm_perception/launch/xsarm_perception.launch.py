@@ -54,6 +54,7 @@ def launch_setup(context, *args, **kwargs):
     robot_name_launch_arg = LaunchConfiguration('robot_name')
     load_configs_launch_arg = LaunchConfiguration('load_configs')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
+    xs_driver_logging_level_launch_arg = LaunchConfiguration('xs_driver_logging_level')
 
     rs_camera_pointcloud_enable_launch_arg = LaunchConfiguration('rs_camera_pointcloud_enable')
     rbg_camera_profile_launch_arg = LaunchConfiguration('rbg_camera_profile')
@@ -101,6 +102,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_description': robot_description_launch_arg,
             'use_rviz': 'false',
             'hardware_type': 'actual',
+            'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
         }.items()
     )
 
@@ -205,7 +207,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_model',
             choices=get_interbotix_xsarm_models(),
-            description="model type of the Interbotix Arm such as `wx200` or `rx150`.",
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.',
         )
     )
     declared_arguments.append(
@@ -236,6 +238,14 @@ def generate_launch_description():
                 'time using the robot. Setting to false also shortens the node startup time by a '
                 'few seconds and preserves the life of the EEPROM.'
             ),
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'xs_driver_logging_level',
+            default_value='INFO',
+            choices=('DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'),
+            description='set the logging level of the X-Series Driver.'
         )
     )
     declared_arguments.append(

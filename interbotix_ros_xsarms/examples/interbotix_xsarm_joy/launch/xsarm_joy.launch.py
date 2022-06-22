@@ -62,6 +62,7 @@ def launch_setup(context, *args, **kwargs):
     launch_driver_launch_arg = LaunchConfiguration('launch_driver')
     use_sim_launch_arg = LaunchConfiguration('use_sim')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
+    xs_driver_logging_level_launch_arg = LaunchConfiguration('xs_driver_logging_level')
 
     joy_node = Node(
         name='joy_node',
@@ -116,6 +117,7 @@ def launch_setup(context, *args, **kwargs):
             'mode_configs': mode_configs_launch_arg,
             'use_sim': use_sim_launch_arg,
             'robot_description': robot_description_launch_arg,
+            'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
         }.items(),
         condition=IfCondition(launch_driver_launch_arg)
     )
@@ -192,6 +194,14 @@ def generate_launch_description():
                 '`true` if xsarm_control should be launched - set to `false` if you would like to '
                 'run your own version of this file separately.'
             ),
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'xs_driver_logging_level',
+            default_value='INFO',
+            choices=('DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'),
+            description='set the logging level of the X-Series Driver.'
         )
     )
     declared_arguments.append(

@@ -82,6 +82,7 @@ def launch_setup(context, *args, **kwargs):
     world_filepath_launch_arg = LaunchConfiguration('world_filepath')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
     hardware_type_launch_arg = LaunchConfiguration('hardware_type')
+    xs_driver_logging_level_launch_arg = LaunchConfiguration('xs_driver_logging_level')
 
     # sets use_sim_time parameter to 'true' if using gazebo hardware
     use_sim_time_param = determine_use_sim_time_param(
@@ -258,6 +259,7 @@ def launch_setup(context, *args, **kwargs):
             'hardware_type': hardware_type_launch_arg,
             'robot_description': robot_description_launch_arg,
             'use_sim_time': use_sim_time_param,
+            'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
         }.items(),
         condition=IfCondition(
             PythonExpression(
@@ -340,6 +342,14 @@ def generate_launch_description():
                 'modes.yaml',
             ]),
             description="the file path to the 'mode config' YAML file.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'xs_driver_logging_level',
+            default_value='INFO',
+            choices=('DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'),
+            description='set the logging level of the X-Series Driver.'
         )
     )
     declared_arguments.append(
