@@ -16,10 +16,10 @@ trajectory_points = {
 trajectory = containers.Map(trajectory_times, trajectory_points);
 
 bot = InterbotixManipulatorXS("wx250s", "arm", "gripper");
-bot.arm.go_to_home_pose()
-bot.dxl.robot_write_trajectory("group", "arm", "position", trajectory)
-bot.arm.go_to_home_pose()
-bot.arm.go_to_sleep_pose()
+bot.arm.go_to_home_pose();
+bot.dxl.robot_write_trajectory("group", "arm", "position", trajectory);
+bot.arm.go_to_home_pose();
+bot.arm.go_to_sleep_pose();
 
 rosshutdown
 bot.stop_timers();
