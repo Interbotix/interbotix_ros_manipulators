@@ -1,12 +1,13 @@
 /$(var robot_name):
+  controller_manager:
   ros__parameters:
-    update_rate: 10 # Hz
-    arm_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-    gripper_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-    joint_state_broadcaster:
-      type: joint_state_broadcaster/JointStateBroadcaster
+      update_rate: 10 # Hz
+      arm_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+      gripper_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
 /$(var robot_name):
   arm_controller:
     ros__parameters:
