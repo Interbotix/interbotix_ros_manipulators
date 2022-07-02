@@ -50,6 +50,16 @@
       <state_interface name="position"/>
     </joint>
 
+    <xacro:if value="${dof >= 6}">
+      <joint name="forearm_roll">
+        <command_interface name="position">
+          <param name="min">"${forearm_roll_limit_lower}"</param>
+          <param name="max">"${forearm_roll_limit_upper}"</param>
+        </command_interface>
+        <state_interface name="position"/>
+      </joint>
+    </xacro:if>
+
     <joint name="wrist_angle">
       <command_interface name="position">
         <param name="min">"${wrist_angle_limit_lower}"</param>
@@ -61,18 +71,8 @@
     <xacro:if value="${dof >= 5}">
       <joint name="wrist_rotate">
         <command_interface name="position">
-            <param name="min">"${wrist_rotate_limit_lower}"</param>
-            <param name="max">"${wrist_rotate_limit_upper}"</param>
-        </command_interface>
-        <state_interface name="position"/>
-      </joint>
-    </xacro:if>
-
-    <xacro:if value="${dof >= 6}">
-      <joint name="forearm_roll">
-        <command_interface name="position">
-            <param name="min">"${forearm_roll_limit_lower}"</param>
-            <param name="max">"${forearm_roll_limit_upper}"</param>
+          <param name="min">"${wrist_rotate_limit_lower}"</param>
+          <param name="max">"${wrist_rotate_limit_upper}"</param>
         </command_interface>
         <state_interface name="position"/>
       </joint>
