@@ -10,7 +10,6 @@
         type: joint_state_broadcaster/JointStateBroadcaster
   arm_controller:
     ros__parameters:
-      type: FollowJointTrajectory
       joints:
         - waist
         - shoulder
@@ -40,4 +39,5 @@
         - shoulder
         - elbow
         - wrist_angle
+        - gripper
         - left_finger
