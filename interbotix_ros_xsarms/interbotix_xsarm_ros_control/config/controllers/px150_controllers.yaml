@@ -11,7 +11,6 @@
 /$(var robot_name):
   arm_controller:
     ros__parameters:
-      type: FollowJointTrajectory
       joints:
         - waist
         - shoulder
@@ -30,7 +29,6 @@
 /$(var robot_name):
   gripper_controller:
     ros__parameters:
-      type: FollowJointTrajectory
       joints:
         - left_finger
       command_interfaces:
@@ -40,11 +38,11 @@
 /$(var robot_name):
   joint_state_broadcaster:
     ros__parameters:
-      type: JointStateBroadcaster
       joints:
         - waist
         - shoulder
         - elbow
         - wrist_angle
         - wrist_rotate
+        - gripper
         - left_finger
