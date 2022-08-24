@@ -1,0 +1,19 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: interbotix_ros_manipulators
+message: 'If you use this software, please cite it as below.'
+type: software
+authors:
+  - given-names: Solomon
+    family-names: Wiznitzer
+    orcid: 'https://orcid.org/0000-0002-9955-6601'
+  - given-names: Luke
+    family-names: Schmitt
+    orcid: 'https://orcid.org/0000-0002-3638-8938'
+  - given-names: Matt
+    family-names: Trossen
+repository-code: >-
+  https://github.com/Interbotix/interbotix_ros_manipulators
+license: BSD-3-Clause
