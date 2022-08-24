@@ -39,11 +39,7 @@ from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
 from interbotix_xs_msgs.msg import ArmJoy
 import numpy as np
 import rclpy
-from rclpy.logging import LoggingSeverity
 from rclpy.utilities import remove_ros_args
-
-
-NODE_NAME = 'xsarm_robot'
 
 
 class XSArmRobot(InterbotixManipulatorXS):
@@ -75,7 +71,6 @@ class XSArmRobot(InterbotixManipulatorXS):
             moving_time=0.2,
             accel_time=0.1,
             start_on_init=True,
-            logging_level=LoggingSeverity.DEBUG,
             args=args
         )
         self.core.declare_parameter('robot_model', '')
