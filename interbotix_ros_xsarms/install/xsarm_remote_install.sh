@@ -39,7 +39,7 @@ Examples:
     This will install just the ROS1 distro compatible with your Ubuntu version. It will prompt you
     to ask if you want to install certain packages and dependencies.
 
-  ./xsarm_remote_install.sh -p ~/custom_ws
+  ./xsarm_remote_install.sh ${BOLD}-p ~/custom_ws${NORM}
     Installs the Interbotix packages under the '~/custom_ws' path."
 
 function help() {
@@ -130,6 +130,7 @@ source $INSTALL_PATH/devel/setup.bash
 # Step 5: Setup Environment Variables
 if [ -z "$ROS_IP" ]; then
   echo -e "${GRN}Setting up Environment Variables...${OFF}"
+  echo "# Interbotix Configurations" >> ~/.bashrc
   echo "export ROS_MASTER_URI=http://$HOSTNAME.local:11311" >> ~/.bashrc
   echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
   echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
