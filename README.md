@@ -56,3 +56,15 @@ Feel free to send PRs to add features to currently existing Arm ROS packages or 
 - [Solomon Wiznitzer](https://github.com/swiz23) - **ROS Engineer**
 - [Luke Schmitt](https://github.com/lsinterbotix) - **Robotics Software Engineer**
 - [Levi Todes](https://github.com/LeTo37) - **CAD Engineer**
+
+## Citing
+
+If using this software for your research, please include the following citation in your publications:
+
+```bibtex
+@software{Wiznitzer_interbotix_ros_manipulators,
+  author = {Wiznitzer, Solomon and Schmitt, Luke and Trossen, Matt},
+  license = {BSD-3-Clause},
+  title = {{interbotix_ros_manipulators}},
+  url = {https://github.com/Interbotix/interbotix_ros_manipulators}
+}
