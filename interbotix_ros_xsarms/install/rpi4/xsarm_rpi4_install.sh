@@ -272,6 +272,7 @@ function setup_env_vars() {
   # Step 3: Setup Environment Variables
   if [ -z "$ROS_IP" ]; then
     echo "Setting up Environment Variables..."
+    echo "# Interbotix Configurations" >> ~/.bashrc
     echo 'export ROS_IP=$(echo `hostname -I | cut -d" " -f1`)' >> ~/.bashrc
     echo -e 'if [ -z "$ROS_IP" ]; then\n\texport ROS_IP=127.0.0.1\nfi' >> ~/.bashrc
   else
