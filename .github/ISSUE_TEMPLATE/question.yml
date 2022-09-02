@@ -39,7 +39,7 @@ body:
     id: ros_version
     attributes:
       label: ROS Version
-      description: Which version of ROS are you seeing this problem on?
+      description: Which version of ROS are you targeting when asking this question?
       multiple: true
       options:
         - ROS1 Melodic
