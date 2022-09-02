@@ -6,7 +6,7 @@ Welcome to the *interbotix_ros_manipulators* repository! This repo contains cust
 
 ### Build Status
 
-| ROS Distro | X-Series ROS Core Build |
+| ROS Distro | X-Series ROS Manipulators Build |
 | :------- | :------- |
 | ROS 1 Melodic | [![build-xs-melodic](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-melodic.yaml/badge.svg)](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-melodic.yaml) |
 | ROS 1 Noetic | [![build-xs-noetic](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-noetic.yaml/badge.svg)](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-noetic.yaml) |
@@ -29,6 +29,7 @@ GitHub Landing Page: Explains repository structure and contains a single directo
 │           ├── Demo Script 1
 │           ├── Demo Script 2
 |           └── Demo Script X
+├── CITATION.cff
 ├── LICENSE
 └── README.md
 ```
@@ -48,7 +49,7 @@ As shown above, there are five main levels to this repository. To clarify some o
     - *interbotix_XXarm_puppet* - make one or more 'puppet' arms copy the motion of a 'master' arm
     - *interbotix_XXarm_moveit_interface* - learn how to use MoveIt!'s MoveGroup Python or C++ APIs to control a robot arm
 
-- **Demo Script** - This refers to demo scripts that build upon the interface modules in the *interbotix_ros_toolboxes* repository. These modules essentially abstract away all ROS code, making it easy for a researcher with no ROS experience to interface with an arm as if it was just another object. It also makes sequencing robot motion a piece of cake. These scripts are written in languages that users may feel more comfortable with like Python and MATLAB.
+- **Demo Script** - This refers to demo scripts that build upon the interface modules in the *interbotix_ros_toolboxes* repository. These modules essentially abstract away all ROS code, making it easy for a researcher with no ROS experience to interface with an arm as if it was just another object. It also makes sequencing robot motion a piece of cake. These scripts are written in languages that users may feel more comfortable with like Python and MATLAB. The directories that contain demo scripts for each language may be found the in example directory, or in the package that specifically relates to their usage, such as the perception packages.
 
 Over time, the repo will grow to include more types of manipulators.
 
