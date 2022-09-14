@@ -17,12 +17,13 @@ RRE="${NORM}${OFF}"
 
 PROMPT="> "
 
-ALL_VALID_DISTROS=('melodic' 'noetic' 'galactic')
+ALL_VALID_DISTROS=('melodic' 'noetic' 'galactic' 'humble' 'rolling')
 ROS1_VALID_DISTROS=('melodic' 'noetic')
-ROS2_VALID_DISTROS=('galactic')
+ROS2_VALID_DISTROS=('galactic' 'humble' 'rolling')
 
 BIONIC_VALID_DISTROS=('melodic')
 FOCAL_VALID_DISTROS=('noetic' 'galactic')
+JAMMY_VALID_DISTROS=('humble' 'rolling')
 
 NONINTERACTIVE=false
 DISTRO_SET_FROM_CL=false
@@ -38,8 +39,8 @@ Options:
 
   -d DISTRO       Install the DISTRO ROS distro compatible with your Ubuntu version. See
                   'https://github.com/Interbotix/.github/blob/main/SECURITY.md' for the list of
-                  supported distributions. If not given, installs the ROS1 Distro compatible with
-                  your Ubuntu version.
+                  supported distributions. If not given, installs the ROS 1 distro compatible with
+                  your Ubuntu version, or the stable ROS 2 distro if using Ubuntu 22.04 or later.
 
   -p PATH         Sets the absolute install location for the Interbotix workspace. If not specified,
                   the Interbotix workspace directory will default to '~/interbotix_ws'.
@@ -54,11 +55,12 @@ Examples:
     This will display this help message and quit.
 
   ./xsarm_amd64_install.sh
-    This will install just the ROS1 distro compatible with your Ubuntu version. It will prompt you
-    to ask if you want to install certain packages and dependencies.
+    This will install just the ROS 1 distro compatible with your Ubuntu version, or the stable ROS 2
+    distro if using Ubuntu 22.04 or later. It will prompt you to ask if you want to install certain
+    packages and dependencies.
 
   ./xsarm_amd64_install.sh ${BOLD}-d noetic${NORM}
-    This will install ROS1 Noetic assuming that your Ubuntu version is compatible.
+    This will install ROS 1 Noetic assuming that your Ubuntu version is compatible.
 
   ./xsarm_amd64_install.sh ${BOLD}-n${NORM}
     Skip prompts and install all packages and dependencies.
@@ -90,7 +92,7 @@ function contains_element () {
 
 function failed() {
   # Log error and quit with a failed exit code
-  echo -e "${ERR}[ERROR] $1${RRE}"
+  echo -e "${ERR}[ERROR] $@${RRE}"
   echo -e "${ERR}[ERROR] Interbotix Installation Failed!${RRE}"
   exit 1
 }
@@ -99,10 +101,10 @@ function validate_distro() {
   # check if chosen distro is valid and set ROS major version
   if contains_element $ROS_DISTRO_TO_INSTALL "${ALL_VALID_DISTROS[@]}"; then
     if contains_element $ROS_DISTRO_TO_INSTALL "${ROS1_VALID_DISTROS[@]}"; then
-      # Supported ROS1 distros
+      # Supported ROS 1 distros
       ROS_VERSION_TO_INSTALL=1
     elif contains_element $ROS_DISTRO_TO_INSTALL "${ROS2_VALID_DISTROS[@]}"; then
-      # Supported ROS2 distros
+      # Supported ROS 2 distros
       ROS_VERSION_TO_INSTALL=2
     else
       # For cases where it passes the first check but somehow fails the second check
@@ -136,6 +138,14 @@ function check_ubuntu_version() {
       fi
       ;;
 
+    22.04 )
+      if contains_element $ROS_DISTRO_TO_INSTALL "${JAMMY_VALID_DISTROS[@]}"; then
+        PY_VERSION=3
+      else
+        failed "Chosen ROS distribution '$ROS_DISTRO_TO_INSTALL' is not supported on Ubuntu ${UBUNTU_VERSION}."
+      fi
+      ;;
+
     *)
       failed "Something went wrong."
       ;;
@@ -161,9 +171,9 @@ function install_essential_packages() {
 }
 
 function install_ros1() {
-  # Install ROS
+  # Install ROS 1
   if [ $(dpkg-query -W -f='${Status}' ros-$ROS_DISTRO_TO_INSTALL-desktop-full 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    echo -e "${GRN}Installing ROS1 $ROS_DISTRO_TO_INSTALL desktop...${OFF}"
+    echo -e "${GRN}Installing ROS 1 $ROS_DISTRO_TO_INSTALL desktop...${OFF}"
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
     sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
@@ -225,9 +235,9 @@ function install_ros1() {
 }
 
 function install_ros2() {
-  # Install ROS2
+  # Install ROS 2
   if [ $(dpkg-query -W -f='${Status}' ros-$ROS_DISTRO_TO_INSTALL-desktop 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-    echo -e "${GRN}Installing ROS2 $ROS_DISTRO_TO_INSTALL desktop...${OFF}"
+    echo -e "${GRN}Installing ROS 2 $ROS_DISTRO_TO_INSTALL desktop...${OFF}"
     sudo apt install -y software-properties-common
     sudo add-apt-repository universe
     sudo apt install -y curl gnupg lsb-release
@@ -248,13 +258,12 @@ function install_ros2() {
   source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash
 
   if [ "$INSTALL_PERCEPTION" = true ]; then
-    # Install apriltag ROS Wrapper
+    # Install apriltag ROS Wrapper, no official Apriltag ROS 2 package yet
     APRILTAG_WS=~/apriltag_ws
     if [ ! -d "$APRILTAG_WS/src" ]; then
       echo -e "${GRN}Installing Apriltag ROS Wrapper...${OFF}"
       mkdir -p $APRILTAG_WS/src
       cd $APRILTAG_WS/src
-      git clone https://github.com/AprilRobotics/apriltag.git
       git clone https://github.com/Interbotix/apriltag_ros.git -b ros2-port
       cd $APRILTAG_WS
       rosdep install --from-paths src --ignore-src -r -y
@@ -332,7 +341,7 @@ do
   case "$OPTION" in
     h) help && exit 0;;
     n) NONINTERACTIVE=true;;
-    d) ROS_DISTRO_TO_INSTALL="$OPTARG" && DISTRO_SET_FROM_CL=true;;
+    d) ROS_DISTRO_TO_INSTALL="$OPTARG" && DISTRO_SET_FROM_CL=true && validate_distro;;
     p) INSTALL_PATH="$OPTARG";;
     *) echo "Unknown argument $OPTION" && help && exit 0;;
   esac
@@ -352,14 +361,15 @@ if [ "$DISTRO_SET_FROM_CL" = false ]; then
     ROS_DISTRO_TO_INSTALL="melodic"
   elif [ $UBUNTU_VERSION == "20.04" ]; then
     ROS_DISTRO_TO_INSTALL="noetic"
+  elif [ $UBUNTU_VERSION == "22.04" ]; then
+    ROS_DISTRO_TO_INSTALL="humble"
   else
     echo -e "${BOLD}${RED}Unsupported Ubuntu verison: $UBUNTU_VERSION.${NORM}${OFF}"
-    failed "Interbotix Arm only works with Ubuntu 18.04 bionic or 20.04 focal on your hardware."
+    failed "Interbotix Arm only works with Ubuntu 18.04 Bionic, 20.04 Focal, or 22.04 Jammy on your hardware."
   fi
 fi
 
 check_ubuntu_version
-validate_distro
 
 if [ "$NONINTERACTIVE" = false ]; then
   # prompt for perecption packages
@@ -380,7 +390,7 @@ if [ "$NONINTERACTIVE" = false ]; then
   fi
 
   echo -e "${BLU}${BOLD}INSTALLATION SUMMARY:"
-  echo -e "\tROS Distribution:           ROS${ROS_VERSION_TO_INSTALL} ${ROS_DISTRO_TO_INSTALL}"
+  echo -e "\tROS Distribution:           ROS ${ROS_VERSION_TO_INSTALL} ${ROS_DISTRO_TO_INSTALL}"
   echo -e "\tInstall Perception Modules: ${INSTALL_PERCEPTION}"
   echo -e "\tInstall MATLAB Modules:     ${INSTALL_MATLAB}"
   echo -e "\tInstallation path:          ${INSTALL_PATH}"
@@ -408,6 +418,8 @@ echo -e "\n\n"
 
 sleep 4
 start_time="$(date -u +%s)"
+
+echo -e "\n# Interbotix Configurations" >> ~/.bashrc
 
 # Update the system
 sudo apt update && sudo apt -y upgrade
