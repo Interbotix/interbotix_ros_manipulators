@@ -22,7 +22,7 @@
         xyz="0 0 0"/>
       <geometry>
         <mesh
-          filename="${mesh_directory}/ar_tag.stl"
+          filename="${mesh_directory}/../ar_tag.stl"
           scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="interbotix_black"/>

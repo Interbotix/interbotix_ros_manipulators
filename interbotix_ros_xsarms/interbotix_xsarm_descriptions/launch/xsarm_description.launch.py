@@ -49,7 +49,7 @@ def launch_setup(context, *args, **kwargs):
     use_rviz_launch_arg = LaunchConfiguration('use_rviz')
     use_joint_pub_launch_arg = LaunchConfiguration('use_joint_pub')
     use_joint_pub_gui_launch_arg = LaunchConfiguration('use_joint_pub_gui')
-    rviz_config_launch_arg = LaunchConfiguration('rvizconfig')
+    rvizconfig_launch_arg = LaunchConfiguration('rvizconfig')
     robot_description_launch_arg = LaunchConfiguration('robot_description')
     hardware_type_launch_arg = LaunchConfiguration('hardware_type')
 
@@ -96,7 +96,7 @@ def launch_setup(context, *args, **kwargs):
         name='rviz2',
         namespace=robot_name_launch_arg,
         arguments=[
-            '-d', rviz_config_launch_arg,
+            '-d', rvizconfig_launch_arg,
         ],
         parameters=[{
             'use_sim_time': use_sim_time_param,
