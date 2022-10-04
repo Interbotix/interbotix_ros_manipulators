@@ -31,7 +31,7 @@ from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
 )
 from interbotix_xs_modules.xs_launch import (
-    construct_semantic_robot_description_command,
+    construct_interbotix_xsarm_semantic_robot_description_command,
     declare_interbotix_xsarm_robot_description_launch_arguments,
 )
 from interbotix_xs_modules.xs_launch.xs_launch import determine_use_sim_time_param
@@ -82,7 +82,7 @@ def launch_setup(context, *args, **kwargs):
         'config',
     ])
 
-    robot_description_semantic = construct_semantic_robot_description_command(
+    robot_description_semantic = construct_interbotix_xsarm_semantic_robot_description_command(
         robot_model=robot_model_launch_arg.perform(context),
         config_path=config_path,
     )
