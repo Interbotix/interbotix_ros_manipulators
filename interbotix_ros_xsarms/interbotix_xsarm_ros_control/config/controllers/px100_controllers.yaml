@@ -1,13 +1,13 @@
 /$(var robot_name):
-  ros__parameters:
-    update_rate: 10 # Hz
-    arm_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-    gripper_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-    joint_state_broadcaster:
-      type: joint_state_broadcaster/JointStateBroadcaster
-/$(var robot_name):
+  controller_manager:
+    ros__parameters:
+        update_rate: 10 # Hz
+        arm_controller:
+          type: joint_trajectory_controller/JointTrajectoryController
+        gripper_controller:
+          type: joint_trajectory_controller/JointTrajectoryController
+        joint_state_broadcaster:
+          type: joint_state_broadcaster/JointStateBroadcaster
   arm_controller:
     ros__parameters:
       type: FollowJointTrajectory
@@ -25,7 +25,6 @@
       constraints:
         stopped_velocity_tolerance: 0.02
         goal_time: 1.0
-/$(var robot_name):
   gripper_controller:
     ros__parameters:
       type: FollowJointTrajectory
@@ -35,7 +34,6 @@
         - position
       state_interfaces:
         - position
-/$(var robot_name):
   joint_state_broadcaster:
     ros__parameters:
       type: JointStateBroadcaster

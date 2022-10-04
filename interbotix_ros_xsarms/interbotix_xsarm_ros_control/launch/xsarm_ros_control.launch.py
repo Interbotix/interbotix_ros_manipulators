@@ -26,8 +26,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from typing import List
-
 from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
 )
@@ -188,7 +186,7 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
-    declared_arguments: List[DeclareLaunchArgument] = []
+    declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_model',

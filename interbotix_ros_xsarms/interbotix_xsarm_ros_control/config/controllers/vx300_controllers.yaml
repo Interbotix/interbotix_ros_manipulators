@@ -1,7 +1,7 @@
 /$(var robot_name):
   controller_manager:
     ros__parameters:
-      update_rate: 50 # Hz
+      update_rate: 10 # Hz
       arm_controller:
         type: joint_trajectory_controller/JointTrajectoryController
       gripper_controller:
@@ -10,12 +10,12 @@
         type: joint_state_broadcaster/JointStateBroadcaster
   arm_controller:
     ros__parameters:
-      type: FollowJointTrajectory
       joints:
         - waist
         - shoulder
         - elbow
         - wrist_angle
+        - wrist_rotate
       command_interfaces:
         - position
       state_interfaces:
@@ -40,4 +40,6 @@
         - shoulder
         - elbow
         - wrist_angle
+        - wrist_rotate
+        - gripper
         - left_finger
