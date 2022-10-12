@@ -78,7 +78,6 @@ class XSArmRobot(InterbotixManipulatorXS):
             logging_level=LoggingSeverity.DEBUG,
             args=args
         )
-        self.core.declare_parameter('robot_model', '')
         self.rate = self.core.create_rate(self.current_loop_rate)
         self.num_joints = self.arm.group_info.num_joints
         self.waist_index = self.arm.group_info.joint_names.index('waist')
@@ -91,7 +90,7 @@ class XSArmRobot(InterbotixManipulatorXS):
         time.sleep(0.5)
         self.core.get_logger().info('Ready to receive processed joystick commands.')
 
-    def start_robot(self):
+    def start_robot(self) -> None:
         try:
             self.start()
             while rclpy.ok():
