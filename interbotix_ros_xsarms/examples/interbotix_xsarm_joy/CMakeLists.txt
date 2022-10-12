@@ -12,12 +12,8 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(interbotix_xs_msgs REQUIRED)
-find_package(interbotix_xsarm_control REQUIRED)
-find_package(joy REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rclpy REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(std_msgs REQUIRED)
 
 set(ROS_DEPENDENCIES
   ament_index_cpp

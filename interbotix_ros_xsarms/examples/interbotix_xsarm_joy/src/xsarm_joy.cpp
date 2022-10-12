@@ -157,8 +157,9 @@ public:
       std::bind(&InterbotixXSArmJoy::joy_state_cb, this, _1));
   }
 
+private:
   /// @brief Joystick callback to create custom ArmJoy messages to control the Arm
-  /// @param msg - raw sensor_msgs::Joy data
+  /// @param msg - raw sensor_msgs::msg::Joy data
   void joy_state_cb(const sensor_msgs::msg::Joy & msg)
   {
     static bool flip_ee_roll_cmd = false;
@@ -179,7 +180,7 @@ public:
       time_start = this->get_clock()->now().seconds();
       timer_started = true;
     } else if (msg.buttons.at(cntlr["TORQUE_ENABLE"]) == 0) {
-      if (timer_started && this->get_clock()->now().seconds() - time_start > 3) {
+      if (timer_started && this->get_clock()->now().seconds() - time_start > 3.0) {
         joy_cmd.torque_cmd = interbotix_xs_msgs::msg::ArmJoy::TORQUE_OFF;
         flip_torque_cmd = false;
       }
