@@ -8,7 +8,6 @@
         type: joint_trajectory_controller/JointTrajectoryController
       gripper_controller:
         type: joint_trajectory_controller/JointTrajectoryController
-/rx200:
   arm_controller:
     ros__parameters:
       joints:
@@ -22,12 +21,11 @@
         - position
       state_interfaces:
         - position
-      state_publish_rate: 50.0 # Hz Defaults to 50
-      action_monitor_rate: 20.0 # Hz Defaults to 20
+      state_publish_rate: 50.0
+      action_monitor_rate: 20.0
       constraints:
         stopped_velocity_tolerance: 0.02
         goal_time: 1.0
-/rx200:
   gripper_controller:
     ros__parameters:
       joints:
@@ -38,7 +36,6 @@
         - position
       state_interfaces:
         - position
-/rx200:
   joint_state_broadcaster:
     ros__parameters:
       joints:
