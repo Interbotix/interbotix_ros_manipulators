@@ -1,6 +1,6 @@
 /$(var robot_name):
   controller_manager:
-  ros__parameters:
+    ros__parameters:
       update_rate: 10 # Hz
       arm_controller:
         type: joint_trajectory_controller/JointTrajectoryController
