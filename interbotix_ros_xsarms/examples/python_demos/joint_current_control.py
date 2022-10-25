@@ -3,7 +3,7 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 # This script commands currents [mA] to the arm joints
 #
 # To get started, open a terminal and type 'roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=vx250'
-# Then change to this directory and type 'python joint_current_control.py'
+# Then change to this directory and type 'python joint_current_control.py  # python3 bartender.py if using ROS Noetic'
 
 def main():
     joint_currents = [0, 200 , 200, 50, 0]

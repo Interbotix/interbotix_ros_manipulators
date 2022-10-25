@@ -4,7 +4,7 @@ import numpy as np
 # This script makes the end-effector go to a specific pose only possible with a 6dof arm using a transformation matrix
 #
 # To get started, open a terminal and type 'roslaunch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250s'
-# Then change to this directory and type 'python ee_pose_matrix_control.py'
+# Then change to this directory and type 'python ee_pose_matrix_control.py  # python3 bartender.py if using ROS Noetic'
 
 def main():
     T_sd = np.identity(4)
