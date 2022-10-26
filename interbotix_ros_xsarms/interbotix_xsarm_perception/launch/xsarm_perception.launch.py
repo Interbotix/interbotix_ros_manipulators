@@ -168,7 +168,7 @@ def launch_setup(context, *args, **kwargs):
     static_transform_pub_launch_include = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-                FindPackageShare('interbotix_perception_modules'),
+                FindPackageShare('interbotix_tf_tools'),
                 'launch',
                 'static_transform_pub.launch.py',
             ])
@@ -474,7 +474,7 @@ def generate_launch_description():
             ]),
             description=(
                 'filepath to the static_transforms.yaml file used by the static_trans_pub node; if'
-                ' the file does not exist yet, this is where you wouldd like the file to be '
+                ' the file does not exist yet, this is where you would like the file to be '
                 'generated.'
             ),
         )
