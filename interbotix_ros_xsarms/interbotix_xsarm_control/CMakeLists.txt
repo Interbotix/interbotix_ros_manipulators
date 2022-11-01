@@ -28,6 +28,7 @@ install(
     demos/python_ros2_api/joint_current_control.py
     demos/python_ros2_api/joint_position_control.py
     demos/python_ros2_api/joint_pwm_control.py
+    demos/python_ros2_api/joint_trajectory_control.py
   DESTINATION
     lib/${PROJECT_NAME}
 )
