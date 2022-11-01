@@ -1,8 +1,11 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Contact Trossen Robotics Support
-    url: https://www.trossenrobotics.com/contact.aspx
-    about: If you have any questions about missing or damaged parts.
+  - name: Troubleshooting Guide
+    url: https://www.trossenrobotics.com/docs/interbotix_xsarms/troubleshooting/index.html
+    about: Solutions for common problems with the X-Series Arms.
   - name: Discussions
     url: https://github.com/orgs/Interbotix/discussions
     about: Ask and answer questions about Interbotix products.
+  - name: Contact Trossen Robotics Support
+    url: https://www.trossenrobotics.com/contact.aspx
+    about: If you have any questions about missing or damaged parts.
