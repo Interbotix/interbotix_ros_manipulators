@@ -231,10 +231,7 @@ def launch_setup(context, *args, **kwargs):
             {'use_sim_time': use_sim_time_param},
         ],
         remappings=remappings,
-        output={
-            'stdout': 'log',
-            'stderr': 'log',
-        },
+        output={'both': 'log'},
     )
 
     xsarm_ros_control_launch_include = IncludeLaunchDescription(
