@@ -100,10 +100,7 @@ def launch_setup(context, *args, **kwargs):
             'use_sim_time': use_sim_time_param,
             'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
         }],
-        output={
-            'stdout': 'screen',
-            'stderr': 'screen',
-        },
+        output={'both': 'screen'},
     )
 
     xs_sdk_sim_node = Node(
@@ -119,10 +116,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_description': robot_description_launch_arg,
             'use_sim_time': use_sim_time_param,
         }],
-        output={
-            'stdout': 'screen',
-            'stderr': 'screen',
-        },
+        output={'both': 'screen'},
     )
 
     return [
