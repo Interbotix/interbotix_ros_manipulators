@@ -46,23 +46,23 @@ Then change to this directory and type:
 
 def main():
     bot = InterbotixManipulatorXS(
-        robot_model='wx200',
+        robot_model='wx250',
         group_name='arm',
         gripper_name='gripper'
     )
     bot.arm.set_ee_pose_components(x=0.3, z=0.2)
     bot.arm.set_single_joint_position(joint_name='waist', position=np.pi/2.0)
     bot.gripper.release()
-    bot.arm.set_ee_cartesian_trajectory(x=0.1, z=-0.10)
+    bot.arm.set_ee_cartesian_trajectory(x=0.1, z=-0.16)
     bot.gripper.grasp()
-    bot.arm.set_ee_cartesian_trajectory(x=-0.1, z=0.10)
+    bot.arm.set_ee_cartesian_trajectory(x=-0.1, z=0.16)
     bot.arm.set_single_joint_position(joint_name='waist', position=-np.pi/2.0)
     bot.arm.set_ee_cartesian_trajectory(pitch=1.5)
     bot.arm.set_ee_cartesian_trajectory(pitch=-1.5)
     bot.arm.set_single_joint_position(joint_name='waist', position=np.pi/2.0)
-    bot.arm.set_ee_cartesian_trajectory(x=0.1, z=-0.10)
+    bot.arm.set_ee_cartesian_trajectory(x=0.1, z=-0.16)
     bot.gripper.release()
-    bot.arm.set_ee_cartesian_trajectory(x=-0.1, z=0.10)
+    bot.arm.set_ee_cartesian_trajectory(x=-0.1, z=0.16)
     bot.arm.go_to_home_pose()
     bot.arm.go_to_sleep_pose()
 
