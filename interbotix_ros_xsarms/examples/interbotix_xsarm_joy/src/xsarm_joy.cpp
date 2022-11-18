@@ -121,7 +121,7 @@ public:
   interbotix_xs_msgs::msg::ArmJoy prev_joy_cmd;
 
   // Holds the controller button mappings
-  button_mappings cntlr;
+  button_mappings cntlr = ps4;
 
   // Holds the name of the controller received from the ROS Parameter server
   std::string controller_type;
@@ -143,18 +143,22 @@ public:
       cntlr = xbox360;
     } else if (controller_type == "ps3") {
       cntlr = ps3;
-    } else {
+    } else if (controller_type == "ps4") {
       cntlr = ps4;
+    } else {
+      RCLCPP_WARN(
+        this->get_logger(),
+        "Unsupported controller: '%s'. Defaulting to ps4 button mappings.",
+        controller_type.c_str());
     }
 
-    using namespace std::placeholders;
     pub_joy_cmd = this->create_publisher<interbotix_xs_msgs::msg::ArmJoy>(
       "commands/joy_processed",
       10);
     sub_joy_raw = this->create_subscription<sensor_msgs::msg::Joy>(
       "commands/joy_raw",
       10,
-      std::bind(&InterbotixXSArmJoy::joy_state_cb, this, _1));
+      [this](sensor_msgs::msg::Joy msg) {joy_state_cb(msg);});
   }
 
 private:
