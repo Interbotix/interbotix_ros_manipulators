@@ -56,17 +56,18 @@ def launch_setup(context, *args, **kwargs):
     robot_description_launch_arg = LaunchConfiguration('robot_description')
     xs_driver_logging_level_launch_arg = LaunchConfiguration('xs_driver_logging_level')
 
-    rs_camera_pointcloud_enable_launch_arg = LaunchConfiguration('rs_camera_pointcloud_enable')
-    rbg_camera_profile_launch_arg = LaunchConfiguration('rbg_camera_profile')
-    depth_module_profile_launch_arg = LaunchConfiguration('depth_module_profile')
+    pointcloud_enable_launch_arg = LaunchConfiguration('rs_camera_pointcloud_enable')
+    rbg_camera_profile_launch_arg = LaunchConfiguration('rs_camera_rbg_camera_profile')
+    depth_module_profile_launch_arg = LaunchConfiguration('rs_camera_depth_module_profile')
+    logging_level_launch_arg = LaunchConfiguration('rs_camera_logging_level')
+    output_location_launch_arg = LaunchConfiguration('rs_camera_output_location')
+    initial_reset_launch_arg = LaunchConfiguration('rs_camera_initial_reset')
+
     filter_ns_launch_arg = LaunchConfiguration('filter_ns')
     filter_params_launch_arg = LaunchConfiguration('filter_params')
     use_pointcloud_tuner_gui_launch_arg = LaunchConfiguration('use_pointcloud_tuner_gui')
     enable_pipeline_launch_arg = LaunchConfiguration('enable_pipeline')
     cloud_topic_launch_arg = LaunchConfiguration('cloud_topic')
-    rs_camera_logging_level_launch_arg = LaunchConfiguration('rs_camera_logging_level')
-    rs_camera_output_location_launch_arg = LaunchConfiguration('rs_camera_output_location')
-    rs_camera_initial_reset_launch_arg = LaunchConfiguration('rs_camera_initial_reset')
 
     tags_config_launch_arg = LaunchConfiguration('tags_config')
     camera_frame_launch_arg = LaunchConfiguration('camera_frame')
@@ -118,10 +119,10 @@ def launch_setup(context, *args, **kwargs):
             'camera_name': 'camera',
             'rgb_camera.profile': rbg_camera_profile_launch_arg,
             'depth_module.profile': depth_module_profile_launch_arg,
-            'enable_pointcloud': rs_camera_pointcloud_enable_launch_arg,
-            'initial_reset': rs_camera_initial_reset_launch_arg,
-            'log_level': rs_camera_logging_level_launch_arg,
-            'output': rs_camera_output_location_launch_arg,
+            'pointcloud.enable': pointcloud_enable_launch_arg,
+            'initial_reset': initial_reset_launch_arg,
+            'log_level': logging_level_launch_arg,
+            'output': output_location_launch_arg,
         }.items()
     )
 
@@ -258,14 +259,14 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            'rbg_camera_profile',
+            'rs_camera_rbg_camera_profile',
             default_value='640x480x30',
             description='profile for the rbg camera image stream, in `<width>x<height>x<fps>`.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            'depth_module_profile',
+            'rs_camera_depth_module_profile',
             default_value='640x480x30',
             description='profile for the depth module stream, in `<width>x<height>x<fps>`.',
         )
