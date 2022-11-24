@@ -1,7 +1,7 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Troubleshooting Guide
-    url: https://www.trossenrobotics.com/docs/interbotix_xsarms/troubleshooting/index.html
+  - name: X-Series Arms Troubleshooting Guide
+    url: https://docs.trossenrobotics.com/interbotix_xsarms_docs/troubleshooting.html
     about: Solutions for common problems with the X-Series Arms.
   - name: Discussions
     url: https://github.com/orgs/Interbotix/discussions
