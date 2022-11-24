@@ -1,6 +1,6 @@
 # interbotix_xsarm_joy
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://www.trossenrobotics.com/docs/interbotix_xsarms/ros_packages/joystick_control.html)
+[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/joystick_control.html)
 
 ## Overview
 
