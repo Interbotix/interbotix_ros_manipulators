@@ -1,6 +1,6 @@
 # interbotix_xsarm_pid
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/pid_gains_test_environment.html)
+[![docs](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/pid_gains_test_environment.html)
 
 ## Overview
 

@@ -1,6 +1,6 @@
 # InterbotiX X-Series Arm ROS Packages
 
-[![View Documentation](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs)
+[![View Documentation](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs)
 
 ![xsarm_banner](images/xsarm_banner.png)
 
@@ -40,7 +40,7 @@ All the ROS packages, Python scripts, and MATLAB scripts found within the [examp
 
 Find all documentation related to the X-Series arms including specifications, hardware setup, ROS packages, troubleshooting, and more at the [Trossen Robotics X-Series Arms Documentation site](https://docs.trossenrobotics.com/interbotix_xsarms_docs).
 
-Look for the [![View Documentation](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs) button on package and example READMEs for their structure and usage information.
+Look for the [![View Documentation](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs) button on package and example READMEs for their structure and usage information.
 
 ## Contributing
 To contribute your own custom X-Series arm in this repo, you will need to do the following steps:
