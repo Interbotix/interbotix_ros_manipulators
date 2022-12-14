@@ -45,10 +45,11 @@ body:
       description: Which distribution of ROS are you seeing this problem on?
       multiple: true
       options:
-        - ROS1 Melodic
-        - ROS1 Noetic
-        - ROS2 Galactic
-        - ROS2 Rolling
+        - ROS 1 Melodic
+        - ROS 1 Noetic
+        - ROS 2 Galactic
+        - ROS 2 Humble
+        - ROS 2 Rolling
         - Other (Describe in "Anything Else")
     validations:
       required: true
@@ -56,7 +57,7 @@ body:
     id: steps
     attributes:
       label: Steps To Reproduce
-      description: What were the steps you took immediately preceeding your issue?
+      description: What were the steps you took immediately preceding your issue?
   - type: textarea
     id: logs
     attributes:

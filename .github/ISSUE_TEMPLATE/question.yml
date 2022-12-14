@@ -42,10 +42,11 @@ body:
       description: Which version of ROS are you targeting when asking this question?
       multiple: true
       options:
-        - ROS1 Melodic
-        - ROS1 Noetic
-        - ROS2 Galactic
-        - ROS2 Rolling
+        - ROS 1 Melodic
+        - ROS 1 Noetic
+        - ROS 2 Galactic
+        - ROS 2 Humble
+        - ROS 2 Rolling
         - Other (Describe in "Anything Else")
     validations:
       required: true
