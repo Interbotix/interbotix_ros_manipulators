@@ -1,6 +1,6 @@
 # interbotix_xsarm_dual
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/dual_arm_control.html)
+[![docs](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/dual_arm_control.html)
 
 ## Overview
 

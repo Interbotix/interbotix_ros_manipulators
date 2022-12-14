@@ -1,6 +1,6 @@
 # interbotix_xsarm_perception
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros2_packages/perception_pipeline_configuration.html)
+[![docs](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros2_packages/perception_pipeline_configuration.html)
 
 ## Overview
 
