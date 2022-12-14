@@ -8,12 +8,12 @@ The package provides two methods for doing this task: the Diagnostic Tool and th
 
 ### Diagnostic Tool
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/arm_diagnostic_tool.html)
+[![docs](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/arm_diagnostic_tool.html)
 
 The diagnostic tool cycles a specified joint through a sinusoidal trajectory for a specified time. While the tool is running, it continuously publishes the joint position, velocity, effort, temperature, and goal state. The launch file also launches bag recording to track these topics, and rqt_plot windows to visualize them.
 
 ### Diagnostic Listener
 
-[![docs](https://trossenrobotics.com/docs/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/arm_diagnostic_listener.html)
+[![docs](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros1_packages/arm_diagnostic_listener.html)
 
 The diagnostic listener is intended to get joint information like present temperature from the robot while it executes any commanded trajectory. This is useful for when you would like the robot to move through a more complex motion than the more basic Diagnostic Tool is able to provide. The Listener subscribes to the joint states of the [configured](config/listener.yaml) joints, periodically retrieves the Present_Temperature register from the DYNAMIXEL servos, and publishes the data to the namespaced `temperatures/joint_group` topic.
