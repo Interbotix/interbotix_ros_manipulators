@@ -267,7 +267,7 @@ function install_ros2() {
       git clone https://github.com/Interbotix/apriltag_ros.git -b ros2-port
       cd $APRILTAG_WS
       rosdep install --from-paths src --ignore-src -r -y
-      colcon build
+      colcon build --cmake-args -DCMAKE_CXX_FLAGS="-w" # warnings as errors unrelated to ROS - disables this behavior
       if [ $? -eq 0 ]; then
         echo -e "${GRN}${BOLD}Apriltag ROS Wrapper built successfully!${NORM}${OFF}"
       else
