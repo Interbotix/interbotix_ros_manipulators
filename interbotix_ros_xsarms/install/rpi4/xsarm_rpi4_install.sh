@@ -173,7 +173,7 @@ function install_ros1() {
       sudo apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     fi
     sudo rosdep init
-    rosdep update
+    rosdep update --include-eol-distros
   else
     echo "ros-$ROS_DISTRO_TO_INSTALL-desktop-full is already installed!"
   fi
@@ -227,7 +227,7 @@ function install_ros2() {
     echo "source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash" >> ~/.bashrc
     sudo apt -y install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential python3-colcon-common-extensions
     sudo rosdep init
-    rosdep update
+    rosdep update --include-eol-distros
   else
     echo "ros-$ROS_DISTRO_TO_INSTALL-desktop-full is already installed!"
   fi
