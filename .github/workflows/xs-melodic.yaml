@@ -22,8 +22,6 @@ jobs:
         env:
           - {ROS_DISTRO: melodic,  ROS_REPO: main, BUILDER: catkin_make}
     runs-on: ubuntu-18.04
-    container:
-      image: ubuntu:bionic
     steps:
       - name: Checkout ROS Manipulators
         uses: actions/checkout@v3
