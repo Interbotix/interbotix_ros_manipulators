@@ -20,6 +20,8 @@ jobs:
         env:
           - {ROS_DISTRO: humble,  ROS_REPO: main}
     runs-on: ubuntu-22.04
+    container:
+      image: ubuntu:jammy
     steps:
       - name: Checkout ROS Manipulators
         uses: actions/checkout@v3
