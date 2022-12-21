@@ -22,8 +22,6 @@ jobs:
         env:
           - {ROS_DISTRO: noetic,  ROS_REPO: main, BUILDER: catkin_make}
     runs-on: ubuntu-20.04
-    container:
-      image: ubuntu:focal
     steps:
       - name: Checkout ROS Manipulators
         uses: actions/checkout@v3

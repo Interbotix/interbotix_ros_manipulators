@@ -20,8 +20,6 @@ jobs:
         env:
           - {ROS_DISTRO: galactic,  ROS_REPO: main}
     runs-on: ubuntu-20.04
-    container:
-      image: ubuntu:focal
     steps:
       - name: Checkout ROS Manipulators
         uses: actions/checkout@v3
