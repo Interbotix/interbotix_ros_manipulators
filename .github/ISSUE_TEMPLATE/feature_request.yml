@@ -35,5 +35,5 @@ body:
   - type: textarea
     id: other
     attributes:
-      label: Anything Else
+      label: Additional Info
       description: Please enter anything else you'd like to share here.
