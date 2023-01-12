@@ -32,7 +32,7 @@ body:
         - Ubuntu 18.04
         - Ubuntu 20.04
         - Ubuntu 22.04
-        - Other (Describe in "Anything Else")
+        - Other (Describe in "Additional Info")
     validations:
       required: true
   - type: dropdown
@@ -47,11 +47,11 @@ body:
         - ROS 2 Galactic
         - ROS 2 Humble
         - ROS 2 Rolling
-        - Other (Describe in "Anything Else")
+        - Other (Describe in "Additional Info")
     validations:
       required: true
   - type: textarea
     id: other
     attributes:
-      label: Anything Else
+      label: Additional Info
       description: Please enter anything else you'd like to share here.
