@@ -28,10 +28,14 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import sys
+
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
 
 """
-This script makes the end-effector draw a square in 3D space:
+This script makes the end-effector draw a square in 3D space.
+Note that this script may not work for every arm as it was designed for the wx250.
+Make sure to adjust commanded joint positions and poses as necessary.
 
 To get started, open a terminal and type:
 
@@ -49,6 +53,12 @@ def main():
         group_name='arm',
         gripper_name='gripper'
     )
+
+    if (bot.arm.group_info.num_joints < 5):
+        bot.core.get_logger().fatal('This demo requires the robot to have at least 5 joints!')
+        bot.shutdown()
+        sys.exit()
+
     bot.arm.go_to_home_pose()
     bot.arm.set_ee_cartesian_trajectory(z=-0.2)
     bot.arm.set_ee_cartesian_trajectory(x=-0.2)
