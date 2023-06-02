@@ -1,23 +1,19 @@
 port: /dev/ttyDXL
-
 joint_order: [waist, shoulder, elbow, wrist_angle, wrist_rotate, gripper]
 sleep_positions: [0, -1.80, 1.55, 0.8, 0, 0]
-
 joint_state_publisher:
   update_rate: 100
   publish_states: true
   topic_name: joint_states
-
 groups:
   arm: [waist, shoulder, elbow, wrist_angle, wrist_rotate]
-
 grippers:
   gripper:
     horn_radius: 0.014
     arm_length: 0.024
     left_finger: left_finger
     right_finger: right_finger
-
+    calibration_offset: 0.00
 shadows:
   shoulder:
     shadow_list: [shoulder_shadow]
@@ -25,9 +21,7 @@ shadows:
   elbow:
     shadow_list: [elbow_shadow]
     calibrate: true
-
-sisters:
-
+sisters: ~
 motors:
   waist:
     ID: 1
@@ -38,7 +32,6 @@ motors:
     Min_Position_Limit: 0
     Max_Position_Limit: 4095
     Secondary_ID: 255
-
   shoulder:
     ID: 2
     Baud_Rate: 3
@@ -48,7 +41,6 @@ motors:
     Min_Position_Limit: 819
     Max_Position_Limit: 3345
     Secondary_ID: 255
-
   shoulder_shadow:
     ID: 3
     Baud_Rate: 3
@@ -58,7 +50,6 @@ motors:
     Min_Position_Limit: 819
     Max_Position_Limit: 3345
     Secondary_ID: 2
-
   elbow:
     ID: 4
     Baud_Rate: 3
@@ -68,7 +59,6 @@ motors:
     Min_Position_Limit: 648
     Max_Position_Limit: 3094
     Secondary_ID: 255
-
   elbow_shadow:
     ID: 5
     Baud_Rate: 3
@@ -78,7 +68,6 @@ motors:
     Min_Position_Limit: 648
     Max_Position_Limit: 3094
     Secondary_ID: 4
-
   wrist_angle:
     ID: 6
     Baud_Rate: 3
@@ -88,7 +77,6 @@ motors:
     Min_Position_Limit: 910
     Max_Position_Limit: 3447
     Secondary_ID: 255
-
   wrist_rotate:
     ID: 7
     Baud_Rate: 3
@@ -98,7 +86,6 @@ motors:
     Min_Position_Limit: 0
     Max_Position_Limit: 4095
     Secondary_ID: 255
-
   gripper:
     ID: 8
     Baud_Rate: 3
