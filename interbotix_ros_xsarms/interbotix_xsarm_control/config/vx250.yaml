@@ -17,6 +17,7 @@ grippers:
     arm_length: 0.024
     left_finger: left_finger
     right_finger: right_finger
+    calibration_offset: 0.00
 
 shadows:
   shoulder:
