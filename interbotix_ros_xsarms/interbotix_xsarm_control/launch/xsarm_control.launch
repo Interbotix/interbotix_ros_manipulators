@@ -40,4 +40,16 @@
     <param name="load_configs"                    value="$(arg load_configs)"/>
   </node>
 
+<node
+    name="gripper_calibration"
+    pkg="interbotix_xs_sdk"
+    type="gripper_calib"
+    output="screen"
+    ns="$(arg robot_name)">
+    <param name="motor_configs"                   value="$(arg motor_configs)"/>
+    <param name="robot"                           value="$(arg robot_name)"/>
+
+  </node>
+
+
 </launch>
