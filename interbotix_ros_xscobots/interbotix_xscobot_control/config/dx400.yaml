@@ -13,8 +13,8 @@ groups:
 
 grippers:
   gripper:
-    horn_radius: 0.014
-    arm_length: 0.024
+    type: rack_and_pinion
+    pitch_radius: 0.0127
     left_finger: left_finger
     right_finger: right_finger
     calibrate: true

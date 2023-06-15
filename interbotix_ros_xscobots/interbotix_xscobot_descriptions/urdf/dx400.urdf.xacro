@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<robot name="dx400" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="robot_name"            default="dx400"/>
+  <xacro:arg name="base_link_frame"       default="base_link"/>
+  <xacro:arg name="use_gripper"           default="true"/>
+  <xacro:arg name="gripper_parent_link"   default="link_5"/>
+  <xacro:arg name="gripper_parent_joint"  default="j6"/>
+  <xacro:arg name="gripper_limit_min"     default="0.008"/>
+  <xacro:arg name="gripper_limit_max"     default="0.008"/>
+  <xacro:arg name="show_ar_tag"           default="false"/>
+  <xacro:arg name="show_gripper_bar"      default="true"/>
+  <xacro:arg name="show_gripper_fingers"  default="true"/>
+  <xacro:arg name="use_world_frame"       default="false"/>
+  <xacro:arg name="external_urdf_loc"     default=""/>
+  <xacro:arg name="load_gazebo_configs"   default="false"/>
+
+  <xacro:property name="urdf_loc" value="$(arg external_urdf_loc)"/>
+  <xacro:property name="pi_offset" value="0.00001"/>
+
+  <xacro:if value="$(arg load_gazebo_configs)">
+    <xacro:include filename="$(find interbotix_common_sim)/textures/interbotix_texture.gazebo"/>
+  </xacro:if>
+
+  <material name="interbotix_black">
+    <color rgba="${220/255} ${220/255} ${220/255} 0.2"/>
+    <!-- <texture filename="package://interbotix_common_sim/media/materials/textures/interbotix_black.png"/> -->
+  </material>
+
+  <xacro:if value="$(arg use_world_frame)">
+    <link name="world"/>
+    <joint name="fixed" type="fixed">
+      <parent link="world"/>
+      <child link="$(arg robot_name)/$(arg base_link_frame)"/>
+    </joint>
+  </xacro:if>
+
+  <link name="$(arg robot_name)/$(arg base_link_frame)">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.1" />
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" ixz="0.0" iyz="0.0" />
+    </inertial>
+  </link>
+
+  <joint name="j1" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit effort="10" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <origin rpy="0 0 0" xyz="0 0 0.056"/>
+    <parent link="$(arg robot_name)/$(arg base_link_frame)"/>
+    <child link="$(arg robot_name)/link_1"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <transmission name="trans_j1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="j1_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link_1">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1" />
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" ixz="0.0" iyz="0.0" />
+    </inertial>
+  </link>
+
+  <joint name="j2" type="revolute">
+    <axis xyz="0 -1 0"/>
+    <limit effort="10" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <!-- <limit effort="20" lower="${radians(-109)}" upper="${radians(109)}" velocity="${pi}"/> -->
+    <origin rpy="0 0 0" xyz="0 0.055 0.069288"/>
+    <parent link="$(arg robot_name)/link_1"/>
+    <child link="$(arg robot_name)/link_2"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <transmission name="trans_j2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="j2_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link_2">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1" />
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" ixz="-0.0" iyz="0.0" />
+    </inertial>
+  </link>
+
+  <joint name="j3" type="revolute">
+    <axis xyz="0 -1 0"/>
+    <limit effort="10" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <!-- <limit effort="15" lower="${radians(-175)}" upper="${radians(175)}" velocity="${pi}"/> -->
+    <origin rpy="0 0 0" xyz="0 0 0.2285"/>
+    <parent link="$(arg robot_name)/link_2"/>
+    <child link="$(arg robot_name)/link_3"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <transmission name="trans_elbow">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="elbow_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link_3">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1" />
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <joint name="j4" type="revolute">
+    <axis xyz="0 1 0"/>
+    <limit effort="10" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <!-- <limit effort="2" lower="${radians(-172)}" upper="${radians(91)}" velocity="${pi}"/> -->
+    <origin rpy="0 0 0" xyz="0 -0.0541 0.20889"/>
+    <parent link="$(arg robot_name)/link_3"/>
+    <child link="$(arg robot_name)/link_4"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <transmission name="trans_forearm_roll">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="forearm_roll_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link_4">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+      <mass value="0.1" />
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="-0.0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+ <joint name="j5" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit effort="10" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <!-- <limit effort="5" lower="${radians(-122)}" upper="${radians(90)}" velocity="${pi}"/> -->
+    <origin rpy="0 0 0" xyz="0 0.03021 0.02761"/>
+    <parent link="$(arg robot_name)/link_4"/>
+    <child link="$(arg robot_name)/link_5"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <transmission name="trans_wrist_angle">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j5">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wrist_angle_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link_5">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 -0.0 0.0"/>
+      <mass value="0.1" />
+      <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" ixz="0.0" iyz="0.0" />
+    </inertial>
+  </link>
+
+  <joint name="j6" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1" lower="${-pi + pi_offset}" upper="${pi - pi_offset}" velocity="${pi}"/>
+    <origin rpy="0 0 0" xyz="0.07925 0 0.01925"/>
+    <parent link="$(arg robot_name)/link_5"/>
+    <child link="$(arg robot_name)/link_6"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <transmission name="trans_wrist_rotate">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j6">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wrist_rotate_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="$(arg robot_name)/link_6">
+    <inertial>
+      <origin rpy="0 0 ${pi/2}" xyz="0.0216310000 0.0000002516 0.0114100000"/>
+      <mass value="0.072885" />
+      <inertia ixx="0.0000253700" iyy="0.0000183600" izz="0.0000167400" ixy="0.0000000000" ixz="0.0000000000" iyz="0.0000004340" />
+    </inertial>
+  </link>
+
+  <!-- <xacro:if value="$(arg use_gripper)">
+    <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/xs_gripper.urdf.xacro"/>
+  </xacro:if> -->
+
+  <joint name="gripper" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1" lower="0" upper="3.9" velocity="${pi/2}"/>
+    <origin rpy="0 0 0" xyz="0.048 0 0"/>
+    <parent link="$(arg robot_name)/link_6"/>
+    <child link="$(arg robot_name)/gripper_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/gripper_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0" />
+      <inertia ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <joint name="left_finger" type="prismatic">
+    <axis xyz="0 1 0"/>
+    <limit effort="5" lower="0.001" upper="0.025" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="$(arg robot_name)/gripper_link"/>
+    <child link="$(arg robot_name)/left_finger_link"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/left_finger_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0" />
+      <inertia ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <joint name="right_finger" type="prismatic">
+    <axis xyz="0 1 0"/>
+    <limit effort="5" lower="-0.025" upper="-0.001" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="$(arg robot_name)/gripper_link"/>
+    <child link="$(arg robot_name)/right_finger_link"/>
+    <dynamics friction="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/right_finger_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0" />
+      <inertia ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <xacro:if value="${urdf_loc != ''}">
+    <xacro:include filename="${urdf_loc}"/>
+  </xacro:if>
+
+</robot>
