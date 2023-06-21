@@ -1,35 +1,69 @@
-port: /dev/ttyDXL
+# This file 'organizes' the motors in any Dynamixel-based robot into meaningful units. Every robot must
+# have at least one instance of this file located in a 'config' directory in their root 'control' ROS package.
+# Note that all parameters are mandatory unless stated otherwise. This file demos the setup for the VX300S robot.
+#
+# Refer to http://emanual.robotis.com/#control-table to look up the control registers for the various motors.
+#
+# SETUP OF REGISTERS FOR THE INTERBOTIX PLATFORMS
+#
+# All registers were left to their default values except for the ones listed here:
+#   1) ID.........................The ID of the Dynamixel servo. Valids IDs go from 1 - 251.
+#   2) Baud_Rate..................The speed at which serial communication occurs. All motors have this set to 1M
+#                                 baud (corresponds to a register value of '3')
+#   3) Return_Delay_Time..........The amount of time the servo delays in sending a reply packet after receiving a
+#                                 command packet. A value of '0' tells the servo to send a reply without any delay.
+#   4) Drive_Mode:................Used to define what direction is positive rotation. A value of '0' means CCW is
+#                                 positive while a value of '1' means CW is positive. It also defines if profiles are
+#                                 built based on velocity or time. 'Velocity' is the default (value of '0') and 'Time'
+#                                 is a value of '4'. Adding the 'direction' value to the 'profile' value gives the
+#                                 appropiate register value
+#   5) Velocity_Limit.............Defines the max speed of the motor. A value of '131' correpsonds to a max speed
+#                                 of PI rad/s
+#   6) Min_Position_Limit.........Defines the minimum limit of a joint. Values range from 0 to 4095 with 2048
+#                                 being equivalent to '0' rad and 0 being '-PI' rad.
+#   7) Max_Position_Limit.........Defines the maximum limit of a joint. Values range from 0 to 4095 with 2048
+#                                 being equivalent to '0' rad and 4095 being 'PI' rad.
+#   8) Secondary_ID...............If a joint is controlled by two motors (usually by the shoulder or elbow), one motor
+#                                 can be set to follow the commands of another motor by setting this register to the ID
+#                                 of the master. A value of '255' disables this.
+#
+# Each motor's configs are grouped under the name of the joint the motor is controlling. The names are defined at
+# http://support.interbotix.com/ under the 'Specifications' section. (Click a robot and scroll down to the 'Default Joint Limits' section.)
 
-joint_order: [j1, j2, j3, j4, j5, j6, gripper]
-sleep_positions: [0, 0, 0, 0, 0, 0, 0]
 
-joint_state_publisher:
-  update_rate: 100
-  publish_states: true
-  topic_name: joint_states
 
-groups:
-  arm: [j1, j2, j3, j4, j5, j6]
+port: /dev/ttyDXL                                           # Optional; specifies the USB port that connects to the U2D2; defaults to '/dev/ttyDXL'
 
-grippers:
-  gripper:
-    type: rack_and_pinion
-    pitch_radius: 0.0127
-    left_finger: left_finger
-    right_finger: right_finger
-    calibrate: true
+joint_order: [j1, j2, j3, j4, j5, j6, gripper]              # Defines the order in which the joints will appear in a JointState message; joint names must match those in the URDF (if present)
+sleep_positions: [0, 0, 0, 0, 0, 0, 0]                      # Optional; specified joint positions that define a 'rest' pose where it is safe to torque off the robot; defaults to 0 for each joint
 
-shadows:
+joint_state_publisher:                                      # Joint State Publisher Settings...
+  update_rate: 100                                          # Optional; rate at which the motor states are sampled (and potentially published) in Hz; defaults to '100'
+  publish_states: true                                      # Optional; boolean that either enables or disables the Publisher; defaults to 'true'
+  topic_name: joint_states                                  # Optional; desired JointState topic name; defaults to 'joint_states'
+
+groups:                                                     # Optional; defines an unlimited number of joint groups in the robot; custom 'group' names can be used.
+  arm: [j1, j2, j3, j4, j5, j6]                             # Optional; groups can contain overlapping joints but those joints will retain the operating mode of the latter group.
+                                                            # Note that 'all' is a special group name that contains all the joints in the 'joint_order' sequence.
+grippers:                                                   # Optional; defines an unlimited number of Interbotix grippers; custom 'gripper' names can be used.
+  gripper:                                                  # Example gripper name
+    type: rack_and_pinion                                   # Optional; gripper mechanism type i.e (rack_and_pinion or swing_arm); defaults to "swing_arm"
+    pitch_radius: 0.0127                                    # Optional; length in meters radius of pinion; defaults to '0.0127'
+    left_finger: left_finger                                # Optional; name of the 'left_finger' joint; this must match the name in the URDF (if present); defaults to 'left_finger'
+    right_finger: right_finger                              # Optional; name of the 'right_finger' joint; this must match the name in the URDF (if present); defaults to 'right_finger'
+    calibrate: true                                         # Optional; gripper calibration flag; defaults to true
+
+shadows:                                                    # Optional; list of any 'master' motors and all of its shadows (usually 1, but could be unlimited)
   j2:
     shadow_list: [j2_shadow]
-    calibrate: true
+    calibrate: true                                         # Optional; set to true if the master and shadow servos make up a single joint and the shadows should be calibrated to read the exact same value as the master
   j3:
     shadow_list: [j3_shadow]
     calibrate: true
 
-sisters:
+sisters:                                                    # Optional; list of any '2in1' motors and their corresponding 'sister'; order is irrelevant
 
-motors:
+motors:                                                     # List of all motors and the default values that should be written to the EEPROM registers; Note that any EEPROM register can be added;
   j1:
     ID: 1
     Baud_Rate: 3
