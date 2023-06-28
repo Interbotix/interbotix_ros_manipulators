@@ -42,6 +42,7 @@ from launch.actions import (
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
+    EnvironmentVariable,
     LaunchConfiguration,
     PathJoinSubstitution,
 )
@@ -131,6 +132,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_model',
+            default_value=EnvironmentVariable('INTERBOTIX_XSCOBOT_ROBOT_MODEL'),
             choices=get_interbotix_xscobot_models(),
             description='model type of the Interbotix Cobot such as `dx400`.'
         )
