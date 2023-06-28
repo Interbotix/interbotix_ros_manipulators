@@ -92,7 +92,7 @@
       upper="${pi - pi_offset}"
       velocity="${pi}"/>
     <origin
-      rpy="0 0 0"
+      rpy="0 0 ${pi/2}"
       xyz="0 0 0"/>
     <parent
       link="$(arg robot_name)/$(arg base_link_frame)"/>
@@ -142,7 +142,7 @@
   </link>
 
   <joint name="j2" type="revolute">
-    <axis xyz="0 1 0"/>
+    <axis xyz="0 -1 0"/>
     <limit
       effort="10"
       lower="${-pi + pi_offset}"
@@ -199,7 +199,7 @@
   </link>
 
   <joint name="j3" type="revolute">
-    <axis xyz="0 1 0"/>
+    <axis xyz="0 -1 0"/>
     <limit
       effort="10"
       lower="${-pi + pi_offset}"
@@ -377,7 +377,7 @@
       upper="${pi - pi_offset}"
       velocity="${pi}"/>
     <origin
-      rpy="0 0 0"
+      rpy="${pi/2} 0 0"
       xyz="0.04725 0 0.02305"/>
     <parent
       link="$(arg robot_name)/link_5"/>
@@ -433,6 +433,32 @@
       lower="0"
       upper="3.9"
       velocity="${pi/2}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.046501 0 -0.024"/>
+    <parent
+      link="$(arg robot_name)/gripper_link"/>
+    <child
+      link="$(arg robot_name)/gripper_pinion_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/gripper_pinion_link">
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0"/>
+      <inertia
+        ixx="0"
+        iyy="0"
+        izz="0"
+        ixy="0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="fingers_joint" type="fixed">
     <origin
       rpy="0 0 0"
       xyz="0.046501 0 -0.024"/>
