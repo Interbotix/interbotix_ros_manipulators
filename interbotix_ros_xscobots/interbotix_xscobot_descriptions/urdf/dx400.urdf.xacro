@@ -430,7 +430,7 @@
     <axis xyz="1 0 0"/>
     <limit
       effort="1"
-      lower="0"
+      lower="0.0"
       upper="3.9"
       velocity="${pi/2}"/>
     <origin
@@ -490,7 +490,7 @@
       effort="5"
       lower="0.001"
       upper="0.025"
-      velocity="1"/>
+      velocity="1.0"/>
     <origin
       rpy="0 0 0"
       xyz="0 0.01755 0"/>
@@ -547,7 +547,7 @@
       effort="5"
       lower="-0.025"
       upper="-0.001"
-      velocity="1"/>
+      velocity="1.0"/>
     <origin
       rpy="0 0 0"
       xyz="0 -0.01755 0"/>
