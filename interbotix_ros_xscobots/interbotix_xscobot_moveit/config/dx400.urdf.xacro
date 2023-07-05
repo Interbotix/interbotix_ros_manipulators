@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dx400">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import dx400 urdf file -->
+    <xacro:include filename="$(find interbotix_xscobot_descriptions)/urdf/dx400.urdf.xacro" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="dx400.ros2_control.xacro" />
+
+
+    <xacro:dx400_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>
