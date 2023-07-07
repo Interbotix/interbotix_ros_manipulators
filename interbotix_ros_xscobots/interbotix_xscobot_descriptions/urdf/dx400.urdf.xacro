@@ -602,4 +602,5 @@
     <xacro:include filename="${urdf_loc}"/>
   </xacro:if>
 
+  <xacro:include filename="$(find interbotix_xscobot_descriptions)/urdf/control.urdf.xacro"/>
 </robot>
