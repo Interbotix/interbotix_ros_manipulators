@@ -21,10 +21,12 @@ moveit_simple_controller_manager:
     action_ns: follow_joint_trajectory
     default: true
   gripper_controller:
-    type: GripperCommand
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
     joints:
       - left_finger
       - right_finger
       - gripper
-    action_ns: gripper_cmd
+    action_ns: follow_joint_trajectory
     default: true
