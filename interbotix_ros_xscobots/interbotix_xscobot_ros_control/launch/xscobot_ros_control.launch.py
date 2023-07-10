@@ -139,7 +139,7 @@ def launch_setup(context, *args, **kwargs):
         namespace=robot_name_launch_arg,
         arguments=[
             '-c',
-            f'/{robot_name_launch_arg.perform(context)}/controller_manager',
+            'controller_manager',
             'arm_controller',
         ],
         output={'both': 'screen'},
@@ -152,7 +152,7 @@ def launch_setup(context, *args, **kwargs):
         namespace=robot_name_launch_arg,
         arguments=[
             '-c',
-            f'/{robot_name_launch_arg.perform(context)}/controller_manager',
+            'controller_manager',
             'gripper_controller',
         ],
         output={'both': 'screen'},
@@ -165,7 +165,7 @@ def launch_setup(context, *args, **kwargs):
         namespace=robot_name_launch_arg,
         arguments=[
             '-c',
-            f'/{robot_name_launch_arg.perform(context)}/controller_manager',
+            'controller_manager',
             'joint_state_broadcaster',
         ],
         condition=LaunchConfigurationEquals(
