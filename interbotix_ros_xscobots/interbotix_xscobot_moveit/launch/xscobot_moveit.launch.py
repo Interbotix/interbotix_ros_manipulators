@@ -53,6 +53,7 @@ from launch.substitutions import (
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterValue
 import yaml
 
 
@@ -99,11 +100,21 @@ def launch_setup(context, *args, **kwargs):
 
     robot_description_semantic = {
         'robot_description_semantic':
-            construct_interbotix_xscobot_semantic_robot_description_command(
-                robot_model=robot_model_launch_arg.perform(context),
-                config_path=config_path
+            ParameterValue(
+                construct_interbotix_xscobot_semantic_robot_description_command(
+                    robot_model=robot_model_launch_arg.perform(context),
+                    config_path=config_path
+                ),
+                value_type=str
             ),
     }
+    # robot_description_semantic = {
+    #     'robot_description_semantic':
+    #         construct_interbotix_xscobot_semantic_robot_description_command(
+    #             robot_model=robot_model_launch_arg.perform(context),
+    #             config_path=config_path
+    #         ),
+    # }
 
 
     kinematics_config = PathJoinSubstitution([
