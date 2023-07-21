@@ -120,7 +120,6 @@ def launch_setup(context, *args, **kwargs):
             expected_value='fake'
         ),
     )
-
     controller_manager_node = Node(
         package='controller_manager',
         executable='ros2_control_node',
@@ -176,12 +175,12 @@ def launch_setup(context, *args, **kwargs):
     )
 
     return [
+        xscobot_control_launch_include,
+        xscobot_descriptions_launch_include,
         controller_manager_node,
         spawn_arm_controller_node,
         spawn_gripper_controller_node,
         spawn_joint_state_broadcaster_node,
-        xscobot_control_launch_include,
-        xscobot_descriptions_launch_include,
     ]
 
 
@@ -216,7 +215,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'mode_configs',
             default_value=PathJoinSubstitution([
-                FindPackageShare('interbotix_xsarm_ros_control'),
+                FindPackageShare('interbotix_xscobot_ros_control'),
                 'config',
                 'modes.yaml',
             ]),

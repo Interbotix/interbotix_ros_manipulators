@@ -108,13 +108,7 @@ def launch_setup(context, *args, **kwargs):
                 value_type=str
             ),
     }
-    # robot_description_semantic = {
-    #     'robot_description_semantic':
-    #         construct_interbotix_xscobot_semantic_robot_description_command(
-    #             robot_model=robot_model_launch_arg.perform(context),
-    #             config_path=config_path
-    #         ),
-    # }
+
 
 
     kinematics_config = PathJoinSubstitution([
@@ -313,7 +307,6 @@ def launch_setup(context, *args, **kwargs):
         # xsarm_gz_classic_launch_include,
     ]
 
-# print("hi pinak")
 
 def generate_launch_description():
     declared_arguments = []
@@ -347,7 +340,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'mode_configs',
             default_value=PathJoinSubstitution([
-                FindPackageShare('interbotix_xsarm_moveit'),
+                FindPackageShare('interbotix_xscobot_moveit'),
                 'config',
                 'modes.yaml',
             ]),
