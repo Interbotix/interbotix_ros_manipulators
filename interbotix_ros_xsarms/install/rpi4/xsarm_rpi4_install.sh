@@ -13,13 +13,13 @@ RRE="${NORM}${OFF}"
 
 PROMPT="> "
 
-ALL_VALID_DISTROS=('melodic' 'noetic' 'galactic' 'humble')
+ALL_VALID_DISTROS=('melodic' 'noetic' 'galactic' 'humble' 'rolling')
 ROS1_VALID_DISTROS=('melodic' 'noetic')
-ROS2_VALID_DISTROS=('galactic' 'humble')
+ROS2_VALID_DISTROS=('galactic' 'humble' 'rolling')
 
 BIONIC_VALID_DISTROS=('melodic')
 FOCAL_VALID_DISTROS=('noetic' 'galactic')
-JAMMY_VALID_DISTROS=('humble')
+JAMMY_VALID_DISTROS=('humble' 'rolling')
 
 NONINTERACTIVE=false
 INSTALL_PATH=~/interbotix_ws
@@ -393,6 +393,16 @@ if [ "$NONINTERACTIVE" = false ]; then
       read -r ROBOT_MODEL
     else
       RUN_JOY_AT_BOOT=false
+    fi
+  fi
+
+  if [[ "$ROS_DISTRO_TO_INSTALL" == 'rolling' ]]; then
+    echo -e "${BLU}${BOLD}ROS 2 Rolling is not officially supported and full functionality is not guaranteed. Do you wish to continue anyways?\n$PROMPT${NORM}${OFF}\c"
+    read -r resp
+    if [[ $resp == [yY] || $resp == [yY][eE][sS] ]]; then
+      :
+    else
+      help && exit 0
     fi
   fi
 
