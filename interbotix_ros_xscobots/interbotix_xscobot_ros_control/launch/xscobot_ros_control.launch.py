@@ -1,4 +1,4 @@
-# Copyright 2022 Trossen Robotics
+# Copyright 2023 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -175,12 +175,12 @@ def launch_setup(context, *args, **kwargs):
     )
 
     return [
-        xscobot_control_launch_include,
-        xscobot_descriptions_launch_include,
         controller_manager_node,
         spawn_arm_controller_node,
         spawn_gripper_controller_node,
         spawn_joint_state_broadcaster_node,
+        xscobot_control_launch_include,
+        xscobot_descriptions_launch_include,
     ]
 
 
