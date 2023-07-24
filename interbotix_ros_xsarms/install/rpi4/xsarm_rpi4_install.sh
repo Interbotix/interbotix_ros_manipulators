@@ -88,10 +88,9 @@ function contains_element () {
 function failed() {
   # Log error and quit with a failed exit code
   echo -e "${ERR}[ERROR] $1${RRE}"
-  echo -e "${ERR}[ERROR] Interbotix Remote Installation Failed!${RRE}"
+  echo -e "${ERR}[ERROR] Interbotix Installation Failed!${RRE}"
   exit 1
 }
-
 
 function validate_distro() {
   # check if chosen distro is valid and set ROS major version
