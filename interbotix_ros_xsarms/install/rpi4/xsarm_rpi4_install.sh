@@ -99,7 +99,7 @@ function validate_distro() {
       # Supported ROS 1 distros
       ROS_VERSION_TO_INSTALL=1
     elif contains_element "$ROS_DISTRO_TO_INSTALL" "${ROS2_VALID_DISTROS[@]}"; then
-      # Supported ROS2 distros
+      # Supported ROS 2 distros
       ROS_VERSION_TO_INSTALL=2
     else
       # For cases where it passes the first check but somehow fails the second check
