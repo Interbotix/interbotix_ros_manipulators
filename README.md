@@ -8,7 +8,6 @@ Welcome to the *interbotix_ros_manipulators* repository! This repo contains cust
 
 | ROS Distro | X-Series ROS Manipulators Build |
 | :------- | :------- |
-| ROS 1 Melodic | [![build-xs-melodic](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-melodic.yaml/badge.svg)](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-melodic.yaml) |
 | ROS 1 Noetic | [![build-xs-noetic](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-noetic.yaml/badge.svg)](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-noetic.yaml) |
 | ROS 2 Galactic | [![build-xs-galactic](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-galactic.yaml/badge.svg)](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-galactic.yaml) |
 | ROS 2 Humble | [![build-xs-humble](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-humble.yaml/badge.svg)](https://github.com/Interbotix/interbotix_ros_manipulators/actions/workflows/xs-humble.yaml) |
