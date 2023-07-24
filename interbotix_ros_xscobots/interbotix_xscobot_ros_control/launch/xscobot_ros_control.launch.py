@@ -191,7 +191,7 @@ def generate_launch_description():
             'robot_model',
             choices=get_interbotix_xscobot_models(),
             description=(
-                "model type of the Interbotix Arm such as 'wx200' or 'rx150'."
+                "model type of the Interbotix Cobot such as 'dx400'."
             ),
         )
     )
