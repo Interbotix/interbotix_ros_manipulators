@@ -4,7 +4,7 @@
   <name>interbotix_xscobot_moveit</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the dx400 with the MoveIt Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the  Interbotix X-Series Cobots with the MoveIt Motion Planning Framework
   </description>
   <maintainer email="trsupport@trossenrobotics.com">Pinak Jani</maintainer>
 
