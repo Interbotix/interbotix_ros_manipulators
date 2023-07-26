@@ -26,7 +26,5 @@ moveit_simple_controller_manager:
     default: true
     joints:
       - left_finger
-      - right_finger
-      - gripper
     action_ns: follow_joint_trajectory
     default: true
