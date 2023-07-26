@@ -20,12 +20,6 @@ grippers:
     calibrate: true
 
 shadows:
-  j2:
-    shadow_list: [j2_shadow]
-    calibrate: true
-  j3:
-    shadow_list: [j3_shadow]
-    calibrate: true
 
 sisters:
 
