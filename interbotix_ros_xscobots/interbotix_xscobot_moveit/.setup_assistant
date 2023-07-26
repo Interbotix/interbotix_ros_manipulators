@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: interbotix_xscobot_descriptions
+    relative_path: urdf/dx400.urdf.xacro
+  srdf:
+    relative_path: config/dx400.srdf
+  package_settings:
+    author_name: Pinak Jani
+    author_email: pinakjani99@gmail.com
+    generated_timestamp: 1688501016
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity

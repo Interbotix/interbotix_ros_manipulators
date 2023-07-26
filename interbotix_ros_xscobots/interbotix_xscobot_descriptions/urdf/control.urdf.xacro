@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <ros2_control name="XSHardwareInterface" type="system">
+
+    <hardware>
+
+      <!-- If we are using the actual, physical robot -->
+      <!-- <xacro:if value="${hardware_type == 'actual'}"> -->
+        <plugin>interbotix_xs_ros_control/XSHardwareInterface</plugin>
+        <param name="loop_hz">10</param>
+        <param name="group_name">arm</param>
+        <param name="gripper_name">gripper</param>
+        <param name="joint_states_topic">joint_states</param>
+      <!-- </xacro:if> -->
+
+      <!-- If doing basic simulation of the robot -->
+      <!-- <xacro:if value="${hardware_type == 'fake'}">
+        <plugin>fake_components/GenericSystem</plugin>
+      </xacro:if> -->
+
+      <!-- If simulating the robot in Gazebo Classic -->
+      <!-- <xacro:if value="${hardware_type == 'gz_classic'}">
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </xacro:if> -->
+
+    </hardware>
+
+    <joint name="j1">
+      <command_interface name="position">
+        <!-- <param name="min">"${j1_limit_lower}"</param>
+        <param name="max">"${j1_limit_upper}"</param> -->
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="j2">
+      <command_interface name="position">
+        <!-- <param name="min">"${j2_limit_lower}"</param>
+        <param name="max">"${j2_limit_upper}"</param> -->
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="j3">
+      <command_interface name="position">
+        <!-- <param name="min">"${j3_limit_lower}"</param>
+        <param name="max">"${j3_limit_upper}"</param> -->
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="j4">
+    <command_interface name="position">
+        <!-- <param name="min">"${j4_limit_lower}"</param>
+        <param name="max">"${j4_limit_upper}"</param> -->
+    </command_interface>
+    <state_interface name="position"/>
+    </joint>
+
+    <joint name="j5">
+      <command_interface name="position">
+        <!-- <param name="min">"${j5_limit_lower}"</param> -->
+        <!-- <param name="max">"${j5_limit_upper}"</param> -->
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="j6">
+    <command_interface name="position">
+        <!-- <param name="min">"${j6_limit_lower}"</param>
+        <param name="max">"${j6_limit_upper}"</param> -->
+    </command_interface>
+    <state_interface name="position"/>
+    </joint>
+
+    <xacro:if value="$(arg use_gripper)">
+      <xacro:if value="${hardware_type in ('fake', 'gz_classic')}">
+        <joint name="gripper">
+          <command_interface name="position"/>
+          <state_interface name="position"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg show_gripper_fingers)">
+        <joint name="left_finger">
+          <command_interface name="position">
+            <!-- <param name="min">"${finger_limit_lower}"</param> -->
+            <!-- <param name="max">"${-finger_limit_lower}"</param> -->
+          </command_interface>
+          <state_interface name="position"/>
+        </joint>
+
+        <xacro:if value="${hardware_type == 'gz_classic'}">
+          <joint name="right_finger">
+            <!-- <param name="mimic">left_finger</param>
+            <param name="multiplier">1</param> -->
+            <command_interface name="position">
+              <!-- <param name="min">"${-finger_limit_lower}"</param> -->
+              <!-- <param name="max">"${finger_limit_lower}"</param> -->
+            </command_interface>
+            <state_interface name="position"/>
+          </joint>
+        </xacro:if>
+      </xacro:if>
+    </xacro:if>
+
+  </ros2_control>
+
+  <!-- Load the gazebo_ros2_control plugin if using Gazebo hardware -->
+  <!-- <xacro:if value="${hardware_type == 'gz_classic'}">
+    <gazebo>
+
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <ros>
+          <namespace>/$(arg robot_name)</namespace>
+        </ros>
+        <robot_param>robot_description</robot_param>
+        <robot_param_node>robot_state_publisher</robot_param_node>
+        <parameters>$(find interbotix_xsarm_sim)/config/trajectory_controllers/${robot_model}_trajectory_controllers.yaml</parameters>
+      </plugin>
+
+    </gazebo>
+    <xacro:include filename="$(find interbotix_common_sim)/media/materials/scripts/interbotix_texture.gazebo"/>
+  </xacro:if> -->
+
+</robot>

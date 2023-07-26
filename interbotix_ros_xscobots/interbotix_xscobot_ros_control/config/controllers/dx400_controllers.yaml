@@ -1,0 +1,39 @@
+/$(var robot_name):
+  # This config file is used by ros2_control
+  controller_manager:
+    ros__parameters:
+      update_rate: 50  # Hz
+
+      arm_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+
+
+      gripper_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+  arm_controller:
+    ros__parameters:
+      joints:
+        - j1
+        - j2
+        - j3
+        - j4
+        - j5
+        - j6
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
+
+  gripper_controller:
+    ros__parameters:
+      joints:
+        - left_finger
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position

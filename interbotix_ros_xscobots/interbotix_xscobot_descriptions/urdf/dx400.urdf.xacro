@@ -1,0 +1,618 @@
+<?xml version="1.0"?>
+<robot name="dx400" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="robot_model"
+    value="dx400"
+    scope="global"/>
+  <xacro:property name="dof"
+    value="6"
+    scope="global"/>
+
+  <xacro:arg name="robot_name"            default="dx400"/>
+  <xacro:arg name="base_link_frame"       default="base_link"/>
+  <xacro:arg name="use_gripper"           default="true"/>
+  <xacro:arg name="gripper_parent_link"   default="link_5"/>
+  <xacro:arg name="gripper_parent_joint"  default="j6"/>
+  <xacro:arg name="gripper_limit_min"     default="0.008"/>
+  <xacro:arg name="gripper_limit_max"     default="0.008"/>
+  <xacro:arg name="show_ar_tag"           default="false"/>
+  <xacro:arg name="show_gripper_fingers"  default="true"/>
+  <xacro:arg name="use_world_frame"       default="false"/>
+  <xacro:arg name="external_urdf_loc"     default=""/>
+  <xacro:arg name="load_gazebo_configs"   default="false"/>
+  <xacro:arg name="hardware_type"         default="actual"/>
+
+  <xacro:property name="mesh_directory"   value="package://interbotix_xscobot_descriptions/meshes/${robot_model}_meshes"/>
+  <xacro:property name="urdf_loc"         value="$(arg external_urdf_loc)"/>
+  <xacro:property name="hardware_type"    value="$(arg hardware_type)"/>
+  <xacro:property name="pi_offset"        value="0.00001"/>
+  <xacro:property name="j1_limit_lower"   value="-6.7"/>
+  <xacro:property name="j1_limit_upper"   value="0.00"/>
+  <xacro:property name="j2_limit_lower"   value="-1.88"/>
+  <xacro:property name="j2_limit_upper"   value="1.88"/>
+  <xacro:property name="j3_limit_lower"   value="-2.70"/>
+  <xacro:property name="j3_limit_upper"   value="2.70"/>
+  <xacro:property name="j4_limit_lower"   value="-3.66"/>
+  <xacro:property name="j4_limit_upper"   value="1.55"/>
+  <xacro:property name="j5_limit_lower"   value="-4.00"/>
+  <xacro:property name="j5_limit_upper"   value="1.60"/>
+  <xacro:property name="j6_limit_lower"   value="-5.00"/>
+  <xacro:property name="j6_limit_upper"   value="1.60"/>
+
+  <xacro:if value="$(arg load_gazebo_configs)">
+    <xacro:include filename="$(find interbotix_common_sim)/textures/interbotix_texture.gazebo"/>
+  </xacro:if>
+
+  <material name="interbotix_black">
+    <!-- <color rgba="${220/255} ${220/255} ${220/255} 0.2"/> -->
+    <texture filename="package://interbotix_common_sim/media/materials/textures/interbotix_black.png"/>
+  </material>
+
+  <xacro:if value="$(arg use_world_frame)">
+    <link name="world"/>
+    <joint name="fixed" type="fixed">
+      <parent
+        link="world"/>
+      <child
+        link="$(arg robot_name)/$(arg base_link_frame)"/>
+    </joint>
+  </xacro:if>
+
+  <link name="$(arg robot_name)/$(arg base_link_frame)">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/base_link.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="4.18E-03"
+        iyy="4.44E-03"
+        izz="5.07E-03"
+        ixy="1.24E-05"
+        ixz="6.61E-05"
+        iyz="-1.88E-06"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/base_link.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="j1" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit
+      effort="10"
+      lower="${-pi + pi_offset}"
+      upper="${pi - pi_offset}"
+      velocity="${pi}"/>
+    <origin
+      rpy="0 0 ${pi/2}"
+      xyz="0 0 0"/>
+    <parent
+      link="$(arg robot_name)/$(arg base_link_frame)"/>
+    <child
+      link="$(arg robot_name)/link_1"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/link_1">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_1.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0"
+        iyy="0.0"
+        izz="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyz="0.0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_1.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="j2" type="revolute">
+    <axis xyz="0 -1 0"/>
+    <limit
+      effort="10"
+      lower="${-pi + pi_offset}"
+      upper="${pi - pi_offset}"
+      velocity="${pi}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 0.055 0.119787"/>
+    <parent
+      link="$(arg robot_name)/link_1"/>
+    <child
+      link="$(arg robot_name)/link_2"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/link_2">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_2.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0"
+        iyy="0.0"
+        izz="0.0"
+        ixy="-0.0"
+        ixz="-0.0"
+        iyz="0.0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_2.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="j3" type="revolute">
+    <axis xyz="0 -1 0"/>
+    <limit
+      effort="10"
+      lower="${-pi + pi_offset}"
+      upper="${pi - pi_offset}"
+      velocity="${pi}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 -0.0248 0.17"/>
+    <parent
+      link="$(arg robot_name)/link_2"/>
+    <child
+      link="$(arg robot_name)/link_3"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/link_3">
+    <visual>
+      <origin
+        rpy="0 0 ${pi}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_3.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0"
+        iyy="0.0"
+        izz="0.0"
+        ixy="0.0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 ${pi}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_3.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="j4" type="revolute">
+    <axis xyz="0 1 0"/>
+    <limit
+      effort="10"
+      lower="${-pi + pi_offset}"
+      upper="${pi - pi_offset}"
+      velocity="${pi}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.0001 -0.0019 0.127"/>
+    <parent
+      link="$(arg robot_name)/link_3"/>
+    <child
+      link="$(arg robot_name)/link_4"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/link_4">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_4.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0.0 0.0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0"
+        iyy="0.0"
+        izz="0.0"
+        ixy="0.0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_4.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+ <joint name="j5" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit
+      effort="10"
+      lower="${-pi + pi_offset}"
+      upper="${pi - pi_offset}"
+      velocity="${pi}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 0.0244 0.02671"/>
+    <parent
+      link="$(arg robot_name)/link_4"/>
+    <child
+      link="$(arg robot_name)/link_5"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/link_5">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_5.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0.0 -0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0"
+        iyy="0.0"
+        izz="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyz="0.0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/link_5.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="j6" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit
+      effort="1"
+      lower="${-pi + pi_offset}"
+      upper="${pi - pi_offset}"
+      velocity="${pi}"/>
+    <origin
+      rpy="${pi/2} 0 0"
+      xyz="0.04725 0 0.02305"/>
+    <parent
+      link="$(arg robot_name)/link_5"/>
+    <child
+      link="$(arg robot_name)/gripper_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/gripper_link">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/gripper_link.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0.0216310000 0.0000002516 0.0114100000"/>
+      <mass value="0.072885"/>
+      <inertia
+        ixx="0.0000253700"
+        iyy="0.0000183600"
+        izz="0.0000167400"
+        ixy="0.0000000000"
+        ixz="0.0000000000"
+        iyz="0.0000004340"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/gripper_link.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="gripper" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit
+      effort="1"
+      lower="0.0"
+      upper="3.9"
+      velocity="${pi/2}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.046501 0 -0.024"/>
+    <parent
+      link="$(arg robot_name)/gripper_link"/>
+    <child
+      link="$(arg robot_name)/gripper_pinion_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/gripper_pinion_link">
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0"/>
+      <inertia
+        ixx="0"
+        iyy="0"
+        izz="0"
+        ixy="0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="fingers_joint" type="fixed">
+    <origin
+      rpy="0 0 0"
+      xyz="0.046501 0 -0.024"/>
+    <parent
+      link="$(arg robot_name)/gripper_link"/>
+    <child
+      link="$(arg robot_name)/fingers_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/fingers_link">
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0"/>
+      <inertia
+        ixx="0"
+        iyy="0"
+        izz="0"
+        ixy="0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="left_finger" type="prismatic">
+    <axis xyz="0 0 1"/>
+    <limit
+      effort="5"
+      lower="0.001"
+      upper="0.025"
+      velocity="1.0"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 0.01755 0"/>
+    <parent
+      link="$(arg robot_name)/fingers_link"/>
+    <child
+      link="$(arg robot_name)/left_finger_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/left_finger_link">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/gripper_finger.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0"/>
+      <inertia
+        ixx="0"
+        iyy="0"
+        izz="0"
+        ixy="0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/gripper_finger.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <joint name="right_finger" type="prismatic">
+    <axis xyz="0 0 1"/>
+    <limit
+      effort="5"
+      lower="-0.025"
+      upper="-0.001"
+      velocity="1.0"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 -0.01755 0"/>
+    <parent
+      link="$(arg robot_name)/fingers_link"/>
+    <child
+      link="$(arg robot_name)/right_finger_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/right_finger_link">
+    <visual>
+      <origin
+        rpy="${pi} 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/gripper_finger.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <mass value="0"/>
+      <inertia
+        ixx="0"
+        iyy="0"
+        izz="0"
+        ixy="0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+    <collision>
+      <origin
+        rpy="${pi} 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/gripper_finger.stl"
+          scale="1 1 1"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </collision>
+  </link>
+
+  <xacro:if value="${urdf_loc != ''}">
+    <xacro:include filename="${urdf_loc}"/>
+  </xacro:if>
+
+  <xacro:include filename="$(find interbotix_xscobot_descriptions)/urdf/control.urdf.xacro"/>
+</robot>
