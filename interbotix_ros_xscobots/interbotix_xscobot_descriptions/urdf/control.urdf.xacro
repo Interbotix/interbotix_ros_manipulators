@@ -28,48 +28,48 @@
 
     <joint name="j1">
       <command_interface name="position">
-        <!-- <param name="min">"${waist_limit_lower}"</param>
-        <param name="max">"${waist_limit_upper}"</param> -->
+        <!-- <param name="min">"${j1_limit_lower}"</param>
+        <param name="max">"${j1_limit_upper}"</param> -->
       </command_interface>
       <state_interface name="position"/>
     </joint>
 
     <joint name="j2">
       <command_interface name="position">
-        <!-- <param name="min">"${shoulder_limit_lower}"</param>
-        <param name="max">"${shoulder_limit_upper}"</param> -->
+        <!-- <param name="min">"${j2_limit_lower}"</param>
+        <param name="max">"${j2_limit_upper}"</param> -->
       </command_interface>
       <state_interface name="position"/>
     </joint>
 
     <joint name="j3">
       <command_interface name="position">
-        <!-- <param name="min">"${elbow_limit_lower}"</param>
-        <param name="max">"${elbow_limit_upper}"</param> -->
+        <!-- <param name="min">"${j3_limit_lower}"</param>
+        <param name="max">"${j3_limit_upper}"</param> -->
       </command_interface>
       <state_interface name="position"/>
     </joint>
 
     <joint name="j4">
     <command_interface name="position">
-        <!-- <param name="min">"${forearm_roll_limit_lower}"</param>
-        <param name="max">"${forearm_roll_limit_upper}"</param> -->
+        <!-- <param name="min">"${j4_limit_lower}"</param>
+        <param name="max">"${j4_limit_upper}"</param> -->
     </command_interface>
     <state_interface name="position"/>
     </joint>
 
     <joint name="j5">
       <command_interface name="position">
-        <!-- <param name="min">"${wrist_angle_limit_lower}"</param>
-        <param name="max">"${wrist_angle_limit_upper}"</param> -->
+        <!-- <param name="min">"${j5_limit_lower}"</param> -->
+        <!-- <param name="max">"${j5_limit_upper}"</param> -->
       </command_interface>
       <state_interface name="position"/>
     </joint>
 
     <joint name="j6">
     <command_interface name="position">
-        <!-- <param name="min">"${wrist_rotate_limit_lower}"</param>
-        <param name="max">"${wrist_rotate_limit_upper}"</param> -->
+        <!-- <param name="min">"${j6_limit_lower}"</param>
+        <param name="max">"${j6_limit_upper}"</param> -->
     </command_interface>
     <state_interface name="position"/>
     </joint>
@@ -85,8 +85,8 @@
       <xacro:if value="$(arg show_gripper_fingers)">
         <joint name="left_finger">
           <command_interface name="position">
-            <!-- <param name="min">"${finger_limit_lower}"</param>
-            <param name="max">"${-finger_limit_lower}"</param> -->
+            <!-- <param name="min">"${finger_limit_lower}"</param> -->
+            <!-- <param name="max">"${-finger_limit_lower}"</param> -->
           </command_interface>
           <state_interface name="position"/>
         </joint>
@@ -96,8 +96,8 @@
             <!-- <param name="mimic">left_finger</param>
             <param name="multiplier">1</param> -->
             <command_interface name="position">
-              <!-- <param name="min">"${-finger_limit_lower}"</param>
-              <param name="max">"${finger_limit_lower}"</param> -->
+              <!-- <param name="min">"${-finger_limit_lower}"</param> -->
+              <!-- <param name="max">"${finger_limit_lower}"</param> -->
             </command_interface>
             <state_interface name="position"/>
           </joint>
