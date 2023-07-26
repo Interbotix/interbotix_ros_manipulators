@@ -1,4 +1,5 @@
-# sensors:
+sensors:
+  []
 #   - kinect_pointcloud
 #   - kinect_depthimage
 # kinect_pointcloud:

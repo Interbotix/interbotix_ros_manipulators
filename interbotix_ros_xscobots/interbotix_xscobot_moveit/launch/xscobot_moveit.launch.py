@@ -235,7 +235,7 @@ def launch_setup(context, *args, **kwargs):
             {'use_sim_time': use_sim_time_param},
         ],
         remappings=remappings,
-        output={'both': 'log'},
+        output={'both': 'screen'},
     )
 
     xscobot_ros_control_launch_include = IncludeLaunchDescription(
@@ -251,7 +251,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_name': robot_name_launch_arg,
             'base_link_frame': base_link_frame_launch_arg,
             # 'show_ar_tag': show_ar_tag_launch_arg,
-            'show_gripper_bar': 'true',
+            # 'show_gripper_bar': 'true',
             'show_gripper_fingers': 'true',
             'use_world_frame': use_world_frame_launch_arg,
             'external_urdf_loc': external_urdf_loc_launch_arg,
@@ -282,7 +282,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_name': robot_name_launch_arg,
             'base_link_frame': base_link_frame_launch_arg,
             # 'show_ar_tag': show_ar_tag_launch_arg,
-            'show_gripper_bar': 'true',
+            # 'show_gripper_bar': 'true',
             'show_gripper_fingers': 'true',
             'use_world_frame': use_world_frame_launch_arg,
             'external_urdf_loc': external_urdf_loc_launch_arg,

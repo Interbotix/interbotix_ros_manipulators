@@ -16,7 +16,6 @@
   <xacro:arg name="gripper_limit_min"     default="0.008"/>
   <xacro:arg name="gripper_limit_max"     default="0.008"/>
   <xacro:arg name="show_ar_tag"           default="false"/>
-  <xacro:arg name="show_gripper_bar"      default="true"/>
   <xacro:arg name="show_gripper_fingers"  default="true"/>
   <xacro:arg name="use_world_frame"       default="false"/>
   <xacro:arg name="external_urdf_loc"     default=""/>
@@ -26,7 +25,7 @@
   <xacro:property name="mesh_directory"   value="package://interbotix_xscobot_descriptions/meshes/${robot_model}_meshes"/>
   <xacro:property name="urdf_loc"         value="$(arg external_urdf_loc)"/>
   <xacro:property name="hardware_type"    value="$(arg hardware_type)"/>
-  <xacro:property name="pi_offset"        value="0.00"/>
+  <xacro:property name="pi_offset"        value="0.00001"/>
   <xacro:property name="j1_limit_lower"   value="-6.7"/>
   <xacro:property name="j1_limit_upper"   value="0.00"/>
   <xacro:property name="j2_limit_lower"   value="-1.88"/>
