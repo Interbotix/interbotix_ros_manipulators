@@ -26,19 +26,19 @@
   <xacro:property name="mesh_directory"   value="package://interbotix_xscobot_descriptions/meshes/${robot_model}_meshes"/>
   <xacro:property name="urdf_loc"         value="$(arg external_urdf_loc)"/>
   <xacro:property name="hardware_type"    value="$(arg hardware_type)"/>
-  <xacro:property name="pi_offset"        value="0.00001"/>
-  <xacro:property name="j1_limit_lower"   value="-6.70001"/>
-  <xacro:property name="j1_limit_upper"   value="0.00001"/>
-  <xacro:property name="j2_limit_lower"   value="-1.88001"/>
-  <xacro:property name="j2_limit_upper"   value="1.88001"/>
-  <xacro:property name="j3_limit_lower"   value="-2.70001"/>
-  <xacro:property name="j3_limit_upper"   value="2.70001"/>
-  <xacro:property name="j4_limit_lower"   value="-3.66001"/>
-  <xacro:property name="j4_limit_upper"   value="1.55001"/>
-  <xacro:property name="j5_limit_lower"   value="-4.00001"/>
-  <xacro:property name="j5_limit_upper"   value="1.60001"/>
-  <xacro:property name="j6_limit_lower"   value="-5.00001"/>
-  <xacro:property name="j6_limit_upper"   value="1.60001"/>
+  <xacro:property name="pi_offset"        value="0.00"/>
+  <xacro:property name="j1_limit_lower"   value="-6.7"/>
+  <xacro:property name="j1_limit_upper"   value="0.00"/>
+  <xacro:property name="j2_limit_lower"   value="-1.88"/>
+  <xacro:property name="j2_limit_upper"   value="1.88"/>
+  <xacro:property name="j3_limit_lower"   value="-2.70"/>
+  <xacro:property name="j3_limit_upper"   value="2.70"/>
+  <xacro:property name="j4_limit_lower"   value="-3.66"/>
+  <xacro:property name="j4_limit_upper"   value="1.55"/>
+  <xacro:property name="j5_limit_lower"   value="-4.00"/>
+  <xacro:property name="j5_limit_upper"   value="1.60"/>
+  <xacro:property name="j6_limit_lower"   value="-5.00"/>
+  <xacro:property name="j6_limit_upper"   value="1.60"/>
 
   <xacro:if value="$(arg load_gazebo_configs)">
     <xacro:include filename="$(find interbotix_common_sim)/textures/interbotix_texture.gazebo"/>
