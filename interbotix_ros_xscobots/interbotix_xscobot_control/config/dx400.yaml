@@ -1,7 +1,7 @@
 port: /dev/ttyDXL
 
 joint_order: [j1, j2, j3, j4, j5, j6, gripper]
-sleep_positions: [0, 0, 0, 0, 0, 0, 0]
+sleep_positions: [0.00, 1.91, -2.83, -2.46, 0.00, -1.70, 0.0]
 
 joint_state_publisher:
   update_rate: 100
@@ -46,8 +46,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 819
-    Max_Position_Limit: 3345
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
     Secondary_ID: 255
 
   j3:
@@ -56,8 +56,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 648
-    Max_Position_Limit: 3094
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
     Secondary_ID: 255
 
   j4:
@@ -76,8 +76,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 910
-    Max_Position_Limit: 3447
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
     Secondary_ID: 255
 
   j6:
