@@ -325,7 +325,7 @@
   </link>
 
  <joint name="j5" type="revolute">
-    <axis xyz="0 0 1"/>
+    <axis xyz="0 0 -1"/>
     <limit
       effort="10"
       lower="${-pi + pi_offset}"
@@ -446,7 +446,7 @@
       upper="3.9"
       velocity="${pi/2}"/>
     <origin
-      rpy="0 0 0"
+      rpy="${pi} 0 0"
       xyz="0.046501 0 -0.024"/>
     <parent
       link="$(arg robot_name)/gripper_link"/>
