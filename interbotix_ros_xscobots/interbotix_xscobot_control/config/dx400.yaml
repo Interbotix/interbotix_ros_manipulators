@@ -40,8 +40,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 0
-    Max_Position_Limit: 4095
+    Min_Position_Limit: 782
+    Max_Position_Limit: 3331
     Secondary_ID: 255
 
   j3:
@@ -50,8 +50,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 0
     Velocity_Limit: 131
-    Min_Position_Limit: 0
-    Max_Position_Limit: 4095
+    Min_Position_Limit: 90
+    Max_Position_Limit: 4000
     Secondary_ID: 255
 
   j4:
@@ -70,8 +70,8 @@ motors:
     Return_Delay_Time: 0
     Drive_Mode: 1
     Velocity_Limit: 131
-    Min_Position_Limit: 0
-    Max_Position_Limit: 4095
+    Min_Position_Limit: 17
+    Max_Position_Limit: 4000
     Secondary_ID: 255
 
   j6:
@@ -92,4 +92,5 @@ motors:
     Velocity_Limit: 131
     Min_Position_Limit: 0
     Max_Position_Limit: 4095
+    Current_Limit: 300
     Secondary_ID: 255

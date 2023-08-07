@@ -570,6 +570,12 @@
     <dynamics
       friction="0.1"
       damping="0.1"/>
+    <xacro:if value="${hardware_type != 'gz_classic'}">
+      <mimic
+        joint="left_finger"
+        multiplier="-1"
+        offset="0"/>
+    </xacro:if>
   </joint>
 
   <link name="$(arg robot_name)/right_finger_link">
