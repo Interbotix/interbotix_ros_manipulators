@@ -21,7 +21,7 @@ controller_names:
   default: true
   joints:
     - left_finger
-    - right_finger
-    - gripper
+    # - right_finger
+    # - gripper
   action_ns: follow_joint_trajectory
   default: true
