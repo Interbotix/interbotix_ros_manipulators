@@ -496,6 +496,30 @@
     </inertial>
   </link>
 
+  <joint name="ee_gripper" type="fixed">
+    <axis xyz="1 0 0"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.03 0 0"/>
+    <parent
+      link="$(arg robot_name)/fingers_link"/>
+    <child
+      link="$(arg robot_name)/ee_gripper_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/ee_gripper_link">
+    <inertial>
+      <mass value="0.001"/>
+      <inertia
+        ixx="0.001"
+        iyy="0.001"
+        izz="0.001"
+        ixy="0"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+  </link>
+
   <joint name="left_finger" type="prismatic">
     <axis xyz="0 0 1"/>
     <limit
