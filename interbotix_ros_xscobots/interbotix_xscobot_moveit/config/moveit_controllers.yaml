@@ -4,10 +4,10 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 
 moveit_simple_controller_manager:
   controller_names:
-    - arm_controller
-    - gripper_controller
+    - /dx400/arm_controller
+    - /dx400/gripper_controller
 
-  arm_controller:
+  /dx400/arm_controller:
     type: FollowJointTrajectory
     action_ns: follow_joint_trajectory
     default: true
@@ -20,11 +20,13 @@ moveit_simple_controller_manager:
       - j6
     action_ns: follow_joint_trajectory
     default: true
-  gripper_controller:
+  /dx400/gripper_controller:
     type: FollowJointTrajectory
     action_ns: follow_joint_trajectory
     default: true
     joints:
+      # - gripper
       - left_finger
+      # - right_finger
     action_ns: follow_joint_trajectory
     default: true
