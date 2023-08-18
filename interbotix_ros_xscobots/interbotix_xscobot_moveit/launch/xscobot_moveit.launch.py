@@ -235,7 +235,7 @@ def launch_setup(context, *args, **kwargs):
             {'use_sim_time': use_sim_time_param},
         ],
         remappings=remappings,
-        output={'both': 'screen'},
+        output={'both': 'log'},
     )
 
     xscobot_ros_control_launch_include = IncludeLaunchDescription(
@@ -375,9 +375,9 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'rviz_config_file',
             default_value=PathJoinSubstitution([
-                FindPackageShare('interbotix_xsarm_moveit'),
-                'rviz',
-                'xsarm_moveit.rviz'
+                FindPackageShare('interbotix_xscobot_moveit'),
+                'config',
+                'xscobot_moveit.rviz'
             ]),
             description='file path to the config file RViz should load.',
         )
