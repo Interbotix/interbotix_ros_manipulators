@@ -520,6 +520,14 @@
     </inertial>
   </link>
 
+  <!-- If the AR tag is being used, then add the AR tag mount -->
+
+  <!-- <xacro:if value="$(arg show_ar_tag)"> -->
+  <!-- <xacro:include filename="$(find interbotix_xscobot_descriptions)/urdf/ar_tag.urdf.xacro"/> -->
+  <!-- </xacro:if> show_ar_tag -->
+
+  <!-- If the gripper bar is being used, then also add the gripper bar -->
+
   <joint name="left_finger" type="prismatic">
     <axis xyz="0 0 1"/>
     <limit

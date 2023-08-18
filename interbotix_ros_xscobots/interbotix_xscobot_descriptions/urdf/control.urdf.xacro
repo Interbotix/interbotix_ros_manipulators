@@ -6,18 +6,18 @@
     <hardware>
 
       <!-- If we are using the actual, physical robot -->
-      <!-- <xacro:if value="${hardware_type == 'actual'}"> -->
+      <xacro:if value="${hardware_type == 'actual'}">
         <plugin>interbotix_xs_ros_control/XSHardwareInterface</plugin>
         <param name="loop_hz">10</param>
         <param name="group_name">arm</param>
         <param name="gripper_name">gripper</param>
         <param name="joint_states_topic">joint_states</param>
-      <!-- </xacro:if> -->
+      </xacro:if>
 
       <!-- If doing basic simulation of the robot -->
-      <!-- <xacro:if value="${hardware_type == 'fake'}">
+      <xacro:if value="${hardware_type == 'fake'}">
         <plugin>fake_components/GenericSystem</plugin>
-      </xacro:if> -->
+      </xacro:if>
 
       <!-- If simulating the robot in Gazebo Classic -->
       <!-- <xacro:if value="${hardware_type == 'gz_classic'}">
