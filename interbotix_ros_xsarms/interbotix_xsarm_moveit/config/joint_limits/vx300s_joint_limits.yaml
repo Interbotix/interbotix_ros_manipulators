@@ -7,32 +7,32 @@ default_acceleration_scaling_factor: 1.0
 
 joint_limits:
   waist:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 3.14
     has_acceleration_limits: true
     max_acceleration: 5.0
   shoulder:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 3.14
     has_acceleration_limits: true
     max_acceleration: 5.0
   elbow:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 3.14
     has_acceleration_limits: true
     max_acceleration: 5.0
   forearm_roll:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 3.14
     has_acceleration_limits: true
     max_acceleration: 5.0
   wrist_angle:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 3.14
     has_acceleration_limits: true
     max_acceleration: 5.0
   wrist_rotate:
-    has_velocity_limits: false
+    has_velocity_limits: true
     max_velocity: 3.14
     has_acceleration_limits: true
     max_acceleration: 5.0
