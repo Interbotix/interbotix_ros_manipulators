@@ -333,42 +333,8 @@ def generate_launch_description():
             hardware_type='actual',
         )
     )
-    # robot_state_publisher = Node(
-    #     package="robot_state_publisher",
-    #     executable="robot_state_publisher",
-    #     name="robot_state_publisher",
-    #     output="log",
-    #     parameters=[moveit_config.robot_description],
-    # )
-
-    # ros2_controllers_path = os.path.join(
-    #     get_package_share_directory("moveit_resources_panda_moveit_config"),
-    #     "config",
-    #     "ros2_controllers.yaml",
-    # )
-    # ros2_control_node = Node(
-    #     package="controller_manager",
-    #     executable="ros2_control_node",
-    #     parameters=[moveit_config.robot_description, ros2_controllers_path],
-    #     output="log",
-    # )
-
-    # load_controllers = []
-    # for controller in [
-    #     "panda_arm_controller",
-    #     "panda_hand_controller",
-    #     "joint_state_broadcaster",
-    # ]:
-    #     load_controllers += [
-    #         ExecuteProcess(
-    #             cmd=["ros2 run controller_manager spawner {}".format(controller)],
-    #             shell=True,
-    #             output="log",
-    #         )
-    #     ]
 
     return LaunchDescription(
         declared_arguments
         + [OpaqueFunction(function=launch_setup)]
-        # + load_controllers
     )
