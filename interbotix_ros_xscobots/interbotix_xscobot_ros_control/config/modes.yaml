@@ -10,8 +10,5 @@ groups:
 
 singles:
   gripper:
-    operating_mode: linear_position
-    profile_type: velocity
-    profile_velocity: 50
-    profile_acceleration: 10
+    operating_mode: pwm
     torque_enable: true
