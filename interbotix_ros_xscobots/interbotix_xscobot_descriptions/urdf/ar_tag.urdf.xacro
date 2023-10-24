@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <joint name="ar_tag_target" type="fixed">
+    <axis xyz="0 0 0"/>
+    <origin
+      rpy="0 ${pi} ${pi/2}"
+      xyz="0.0325 0.01755 -0.004"/>
+    <parent
+      link="$(arg robot_name)/right_finger_link"/>
+    <child
+      link="$(arg robot_name)/ar_tag_target_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/ar_tag_target_link">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_directory}/../ar_tag.stl"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_directory}/../ar_tag.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="ar_tag" type="fixed">
+    <axis xyz="0 0 0"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 -0.0425 0.003125"/>
+    <parent
+      link="$(arg robot_name)/ar_tag_target_link"/>
+    <child
+      link="$(arg robot_name)/ar_tag_link"/>
+  </joint>
+
+  <link name="$(arg robot_name)/ar_tag_link"/>
+
+</robot>
