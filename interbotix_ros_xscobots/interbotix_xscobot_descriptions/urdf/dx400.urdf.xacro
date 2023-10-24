@@ -640,6 +640,12 @@
     </collision>
   </link>
 
+  <!-- If the AR tag is being used, then add the AR tag mount -->
+
+  <xacro:if value="$(arg show_ar_tag)">
+    <xacro:include filename="$(find interbotix_xscobot_descriptions)/urdf/ar_tag.urdf.xacro"/>
+  </xacro:if> <!-- show_ar_tag -->
+
   <xacro:if value="${urdf_loc != ''}">
     <xacro:include filename="${urdf_loc}"/>
   </xacro:if>
