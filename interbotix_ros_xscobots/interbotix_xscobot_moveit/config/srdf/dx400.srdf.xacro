@@ -76,8 +76,8 @@
     </group_state>
     <group_state name="open" group="interbotix_gripper">
         <!-- <joint name="gripper" value="2.05"/> -->
-        <joint name="left_finger" value="0.024"/>
-        <joint name="right_finger" value="-0.024"/>
+        <joint name="left_finger" value="0.035"/>
+        <joint name="right_finger" value="-0.035"/>
     </group_state>
     <group_state name="close" group="interbotix_gripper">
         <!-- <joint name="gripper" value="0.05"/> -->

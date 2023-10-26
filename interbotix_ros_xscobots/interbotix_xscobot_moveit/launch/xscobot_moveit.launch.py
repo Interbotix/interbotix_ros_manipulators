@@ -42,6 +42,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     OpaqueFunction,
+    TimerAction,
 )
 from launch.conditions import IfCondition, LaunchConfigurationEquals
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -77,6 +78,7 @@ def launch_setup(context, *args, **kwargs):
     use_world_frame_launch_arg = LaunchConfiguration('use_world_frame')
     external_urdf_loc_launch_arg = LaunchConfiguration('external_urdf_loc')
     mode_configs_launch_arg = LaunchConfiguration('mode_configs')
+    mode_control_configs_launch_arg = LaunchConfiguration('mode_control_configs')
     use_moveit_rviz_launch_arg = LaunchConfiguration('use_moveit_rviz')
     rviz_frame_launch_arg = LaunchConfiguration('rviz_frame')
     rviz_config_file_launch_arg = LaunchConfiguration('rviz_config_file')
@@ -249,24 +251,24 @@ def launch_setup(context, *args, **kwargs):
         launch_arguments={
             'robot_model': robot_model_launch_arg,
             'robot_name': robot_name_launch_arg,
-            'base_link_frame': base_link_frame_launch_arg,
-            # 'show_ar_tag': show_ar_tag_launch_arg,
-            # 'show_gripper_bar': 'true',
-            'show_gripper_fingers': 'true',
-            'use_world_frame': use_world_frame_launch_arg,
-            'external_urdf_loc': external_urdf_loc_launch_arg,
-            'use_rviz': 'false',
-            'mode_configs': mode_configs_launch_arg,
-            'hardware_type': hardware_type_launch_arg,
-            'robot_description': robot_description_launch_arg,
-            'use_sim_time': use_sim_time_param,
-            'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
-        }.items(),
-        condition=IfCondition(
-            PythonExpression(
-                ['"', hardware_type_launch_arg, '"', " in ('actual', 'fake')"]
-            )
-        ),
+            # 'base_link_frame': base_link_frame_launch_arg,
+            # # 'show_ar_tag': show_ar_tag_launch_arg,
+            # # 'show_gripper_bar': 'true',
+            # 'show_gripper_fingers': 'true',
+            # 'use_world_frame': use_world_frame_launch_arg,
+            # 'external_urdf_loc': external_urdf_loc_launch_arg,
+            # 'use_rviz': 'false',
+            # 'mode_configs': mode_control_configs_launch_arg,
+            # 'hardware_type': hardware_type_launch_arg,
+            # 'robot_description': robot_description_launch_arg,
+            # 'use_sim_time': use_sim_time_param,
+            # 'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
+        }.items()
+        # condition=IfCondition(
+        #     PythonExpression(
+        #         ['"', hardware_type_launch_arg, '"', " in ('actual', 'fake')"]
+        #     )
+        # ),
     )
 
     xscobot_gz_classic_launch_include = IncludeLaunchDescription(
@@ -299,9 +301,13 @@ def launch_setup(context, *args, **kwargs):
     )
 
     return [
-        move_group_node,
-        moveit_rviz_node,
         xscobot_ros_control_launch_include,
+        TimerAction(
+                period=5.0,
+                actions=[move_group_node,
+                         moveit_rviz_node,
+                        ],
+                    ),
         # xsarm_gz_classic_launch_include,
     ]
 
@@ -339,6 +345,17 @@ def generate_launch_description():
             'mode_configs',
             default_value=PathJoinSubstitution([
                 FindPackageShare('interbotix_xscobot_moveit'),
+                'config',
+                'modes.yaml',
+            ]),
+            description="the file path to the 'mode config' YAML file.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'mode_control_configs',
+            default_value=PathJoinSubstitution([
+                FindPackageShare('interbotix_xscobot_ros_control'),
                 'config',
                 'modes.yaml',
             ]),

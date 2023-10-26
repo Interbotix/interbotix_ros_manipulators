@@ -46,6 +46,8 @@ def main():
     joint_pos = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     bot.arm.go_to_joint_positions(joint_pos)
     bot.arm.go_to_sleep_pose()
+    bot.gripper.gripper_open()
+    bot.gripper.gripper_close()
 
 
 if __name__ == '__main__':
