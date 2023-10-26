@@ -47,7 +47,6 @@ def launch_setup(context, *args, **kwargs):
     robot_model_launch_arg = LaunchConfiguration('robot_model')
     robot_name_launch_arg = LaunchConfiguration('robot_name')
     base_link_frame_launch_arg = LaunchConfiguration('base_link_frame')
-    # show_ar_tag_launch_arg = LaunchConfiguration('show_ar_tag')
     use_world_frame_launch_arg = LaunchConfiguration('use_world_frame')
     external_urdf_loc_launch_arg = LaunchConfiguration('external_urdf_loc')
     mode_configs_launch_arg = LaunchConfiguration('mode_configs')
@@ -191,8 +190,6 @@ def launch_setup(context, *args, **kwargs):
             'robot_model': robot_model_launch_arg,
             'robot_name': robot_name_launch_arg,
             'base_link_frame': base_link_frame_launch_arg,
-            # 'show_ar_tag': show_ar_tag_launch_arg,
-            # 'show_gripper_bar': 'true',
             'show_gripper_fingers': 'true',
             'use_world_frame': use_world_frame_launch_arg,
             'external_urdf_loc': external_urdf_loc_launch_arg,
@@ -221,9 +218,6 @@ def launch_setup(context, *args, **kwargs):
             xscobot_ros_control_launch_include,
             rviz_node,
             # static_tf,
-            # moveit_py_node,
-            # robot_state_publisher,
-            # ros2_control_node,
         ]
 
 
@@ -328,7 +322,6 @@ def generate_launch_description():
     )
     declared_arguments.extend(
         declare_interbotix_xscobot_robot_description_launch_arguments(
-            # show_gripper_bar='true',
             show_gripper_fingers='true',
             hardware_type='actual',
         )
