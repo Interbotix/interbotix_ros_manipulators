@@ -42,7 +42,6 @@ def main():
         gripper_name='interbotix_gripper'
     )
 
-
     joint_pos = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     bot.arm.go_to_joint_positions(joint_pos)
     bot.arm.go_to_sleep_pose()
