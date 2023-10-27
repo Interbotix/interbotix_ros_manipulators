@@ -125,7 +125,6 @@ def launch_setup(context, *args, **kwargs):
         "xsarm_moveit.rviz",
     )
 
-
     move_group_node = Node(
         package='moveit_ros_move_group',
         executable='move_group',
