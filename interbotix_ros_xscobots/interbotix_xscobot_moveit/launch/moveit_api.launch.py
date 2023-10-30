@@ -107,7 +107,7 @@ def launch_setup(context, *args, **kwargs):
 
     example_file = DeclareLaunchArgument(
         "example_file",
-        default_value="interbotix_moveit_example.py",
+        default_value="example.py",
         description="Python API tutorial file name",
     )
 

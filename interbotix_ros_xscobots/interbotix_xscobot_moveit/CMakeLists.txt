@@ -24,7 +24,7 @@ install(
 
 install(
   PROGRAMS
-    scripts/interbotix_moveit_example.py
+    demos/example.py
   DESTINATION
     lib/${PROJECT_NAME}
 )
