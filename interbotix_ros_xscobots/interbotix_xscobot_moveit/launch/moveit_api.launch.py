@@ -216,7 +216,7 @@ def launch_setup(context, *args, **kwargs):
             move_group_node,
             xscobot_ros_control_launch_include,
             rviz_node,
-            # static_tf,
+            static_tf,
         ]
 
 
