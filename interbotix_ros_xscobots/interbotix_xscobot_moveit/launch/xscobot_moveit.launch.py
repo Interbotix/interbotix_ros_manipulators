@@ -74,7 +74,7 @@ def launch_setup(context, *args, **kwargs):
     robot_model_launch_arg = LaunchConfiguration('robot_model')
     robot_name_launch_arg = LaunchConfiguration('robot_name')
     base_link_frame_launch_arg = LaunchConfiguration('base_link_frame')
-    # show_ar_tag_launch_arg = LaunchConfiguration('show_ar_tag')
+    show_ar_tag_launch_arg = LaunchConfiguration('show_ar_tag')
     use_world_frame_launch_arg = LaunchConfiguration('use_world_frame')
     external_urdf_loc_launch_arg = LaunchConfiguration('external_urdf_loc')
     mode_configs_launch_arg = LaunchConfiguration('mode_configs')
@@ -251,7 +251,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_model': robot_model_launch_arg,
             'robot_name': robot_name_launch_arg,
             'base_link_frame': base_link_frame_launch_arg,
-            # 'show_ar_tag': show_ar_tag_launch_arg,
+            'show_ar_tag': show_ar_tag_launch_arg,
             # # 'show_gripper_bar': 'true',
             'show_gripper_fingers': 'true',
             'use_world_frame': use_world_frame_launch_arg,

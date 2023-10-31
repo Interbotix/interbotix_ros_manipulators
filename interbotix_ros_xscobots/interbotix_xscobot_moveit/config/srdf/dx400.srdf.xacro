@@ -50,13 +50,13 @@
     </group_state>
     <group_state name="open" group="interbotix_gripper">
         <!-- <joint name="gripper" value="2.05"/> -->
-        <joint name="left_finger" value="0.035"/>
-        <joint name="right_finger" value="-0.035"/>
+        <joint name="left_finger" value="0.045"/>
+        <joint name="right_finger" value="-0.045"/>
     </group_state>
     <group_state name="close" group="interbotix_gripper">
         <!-- <joint name="gripper" value="0.05"/> -->
-        <joint name="left_finger" value="0.001"/>
-        <joint name="right_finger" value="-0.001"/>
+        <joint name="left_finger" value="0.00001"/>
+        <joint name="right_finger" value="-0.00001"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="interbotix_gripper" parent_link="$(arg robot_name)/gripper_link" group="interbotix_arm"/>
@@ -77,6 +77,16 @@
     <disable_collisions link1="$(arg robot_name)/link_4" link2="$(arg robot_name)/link_5" reason="Adjacent"/>
     <disable_collisions link1="$(arg robot_name)/link_4" link2="$(arg robot_name)/right_finger_link" reason="Never"/>
     <disable_collisions link1="$(arg robot_name)/link_5" link2="$(arg robot_name)/right_finger_link" reason="Never"/>
+
+    <xacro:if value="$(arg show_ar_tag)">
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/right_finger_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/ar_tag_target_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/ee_gripper_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/left_finger_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_link" link2="$(arg robot_name)/left_finger_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_target_link" link2="$(arg robot_name)/right_finger_link" reason="Adjacent" />
+      <disable_collisions link1="$(arg robot_name)/ar_tag_target_link" link2="$(arg robot_name)/ee_gripper_link" reason="Adjacent" />
+    </xacro:if>
 
     <xacro:if value="${srdf_loc != ''}">
         <xacro:include filename="${srdf_loc}"/>
