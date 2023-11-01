@@ -31,7 +31,6 @@
 from interbotix_moveit_interface import moveit_interface_core
 from interbotix_moveit_interface import move_arm
 
-import rclpy
 import numpy as np
 
 """
@@ -47,11 +46,13 @@ To run this example, use the following command in terminal:
     ros2 launch interbotix_xscobot_moveit moveit_api.launch.py robot_model:=dx400
 
 """
+
+
 def main():
     bot = move_arm.InterbotixManipulatorXS(
-        robot_model='dx400',
-        group_name='interbotix_arm',
-        gripper_name='interbotix_gripper'
+        robot_model="dx400",
+        group_name="interbotix_arm",
+        gripper_name="interbotix_gripper",
     )
 
     joint_pos = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
@@ -61,5 +62,5 @@ def main():
     bot.gripper.gripper_close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
