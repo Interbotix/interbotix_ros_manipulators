@@ -34,7 +34,19 @@ from interbotix_moveit_interface import move_arm
 import rclpy
 import numpy as np
 
+"""
+This script is working demonstration of using the interbotix_moveit_interface
+to program the manipulator easily using the developed python api. This example
+is designed for the `dx400` xscobot hardware. Make sure to adjust andchange the
+passed hard-coded values as per the application.
 
+Note: Please make sure to initialize the moveit_py node using the `moveit_api.launch.py`
+
+To run this example, use the following command in terminal:
+
+    ros2 launch interbotix_xscobot_moveit moveit_api.launch.py robot_model:=dx400
+
+"""
 def main():
     bot = move_arm.InterbotixManipulatorXS(
         robot_model='dx400',
