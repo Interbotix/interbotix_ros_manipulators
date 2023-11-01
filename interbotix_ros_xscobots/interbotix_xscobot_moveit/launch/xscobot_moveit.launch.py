@@ -301,13 +301,8 @@ def launch_setup(context, *args, **kwargs):
 
     return [
         xscobot_ros_control_launch_include,
-        TimerAction(
-                period=5.0,
-                actions=[move_group_node,
-                         moveit_rviz_node,
-                        ],
-                    ),
-        # xsarm_gz_classic_launch_include,
+        move_group_node,
+        moveit_rviz_node,
     ]
 
 

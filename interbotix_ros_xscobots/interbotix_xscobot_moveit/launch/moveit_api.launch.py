@@ -1,6 +1,4 @@
-"""
-A launch file for running the motion planning python api tutorial
-"""
+
 import os
 import sys
 import yaml
@@ -31,6 +29,10 @@ from interbotix_xs_modules.xs_launch import (
 from interbotix_xs_modules.xs_common import (
     get_interbotix_xscobot_models,
 )
+
+"""
+A launch file for running the motion planning python api tutorial
+"""
 
 def load_yaml(package_name, file_path):
     package_path = get_package_share_directory(package_name)
