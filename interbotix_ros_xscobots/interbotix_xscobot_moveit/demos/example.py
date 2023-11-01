@@ -35,7 +35,7 @@ import numpy as np
 """
 This script is working demonstration of using the interbotix_moveit_interface
 to program the manipulator easily using the developed python api. This example
-is designed for the `dx400` xscobot hardware. Make sure to adjust andchange the
+is designed for the `dx400` xscobot hardware. Make sure to adjust and change the
 passed hard-coded values as per the application.
 
 Note: Please make sure to initialize the moveit_py node using the `moveit_api.launch.py`
