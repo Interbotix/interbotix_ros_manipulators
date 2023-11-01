@@ -42,9 +42,8 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     OpaqueFunction,
-    TimerAction,
 )
-from launch.conditions import IfCondition, LaunchConfigurationEquals
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     LaunchConfiguration,
@@ -53,8 +52,8 @@ from launch.substitutions import (
     TextSubstitution,
 )
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from launch_ros.substitutions import FindPackageShare
 import yaml
 
 
@@ -63,7 +62,7 @@ def load_yaml(package_name, file_path):
     absolute_file_path = os.path.join(package_path, file_path)
 
     try:
-        with open(absolute_file_path, "r") as file:
+        with open(absolute_file_path, 'r') as file:
             return yaml.safe_load(file)
     except (
         EnvironmentError
@@ -72,37 +71,37 @@ def load_yaml(package_name, file_path):
 
 
 def launch_setup(context, *args, **kwargs):
-    robot_model_launch_arg = LaunchConfiguration("robot_model")
-    robot_name_launch_arg = LaunchConfiguration("robot_name")
-    base_link_frame_launch_arg = LaunchConfiguration("base_link_frame")
-    show_ar_tag_launch_arg = LaunchConfiguration("show_ar_tag")
-    use_world_frame_launch_arg = LaunchConfiguration("use_world_frame")
-    external_urdf_loc_launch_arg = LaunchConfiguration("external_urdf_loc")
-    mode_configs_launch_arg = LaunchConfiguration("mode_configs")
-    use_moveit_rviz_launch_arg = LaunchConfiguration("use_moveit_rviz")
-    rviz_frame_launch_arg = LaunchConfiguration("rviz_frame")
-    rviz_config_file_launch_arg = LaunchConfiguration("rviz_config_file")
-    world_filepath_launch_arg = LaunchConfiguration("world_filepath")
-    robot_description_launch_arg = LaunchConfiguration("robot_description")
-    hardware_type_launch_arg = LaunchConfiguration("hardware_type")
-    xs_driver_logging_level_launch_arg = LaunchConfiguration("xs_driver_logging_level")
+    robot_model_launch_arg = LaunchConfiguration('robot_model')
+    robot_name_launch_arg = LaunchConfiguration('robot_name')
+    base_link_frame_launch_arg = LaunchConfiguration('base_link_frame')
+    show_ar_tag_launch_arg = LaunchConfiguration('show_ar_tag')
+    use_world_frame_launch_arg = LaunchConfiguration('use_world_frame')
+    external_urdf_loc_launch_arg = LaunchConfiguration('external_urdf_loc')
+    mode_configs_launch_arg = LaunchConfiguration('mode_configs')
+    use_moveit_rviz_launch_arg = LaunchConfiguration('use_moveit_rviz')
+    rviz_frame_launch_arg = LaunchConfiguration('rviz_frame')
+    rviz_config_file_launch_arg = LaunchConfiguration('rviz_config_file')
+    robot_description_launch_arg = LaunchConfiguration('robot_description')
+    hardware_type_launch_arg = LaunchConfiguration('hardware_type')
+    xs_driver_logging_level_launch_arg = LaunchConfiguration(
+        'xs_driver_logging_level')
 
     # sets use_sim_time parameter to 'true' if using gazebo hardware
     use_sim_time_param = determine_use_sim_time_param(
         context=context, hardware_type_launch_arg=hardware_type_launch_arg
     )
 
-    robot_description = {"robot_description": robot_description_launch_arg}
+    robot_description = {'robot_description': robot_description_launch_arg}
 
     config_path = PathJoinSubstitution(
         [
-            FindPackageShare("interbotix_xscobot_moveit"),
-            "config",
+            FindPackageShare('interbotix_xscobot_moveit'),
+            'config',
         ]
     )
 
     robot_description_semantic = {
-        "robot_description_semantic": ParameterValue(
+        'robot_description_semantic': ParameterValue(
             construct_interbotix_xscobot_semantic_robot_description_command(
                 robot_model=robot_model_launch_arg.perform(context),
                 config_path=config_path,
@@ -113,92 +112,96 @@ def launch_setup(context, *args, **kwargs):
 
     kinematics_config = PathJoinSubstitution(
         [
-            FindPackageShare("interbotix_xscobot_moveit"),
-            "config",
-            "kinematics.yaml",
+            FindPackageShare('interbotix_xscobot_moveit'),
+            'config',
+            'kinematics.yaml',
         ]
     )
 
     ompl_planning_pipeline_config = {
-        "move_group": {
-            "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": "default_planner_request_adapters/AddTimeOptimalParameterization "
-            "default_planner_request_adapters/FixWorkspaceBounds "
-            "default_planner_request_adapters/FixStartStateBounds "
-            "default_planner_request_adapters/FixStartStateCollision "
-            "default_planner_request_adapters/FixStartStatePathConstraints",
-            "start_state_max_bounds_error": 0.1,
+        'move_group': {
+            'planning_plugin': 'ompl_interface/OMPLPlanner',
+            'request_adapters': 'default_planner_request_adapters/AddTimeOptimalParameterization '
+            'default_planner_request_adapters/FixWorkspaceBounds '
+            'default_planner_request_adapters/FixStartStateBounds '
+            'default_planner_request_adapters/FixStartStateCollision '
+            'default_planner_request_adapters/FixStartStatePathConstraints',
+            'start_state_max_bounds_error': 0.1,
         }
     }
 
     ompl_planning_pipeline_yaml_file = load_yaml(
-        "interbotix_xsarm_moveit", "config/ompl_planning.yaml"
+        'interbotix_xsarm_moveit', 'config/ompl_planning.yaml'
     )
-    ompl_planning_pipeline_config["move_group"].update(ompl_planning_pipeline_yaml_file)
+    ompl_planning_pipeline_config['move_group'].update(
+        ompl_planning_pipeline_yaml_file)
 
     controllers_config = load_yaml(
-        "interbotix_xscobot_moveit",
-        f"config/controllers/{robot_model_launch_arg.perform(context)}_controllers.yaml",
+        'interbotix_xscobot_moveit',
+        f'config/controllers/{robot_model_launch_arg.perform(context)}_controllers.yaml',
     )
 
     config_joint_limits = load_yaml(
-        "interbotix_xscobot_moveit",
-        f"config/joint_limits/{robot_model_launch_arg.perform(context)}_joint_limits.yaml",
+        'interbotix_xscobot_moveit',
+        f'config/joint_limits/{robot_model_launch_arg.perform(context)}_joint_limits.yaml',
     )
 
     joint_limits = {
-        "robot_description_planning": config_joint_limits,
+        'robot_description_planning': config_joint_limits,
     }
 
     moveit_controllers = {
-        "moveit_simple_controller_manager": controllers_config,
-        "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
+        'moveit_simple_controller_manager': controllers_config,
+        'moveit_controller_manager': 'moveit_simple_controller_manager\
+        /MoveItSimpleControllerManager',
     }
 
     trajectory_execution_parameters = {
-        "moveit_manage_controllers": True,
-        "trajectory_execution.allowed_execution_duration_scaling": 1.2,
-        "trajectory_execution.allowed_goal_duration_margin": 0.5,
-        "trajectory_execution.allowed_start_tolerance": 0.01,
+        'moveit_manage_controllers': True,
+        'trajectory_execution.allowed_execution_duration_scaling': 1.2,
+        'trajectory_execution.allowed_goal_duration_margin': 0.5,
+        'trajectory_execution.allowed_start_tolerance': 0.01,
     }
 
     planning_scene_monitor_parameters = {
-        "publish_planning_scene": True,
-        "publish_geometry_updates": True,
-        "publish_state_updates": True,
-        "publish_transforms_updates": True,
+        'publish_planning_scene': True,
+        'publish_geometry_updates': True,
+        'publish_state_updates': True,
+        'publish_transforms_updates': True,
     }
 
     sensor_parameters = {
-        "sensors": [""],
+        'sensors': [''],
     }
 
     remappings = [
         (
-            f"{robot_name_launch_arg.perform(context)}/get_planning_scene",
-            f"/{robot_name_launch_arg.perform(context)}/get_planning_scene",
+            f'{robot_name_launch_arg.perform(context)}/get_planning_scene',
+            f'/{robot_name_launch_arg.perform(context)}/get_planning_scene',
         ),
         (
-            "/arm_controller/follow_joint_trajectory",
-            f"/{robot_name_launch_arg.perform(context)}/arm_controller/follow_joint_trajectory",
+            '/arm_controller/follow_joint_trajectory',
+            f'/{robot_name_launch_arg.perform(context)}/\
+            arm_controller/follow_joint_trajectory',
         ),
         (
-            "/gripper_controller/follow_joint_trajectory",
-            f"/{robot_name_launch_arg.perform(context)}/gripper_controller/follow_joint_trajectory",
+            '/gripper_controller/follow_joint_trajectory',
+            f'/{robot_name_launch_arg.perform(context)}/\
+            gripper_controller/follow_joint_trajectory',
         ),
     ]
 
     move_group_node = Node(
-        package="moveit_ros_move_group",
-        executable="move_group",
+        package='moveit_ros_move_group',
+        executable='move_group',
         # namespace=robot_name_launch_arg,
         parameters=[
             {
-                "planning_scene_monitor_options": {
-                    "robot_description": "robot_description",
-                    "joint_state_topic": f"/{robot_name_launch_arg.perform(context)}/joint_states",
+                'planning_scene_monitor_options': {
+                    'robot_description': 'robot_description',
+                    'joint_state_topic': f'/{robot_name_launch_arg.perform(context)}/joint_states',
                 },
-                "use_sim_time": use_sim_time_param,
+                'use_sim_time': use_sim_time_param,
             },
             robot_description,
             robot_description_semantic,
@@ -211,19 +214,19 @@ def launch_setup(context, *args, **kwargs):
             sensor_parameters,
         ],
         remappings=remappings,
-        output={"both": "screen"},
+        output={'both': 'screen'},
     )
 
     moveit_rviz_node = Node(
         condition=IfCondition(use_moveit_rviz_launch_arg),
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
         # namespace=robot_name_launch_arg,
         arguments=[
-            "-d",
+            '-d',
             rviz_config_file_launch_arg,
-            "-f",
+            '-f',
             rviz_frame_launch_arg,
         ],
         parameters=[
@@ -231,10 +234,10 @@ def launch_setup(context, *args, **kwargs):
             robot_description_semantic,
             ompl_planning_pipeline_config,
             kinematics_config,
-            {"use_sim_time": use_sim_time_param},
+            {'use_sim_time': use_sim_time_param},
         ],
         remappings=remappings,
-        output={"both": "log"},
+        output={'both': 'log'},
     )
 
     xscobot_ros_control_launch_include = IncludeLaunchDescription(
@@ -242,65 +245,33 @@ def launch_setup(context, *args, **kwargs):
             [
                 PathJoinSubstitution(
                     [
-                        FindPackageShare("interbotix_xscobot_ros_control"),
-                        "launch",
-                        "xscobot_ros_control.launch.py",
+                        FindPackageShare('interbotix_xscobot_ros_control'),
+                        'launch',
+                        'xscobot_ros_control.launch.py',
                     ]
                 )
             ]
         ),
         launch_arguments={
-            "robot_model": robot_model_launch_arg,
-            "robot_name": robot_name_launch_arg,
-            "base_link_frame": base_link_frame_launch_arg,
-            "show_ar_tag": show_ar_tag_launch_arg,
+            'robot_model': robot_model_launch_arg,
+            'robot_name': robot_name_launch_arg,
+            'base_link_frame': base_link_frame_launch_arg,
+            'show_ar_tag': show_ar_tag_launch_arg,
             # 'show_gripper_bar': 'true',
-            "show_gripper_fingers": "true",
-            "use_world_frame": use_world_frame_launch_arg,
-            "external_urdf_loc": external_urdf_loc_launch_arg,
-            "use_rviz": "false",
-            "mode_configs": mode_configs_launch_arg,
-            "hardware_type": hardware_type_launch_arg,
-            "robot_description": robot_description_launch_arg,
-            "use_sim_time": use_sim_time_param,
-            "xs_driver_logging_level": xs_driver_logging_level_launch_arg,
+            'show_gripper_fingers': 'true',
+            'use_world_frame': use_world_frame_launch_arg,
+            'external_urdf_loc': external_urdf_loc_launch_arg,
+            'use_rviz': 'false',
+            'mode_configs': mode_configs_launch_arg,
+            'hardware_type': hardware_type_launch_arg,
+            'robot_description': robot_description_launch_arg,
+            'use_sim_time': use_sim_time_param,
+            'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
         }.items(),
         condition=IfCondition(
             PythonExpression(
-                ['"', hardware_type_launch_arg, '"', " in ('actual', 'fake')"]
+                ["'", hardware_type_launch_arg, "'", ' in ("actual", "fake")']
             )
-        ),
-    )
-
-    xscobot_gz_classic_launch_include = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [
-                PathJoinSubstitution(
-                    [
-                        FindPackageShare("interbotix_xscobot_sim"),
-                        "launch",
-                        "xscobot_gz_classic.launch.py",
-                    ]
-                )
-            ]
-        ),
-        launch_arguments={
-            "robot_model": robot_model_launch_arg,
-            "robot_name": robot_name_launch_arg,
-            "base_link_frame": base_link_frame_launch_arg,
-            # 'show_ar_tag': show_ar_tag_launch_arg,
-            # 'show_gripper_bar': 'true',
-            "show_gripper_fingers": "true",
-            "use_world_frame": use_world_frame_launch_arg,
-            "external_urdf_loc": external_urdf_loc_launch_arg,
-            "use_rviz": "false",
-            "world_filepath": world_filepath_launch_arg,
-            "hardware_type": hardware_type_launch_arg,
-            "robot_description": robot_description_launch_arg,
-            "use_sim_time": use_sim_time_param,
-        }.items(),
-        condition=LaunchConfigurationEquals(
-            launch_configuration_name="hardware_type", expected_value="gz_classic"
         ),
     )
 
@@ -315,112 +286,112 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
-            "robot_model",
+            'robot_model',
             choices=get_interbotix_xscobot_models(),
-            description="model type of the Interbotix Arm such as `wx200` or `rx150`.",
+            description='model type of the Interbotix Arm such as `wx200` or `rx150`.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "robot_name",
-            default_value=LaunchConfiguration("robot_model"),
+            'robot_name',
+            default_value=LaunchConfiguration('robot_model'),
             description=(
-                "name of the robot (typically equal to `robot_model`, but could be anything)."
+                'name of the robot (typically equal to `robot_model`, but could be anything).'
             ),
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "external_srdf_loc",
-            default_value=TextSubstitution(text=""),
+            'external_srdf_loc',
+            default_value=TextSubstitution(text=''),
             description=(
-                "the file path to the custom semantic description file that you would like to "
-                "include in the Interbotix robot's semantic description."
+                'the file path to the custom semantic description file that you would like to '
+                'include in the Interbotix robots semantic description.'
             ),
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "mode_configs",
+            'mode_configs',
             default_value=PathJoinSubstitution(
                 [
-                    FindPackageShare("interbotix_xscobot_moveit"),
-                    "config",
-                    "modes.yaml",
+                    FindPackageShare('interbotix_xscobot_moveit'),
+                    'config',
+                    'modes.yaml',
                 ]
             ),
-            description="the file path to the 'mode config' YAML file.",
+            description='the file path to the "mode config" YAML file.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "xs_driver_logging_level",
-            default_value="INFO",
-            choices=("DEBUG", "INFO", "WARN", "ERROR", "FATAL"),
-            description="set the logging level of the X-Series Driver.",
+            'xs_driver_logging_level',
+            default_value='INFO',
+            choices=('DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'),
+            description='set the logging level of the X-Series Driver.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "use_moveit_rviz",
-            default_value="true",
-            choices=("true", "false"),
+            'use_moveit_rviz',
+            default_value='true',
+            choices=('true', 'false'),
             description="launches RViz with MoveIt's RViz configuration/",
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "rviz_frame",
-            default_value="world",
+            'rviz_frame',
+            default_value='world',
             description=(
-                "defines the fixed frame parameter in RViz. Note that if `use_world_frame` is "
-                "`false`, this parameter should be changed to a frame that exists."
+                'defines the fixed frame parameter in RViz. Note that if `use_world_frame` is '
+                '`false`, this parameter should be changed to a frame that exists.'
             ),
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "rviz_config_file",
+            'rviz_config_file',
             default_value=PathJoinSubstitution(
                 [
-                    FindPackageShare("interbotix_xscobot_moveit"),
-                    "config",
-                    "xscobot_moveit.rviz",
+                    FindPackageShare('interbotix_xscobot_moveit'),
+                    'config',
+                    'xscobot_moveit.rviz',
                 ]
             ),
-            description="file path to the config file RViz should load.",
+            description='file path to the config file RViz should load.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "world_filepath",
+            'world_filepath',
             default_value=PathJoinSubstitution(
                 [
-                    FindPackageShare("interbotix_common_sim"),
-                    "worlds",
-                    "interbotix.world",
+                    FindPackageShare('interbotix_common_sim'),
+                    'worlds',
+                    'interbotix.world',
                 ]
             ),
-            description="the file path to the Gazebo 'world' file to load.",
+            description='the file path to the Gazebo "world" file to load.',
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "use_sim_time",
-            default_value="false",
-            choices=("true", "false"),
+            'use_sim_time',
+            default_value='false',
+            choices=('true', 'false'),
             description=(
-                "tells ROS nodes asking for time to get the Gazebo-published simulation time, "
-                "published over the ROS topic /clock; this value is automatically set to `true` if"
-                " using Gazebo hardware."
+                'tells ROS nodes asking for time to get the Gazebo-published simulation time, '
+                'published over the ROS topic /clock; this value is automatically set to `true` if'
+                ' using Gazebo hardware.'
             ),
         )
     )
     declared_arguments.extend(
         declare_interbotix_xscobot_robot_description_launch_arguments(
             # show_gripper_bar='true',
-            show_gripper_fingers="true",
-            hardware_type="actual",
+            show_gripper_fingers='true',
+            hardware_type='actual',
         )
     )
 

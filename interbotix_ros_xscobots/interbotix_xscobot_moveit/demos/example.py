@@ -28,7 +28,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from interbotix_moveit_interface import moveit_interface_core
 from interbotix_moveit_interface import move_arm
 
 import numpy as np
@@ -50,9 +49,9 @@ To run this example, use the following command in terminal:
 
 def main():
     bot = move_arm.InterbotixManipulatorXS(
-        robot_model="dx400",
-        group_name="interbotix_arm",
-        gripper_name="interbotix_gripper",
+        robot_model='dx400',
+        group_name='interbotix_arm',
+        gripper_name='interbotix_gripper',
     )
 
     joint_pos = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
@@ -62,5 +61,5 @@ def main():
     bot.gripper.gripper_close()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
