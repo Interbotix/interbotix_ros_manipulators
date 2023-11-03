@@ -16,6 +16,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     OpaqueFunction,
+    TimerAction,
 )
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -55,6 +56,7 @@ def launch_setup(context, *args, **kwargs):
     robot_name_launch_arg = LaunchConfiguration('robot_name')
     base_link_frame_launch_arg = LaunchConfiguration('base_link_frame')
     use_world_frame_launch_arg = LaunchConfiguration('use_world_frame')
+    show_ar_tag_launch_arg = LaunchConfiguration('show_ar_tag')
     external_urdf_loc_launch_arg = LaunchConfiguration('external_urdf_loc')
     mode_configs_launch_arg = LaunchConfiguration('mode_configs')
     rviz_frame_launch_arg = LaunchConfiguration('rviz_frame')
@@ -73,13 +75,13 @@ def launch_setup(context, *args, **kwargs):
         ),
         (
             '/arm_controller/follow_joint_trajectory',
-            f'/{robot_name_launch_arg.perform(context)}\
-                /arm_controller/follow_joint_trajectory',
+            f'/{robot_name_launch_arg.perform(context)}'
+            '/arm_controller/follow_joint_trajectory',
         ),
         (
             '/gripper_controller/follow_joint_trajectory',
-            f'/{robot_name_launch_arg.perform(context)}\
-                /gripper_controller/follow_joint_trajectory',
+            f'/{robot_name_launch_arg.perform(context)}'
+            '/gripper_controller/follow_joint_trajectory',
         ),
     ]
 
@@ -207,6 +209,7 @@ def launch_setup(context, *args, **kwargs):
             'robot_name': robot_name_launch_arg,
             'base_link_frame': base_link_frame_launch_arg,
             'show_gripper_fingers': 'true',
+            'show_ar_tag': show_ar_tag_launch_arg,
             'use_world_frame': use_world_frame_launch_arg,
             'external_urdf_loc': external_urdf_loc_launch_arg,
             'use_rviz': 'false',
@@ -222,9 +225,11 @@ def launch_setup(context, *args, **kwargs):
             )
         ),
     )
-
     return [
-        moveit_py_node,
+        TimerAction(
+                period=5.0,
+                actions=[moveit_py_node],
+                    ),
         example_file,
         move_group_node,
         xscobot_ros_control_launch_include,

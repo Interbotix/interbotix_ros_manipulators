@@ -152,8 +152,8 @@ def launch_setup(context, *args, **kwargs):
 
     moveit_controllers = {
         'moveit_simple_controller_manager': controllers_config,
-        'moveit_controller_manager': 'moveit_simple_controller_manager\
-        /MoveItSimpleControllerManager',
+        'moveit_controller_manager': 'moveit_simple_controller_manager'
+        '/MoveItSimpleControllerManager',
     }
 
     trajectory_execution_parameters = {
@@ -181,13 +181,13 @@ def launch_setup(context, *args, **kwargs):
         ),
         (
             '/arm_controller/follow_joint_trajectory',
-            f'/{robot_name_launch_arg.perform(context)}/\
-            arm_controller/follow_joint_trajectory',
+            f'/{robot_name_launch_arg.perform(context)}'
+            '/arm_controller/follow_joint_trajectory',
         ),
         (
             '/gripper_controller/follow_joint_trajectory',
-            f'/{robot_name_launch_arg.perform(context)}/\
-            gripper_controller/follow_joint_trajectory',
+            f'/{robot_name_launch_arg.perform(context)}'
+            '/gripper_controller/follow_joint_trajectory',
         ),
     ]
 

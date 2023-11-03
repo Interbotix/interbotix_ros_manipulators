@@ -28,6 +28,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from geometry_msgs.msg import Pose
+
 from interbotix_moveit_interface import move_arm
 
 import numpy as np
@@ -54,11 +56,24 @@ def main():
         gripper_name='interbotix_gripper',
     )
 
+    bot.gripper.gripper_open()
+    bot.gripper.gripper_close()
     joint_pos = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     bot.arm.go_to_joint_positions(joint_pos)
     bot.arm.go_to_sleep_pose()
-    bot.gripper.gripper_open()
-    bot.gripper.gripper_close()
+
+    ee_pose_goal = Pose()
+    q1 = np.quaternion(0.33664, 0.75566, 0.42014, -0.373).normalized()
+    ee_pose_goal.position.x = 0.055589
+    ee_pose_goal.position.y = 0.012684
+    ee_pose_goal.position.z = 0.34098
+    ee_pose_goal.orientation.x = q1.x
+    ee_pose_goal.orientation.y = q1.y
+    ee_pose_goal.orientation.z = q1.z
+    ee_pose_goal.orientation.w = q1.w
+
+    bot.arm.go_to_ee_pose(ee_pose_goal)
+    bot.arm.go_to_sleep_pose()
 
 
 if __name__ == '__main__':
