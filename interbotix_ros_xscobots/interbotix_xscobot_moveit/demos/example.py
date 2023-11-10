@@ -34,6 +34,8 @@ from interbotix_moveit_interface import move_arm
 
 import numpy as np
 
+import quaternion
+
 """
 This script is working demonstration of using the interbotix_moveit_interface
 to program the manipulator easily using the developed python api. This example

@@ -63,6 +63,7 @@ def launch_setup(context, *args, **kwargs):
     robot_description_launch_arg = LaunchConfiguration('robot_description')
     hardware_type_launch_arg = LaunchConfiguration('hardware_type')
     xs_driver_logging_level_launch_arg = LaunchConfiguration('xs_driver_logging_level')
+    example_file = LaunchConfiguration('example_file')
 
     use_sim_time_param = determine_use_sim_time_param(
         context=context, hardware_type_launch_arg=hardware_type_launch_arg
@@ -111,16 +112,10 @@ def launch_setup(context, *args, **kwargs):
         .to_moveit_configs()
     )
 
-    example_file = DeclareLaunchArgument(
-        'example_file',
-        default_value='example.py',
-        description='Python API tutorial file name',
-    )
-
     moveit_py_node = Node(
         name='moveit_py',
         package='interbotix_xscobot_moveit',
-        executable=LaunchConfiguration('example_file'),
+        executable=example_file,
         output='both',
         parameters=[moveit_config.to_dict()],
     )
@@ -231,7 +226,6 @@ def launch_setup(context, *args, **kwargs):
             period=5.0,
             actions=[moveit_py_node],
         ),
-        example_file,
         move_group_node,
         xscobot_ros_control_launch_include,
         rviz_node,
@@ -343,6 +337,13 @@ def generate_launch_description():
                 ' using Gazebo hardware.'
             ),
         )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'example_file',
+            default_value='example.py',
+            description='Moveit Python API example script',
+        ),
     )
     declared_arguments.extend(
         declare_interbotix_xscobot_robot_description_launch_arguments(
