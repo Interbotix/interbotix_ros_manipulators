@@ -228,9 +228,9 @@ def launch_setup(context, *args, **kwargs):
 
     return [
         TimerAction(
-                period=5.0,
-                actions=[moveit_py_node],
-                    ),
+            period=5.0,
+            actions=[moveit_py_node],
+        ),
         example_file,
         move_group_node,
         xscobot_ros_control_launch_include,
