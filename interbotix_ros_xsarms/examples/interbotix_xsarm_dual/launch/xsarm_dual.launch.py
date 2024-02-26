@@ -168,10 +168,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_name_1',
             default_value='arm_1',
-            description=(
-                'name of the first robot (typically equal to `robot_model`, but could be '
-                'anything).'
-            ),
+            description='name of the first robot',
         )
     )
     declared_arguments.append(
@@ -197,10 +194,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'robot_name_2',
             default_value='arm_2',
-            description=(
-                'name of the second robot (typically equal to `robot_model`, but could be '
-                'anything).'
-            ),
+            description='name of the second robot',
         )
     )
     declared_arguments.append(
