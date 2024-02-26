@@ -187,17 +187,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            'mode_configs_2',
-            default_value=PathJoinSubstitution([
-                FindPackageShare('interbotix_xsarm_dual'),
-                'config',
-                'modes_2.yaml',
-            ]),
-            description="the file path to the 'mode config' YAML file for the second arm.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             'robot_model_2',
             default_value='wx200',
             choices=get_interbotix_xsarm_models(),
@@ -212,6 +201,17 @@ def generate_launch_description():
                 'name of the second robot (typically equal to `robot_model`, but could be '
                 'anything).'
             ),
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'mode_configs_2',
+            default_value=PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_dual'),
+                'config',
+                'modes_2.yaml',
+            ]),
+            description="the file path to the 'mode config' YAML file for the second arm.",
         )
     )
     declared_arguments.append(
