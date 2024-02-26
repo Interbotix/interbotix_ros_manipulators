@@ -143,6 +143,7 @@ def launch_setup(context, *args, **kwargs):
         package='rviz2',
         executable='rviz2',
         arguments=['-d', LaunchConfiguration('dual_rviz_config')],
+        output={'both': 'log'},
     )
 
     return [
@@ -240,18 +241,18 @@ def generate_launch_description():
     )
     declared_arguments.extend(
         declare_interbotix_xsarm_robot_description_launch_arguments(
-            robot_description_launch_configuration_name='robot_description_1',
-            robot_model_launch_configuration_name='robot_model_1',
-            robot_name_launch_configuration_name='robot_name_1',
+            robot_description_launch_config_name='robot_description_1',
+            robot_model_launch_config_name='robot_model_1',
+            robot_name_launch_config_name='robot_name_1',
             base_link_frame='base_link',
             use_world_frame='false',
         )
     )
     declared_arguments.extend(
         declare_interbotix_xsarm_robot_description_launch_arguments(
-            robot_description_launch_configuration_name='robot_description_2',
-            robot_model_launch_configuration_name='robot_model_2',
-            robot_name_launch_configuration_name='robot_name_2',
+            robot_description_launch_config_name='robot_description_2',
+            robot_model_launch_config_name='robot_model_2',
+            robot_name_launch_config_name='robot_name_2',
             base_link_frame='base_link',
             use_world_frame='false',
         )
