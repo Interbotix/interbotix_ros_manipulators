@@ -30,10 +30,9 @@
 
 
 import math
-from threading import Thread
 
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
-import rclpy
+from rclpy.duration import Duration
 
 """
 This script is used to make two WidowX-200 arms work in tandem with one another
@@ -46,49 +45,69 @@ Then change to this directory and type:
 
     python3 xsarm_dual.py
 
-Note that the 'robot_name' argument used when instantiating an InterbotixManipulatorXS instance
-is the same name as the 'robot_name_X' launch file argument
+Note that the 'robot_name' argument used when instantiating an InterbotixManipulatorXS instance is
+the same name as the 'robot_name_X' launch file argument.
+
+To simultaneously control two arms, we don't wait for movements to finish by setting blocking to
+False and delays to 0; opting instead for a function called after each movement command that uses
+the node-owning robot's core clock's `sleep_for()` method. This allows us to send commands to both
+robots at the same time and wait for their movements to complete after.
 """
 
-
-def robot_1():
-    robot_1 = InterbotixManipulatorXS(
-        robot_model='wx200',
-        robot_name='arm_1',
-        moving_time=1.0,
-        gripper_pressure=1.0,
-        start_on_init=False,
-    )
-    robot_1.arm.go_to_home_pose()
-    robot_1.arm.set_ee_pose_components(x=0.3, z=0.2)
-    robot_1.gripper.release(delay=0.05)
-    robot_1.arm.set_single_joint_position('waist', math.pi/4.0)
-    robot_1.gripper.grasp(delay=0.05)
-    robot_1.arm.set_single_joint_position('waist', 0.0)
-    robot_1.arm.go_to_sleep_pose()
-
-
-def robot_2():
-    robot_2 = InterbotixManipulatorXS(
-        robot_model='wx200',
-        robot_name='arm_2',
-        moving_time=1.0,
-        gripper_pressure=1.0,
-        start_on_init=False,
-    )
-    robot_2.arm.go_to_home_pose()
-    robot_2.arm.set_ee_pose_components(x=0.3, z=0.2)
-    robot_2.gripper.release(delay=0.05)
-    robot_2.arm.set_single_joint_position('waist', -math.pi/4.0)
-    robot_2.gripper.grasp(delay=0.05)
-    robot_2.arm.set_single_joint_position('waist', 0.0)
-    robot_2.arm.go_to_sleep_pose()
+MOVING_TIME_S = 2
+SLEEP_DURATION = Duration(seconds=MOVING_TIME_S)
 
 
 def main():
-    rclpy.init()
-    Thread(target=robot_1).start()
-    Thread(target=robot_2).start()
+    robot_1 = InterbotixManipulatorXS(
+        robot_model='wx200',
+        robot_name='arm_2',
+        moving_time=MOVING_TIME_S,
+        gripper_pressure=1.0,
+        node_owner=True,
+    )
+
+    robot_2 = InterbotixManipulatorXS(
+        robot_model='wx200',
+        robot_name='arm_1',
+        moving_time=MOVING_TIME_S,
+        gripper_pressure=1.0,
+        node_owner=False,
+    )
+
+    def wait() -> None:
+        """Sleep for SLEEP_DURATION."""
+        robot_1.core.get_clock().sleep_for(SLEEP_DURATION)
+
+    robot_1.arm.go_to_home_pose(blocking=False)
+    robot_2.arm.go_to_home_pose(blocking=False)
+    wait()
+
+    robot_1.arm.set_ee_pose_components(x=0.3, z=0.2, blocking=False)
+    robot_2.arm.set_ee_pose_components(x=0.3, z=0.2, blocking=False)
+    wait()
+
+    robot_1.gripper.release(delay=0)
+    robot_2.gripper.release(delay=0)
+    wait()
+
+    robot_1.arm.set_single_joint_position('waist', -math.pi/4.0, blocking=False)
+    robot_2.arm.set_single_joint_position('waist', math.pi/4.0, blocking=False)
+    wait()
+
+    robot_1.gripper.grasp(delay=0)
+    robot_2.gripper.grasp(delay=0)
+    wait()
+
+    robot_1.arm.set_single_joint_position('waist', 0.0, blocking=False)
+    robot_2.arm.set_single_joint_position('waist', 0.0, blocking=False)
+    wait()
+
+    robot_1.arm.go_to_sleep_pose(blocking=False)
+    robot_2.arm.go_to_sleep_pose(blocking=False)
+    wait()
+
+    robot_1.shutdown()
 
 
 if __name__ == '__main__':
