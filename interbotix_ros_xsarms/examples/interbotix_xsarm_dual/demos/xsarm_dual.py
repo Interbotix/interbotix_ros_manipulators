@@ -59,22 +59,23 @@ SLEEP_DURATION = Duration(seconds=MOVING_TIME_S)
 
 
 def main():
+    # robot_1 is the "node owner", meaning that it controls the state of rclpy.
     robot_1 = InterbotixManipulatorXS(
-        robot_model='wx200',
-        robot_name='arm_2',
-        moving_time=MOVING_TIME_S,
-        gripper_pressure=1.0,
-        node_owner=True,
-    )
-
-    robot_2 = InterbotixManipulatorXS(
         robot_model='wx200',
         robot_name='arm_1',
         moving_time=MOVING_TIME_S,
-        gripper_pressure=1.0,
+        node_owner=True,
+    )
+
+    # Because robot_1 is the node owner, we set this one's node_owner arg to False.
+    robot_2 = InterbotixManipulatorXS(
+        robot_model='wx200',
+        robot_name='arm_2',
+        moving_time=MOVING_TIME_S,
         node_owner=False,
     )
 
+    # Helper function used to wait for the robots' pre-configured movements durations.
     def wait() -> None:
         """Sleep for SLEEP_DURATION."""
         robot_1.core.get_clock().sleep_for(SLEEP_DURATION)
@@ -87,16 +88,16 @@ def main():
     robot_2.arm.set_ee_pose_components(x=0.3, z=0.2, blocking=False)
     wait()
 
-    robot_1.gripper.release(delay=0)
-    robot_2.gripper.release(delay=0)
+    robot_1.gripper.release(delay=0.0)
+    robot_2.gripper.release(delay=0.0)
     wait()
 
     robot_1.arm.set_single_joint_position('waist', -math.pi/4.0, blocking=False)
     robot_2.arm.set_single_joint_position('waist', math.pi/4.0, blocking=False)
     wait()
 
-    robot_1.gripper.grasp(delay=0)
-    robot_2.gripper.grasp(delay=0)
+    robot_1.gripper.grasp(delay=0.0)
+    robot_2.gripper.grasp(delay=0.0)
     wait()
 
     robot_1.arm.set_single_joint_position('waist', 0.0, blocking=False)
@@ -107,6 +108,7 @@ def main():
     robot_2.arm.go_to_sleep_pose(blocking=False)
     wait()
 
+    # Because robot_1 is the node owner, use it to do the shutdown process
     robot_1.shutdown()
 
 
