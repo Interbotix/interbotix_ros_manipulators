@@ -75,7 +75,7 @@ def main():
         node_owner=False,
     )
 
-    # Helper function used to wait for the robots' pre-configured movements durations.
+    # Helper function used to wait for the robots' pre-configured moving times.
     def wait() -> None:
         """Sleep for SLEEP_DURATION."""
         robot_1.core.get_clock().sleep_for(SLEEP_DURATION)
