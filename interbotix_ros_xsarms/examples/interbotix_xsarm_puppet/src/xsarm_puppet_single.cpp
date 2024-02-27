@@ -49,7 +49,7 @@ void joint_state_cb(JointState::SharedPtr msg)
   g_joint_states = msg;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
   auto node = std::make_shared<rclcpp::Node>("xsarm_puppet_single");
@@ -70,8 +70,8 @@ int main(int argc, char **argv)
 
   // Wait for the 'arm_node' to finish initializing
   while (
-    (pub_group->get_subscription_count() < 1 || g_joint_states->position.size() < 1)
-    && rclcpp::ok())
+    (pub_group->get_subscription_count() < 1 || g_joint_states->position.size() < 1) &&
+    rclcpp::ok())
   {
     rclcpp::spin_some(node->get_node_base_interface());
     loop_rate.sleep();
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
   req_arm_info->name = "arm";
   auto response_arm = client_robot_info->async_send_request(req_arm_info);
   if (rclcpp::spin_until_future_complete(
-    node->get_node_base_interface(), response_arm) != rclcpp::FutureReturnCode::SUCCESS)
+      node->get_node_base_interface(), response_arm) != rclcpp::FutureReturnCode::SUCCESS)
   {
     RCLCPP_ERROR(
       node->get_logger(),
@@ -101,7 +101,7 @@ int main(int argc, char **argv)
   req_gripper_info->name = "gripper";
   auto response_gripper = client_robot_info->async_send_request(req_gripper_info);
   if (rclcpp::spin_until_future_complete(
-    node->get_node_base_interface(), response_gripper) != rclcpp::FutureReturnCode::SUCCESS)
+      node->get_node_base_interface(), response_gripper) != rclcpp::FutureReturnCode::SUCCESS)
   {
     RCLCPP_ERROR(
       node->get_logger(),
