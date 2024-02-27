@@ -1,50 +1,56 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(interbotix_xsarm_puppet)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
+if(CMAKE_COMPILER_IS_GNUXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+find_package(ament_cmake REQUIRED)
+find_package(interbotix_xs_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
+set(ROS_DEPENDENCIES
   interbotix_xs_msgs
-  interbotix_xsarm_control
-  rosbag
-  roscpp
-  tf2_ros
-  rviz
+  rclcpp
   sensor_msgs
-  std_msgs
-  std_srvs
 )
 
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-catkin_package(
- CATKIN_DEPENDS interbotix_xs_msgs interbotix_xsarm_control rosbag roscpp tf2_ros rviz sensor_msgs std_msgs std_srvs
-)
-
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
-  ${catkin_INCLUDE_DIRS}
+  include
 )
 
-## Declare a C++ executable
-## Specify libraries to link a library or executable target against
-## Add cmake target dependencies of the executable
 add_executable(xsarm_puppet src/xsarm_puppet.cpp)
-target_link_libraries(xsarm_puppet ${catkin_LIBRARIES})
-add_dependencies(xsarm_puppet ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ament_target_dependencies(xsarm_puppet ${ROS_DEPENDENCIES})
 
 add_executable(xsarm_puppet_single src/xsarm_puppet_single.cpp)
-target_link_libraries(xsarm_puppet_single ${catkin_LIBRARIES})
-add_dependencies(xsarm_puppet_single ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ament_target_dependencies(xsarm_puppet_single ${ROS_DEPENDENCIES})
+
+install(
+  TARGETS
+    xsarm_puppet
+    xsarm_puppet_single
+  DESTINATION
+    lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY
+    bag
+    config
+    launch
+    rviz
+  DESTINATION
+    share/${PROJECT_NAME}/
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()
