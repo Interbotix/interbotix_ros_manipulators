@@ -442,7 +442,7 @@
     <axis xyz="1 0 0"/>
     <limit
       effort="1"
-      lower="0.0"
+      lower="-3.9"
       upper="3.9"
       velocity="${pi/2}"/>
     <origin
@@ -525,7 +525,7 @@
     <limit
       effort="5"
       lower="0.001"
-      upper="0.025"
+      upper="0.035"
       velocity="1.0"/>
     <origin
       rpy="0 0 0"
@@ -581,7 +581,7 @@
     <axis xyz="0 0 1"/>
     <limit
       effort="5"
-      lower="-0.025"
+      lower="-0.035"
       upper="-0.001"
       velocity="1.0"/>
     <origin
@@ -644,7 +644,7 @@
 
   <xacro:if value="$(arg show_ar_tag)">
     <xacro:include filename="$(find interbotix_xscobot_descriptions)/urdf/ar_tag.urdf.xacro"/>
-  </xacro:if> <!-- show_ar_tag -->
+  </xacro:if>
 
   <xacro:if value="${urdf_loc != ''}">
     <xacro:include filename="${urdf_loc}"/>
