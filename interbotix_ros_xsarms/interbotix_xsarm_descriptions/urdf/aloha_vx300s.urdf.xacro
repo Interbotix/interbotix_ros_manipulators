@@ -1,0 +1,777 @@
+<?xml version="1.0"?>
+<robot name="vx300s" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="robot_model"
+    value="vx300s"
+    scope="global"/>
+  <xacro:property name="dof"
+    value="6"
+    scope="global"/>
+
+  <xacro:arg name="robot_name"                      default="${robot_model}"/>
+  <xacro:arg name="base_link_frame"                 default="base_link"/>
+  <xacro:arg name="use_gripper"                     default="true"/>
+  <xacro:arg name="show_ar_tag"                     default="false"/>
+  <xacro:arg name="show_gripper_bar"                default="true"/>
+  <xacro:arg name="show_gripper_fingers"            default="true"/>
+  <xacro:arg name="use_world_frame"                 default="false"/>
+  <xacro:arg name="external_urdf_loc"               default=""/>
+  <xacro:arg name="hardware_type"                   default="actual"/>
+
+  <xacro:property name="mesh_directory"             value="package://interbotix_xsarm_descriptions/meshes/${robot_model}_meshes"/>
+  <xacro:property name="urdf_loc"                   value="$(arg external_urdf_loc)"/>
+  <xacro:property name="hardware_type"              value="$(arg hardware_type)"/>
+  <xacro:property name="pi_offset"                  value="0.00001"/>
+
+  <xacro:property name="waist_limit_effort"         value="10"/>
+  <xacro:property name="waist_limit_lower"          value="${-pi + pi_offset}"/>
+  <xacro:property name="waist_limit_upper"          value="${pi - pi_offset}"/>
+  <xacro:property name="waist_limit_vel"            value="${pi}"/>
+
+  <xacro:property name="shoulder_limit_effort"      value="20"/>
+  <xacro:property name="shoulder_limit_lower"       value="${radians(-106)}"/>
+  <xacro:property name="shoulder_limit_upper"       value="${radians(72)}"/>
+  <xacro:property name="shoulder_limit_vel"         value="${pi}"/>
+
+  <xacro:property name="elbow_limit_effort"         value="15"/>
+  <xacro:property name="elbow_limit_lower"          value="${radians(-101)}"/>
+  <xacro:property name="elbow_limit_upper"          value="${radians(92)}"/>
+  <xacro:property name="elbow_limit_vel"            value="${pi}"/>
+
+  <xacro:property name="forearm_roll_limit_effort"   value="2"/>
+  <xacro:property name="forearm_roll_limit_lower"    value="${-pi + pi_offset}"/>
+  <xacro:property name="forearm_roll_limit_upper"    value="${pi - pi_offset}"/>
+  <xacro:property name="forearm_roll_limit_vel"      value="${pi}"/>
+
+  <xacro:property name="wrist_angle_limit_effort"   value="5"/>
+  <xacro:property name="wrist_angle_limit_lower"    value="${radians(-107)}"/>
+  <xacro:property name="wrist_angle_limit_upper"    value="${radians(128)}"/>
+  <xacro:property name="wrist_angle_limit_vel"      value="${pi}"/>
+
+  <xacro:property name="wrist_rotate_limit_effort"  value="1"/>
+  <xacro:property name="wrist_rotate_limit_lower"   value="${-pi + pi_offset}"/>
+  <xacro:property name="wrist_rotate_limit_upper"   value="${pi - pi_offset}"/>
+  <xacro:property name="wrist_rotate_limit_vel"     value="${pi}"/>
+
+  <xacro:property name="gripper_limit_vel"          value="${pi}"/>
+
+  <xacro:property name="finger_limit_effort"        value="5"/>
+  <xacro:property name="finger_limit_lower"         value="0.021"/>
+  <xacro:property name="finger_limit_upper"         value="0.057"/>
+  <xacro:property name="finger_limit_vel"           value="1"/>
+
+  <material name="interbotix_black">
+    <texture filename="package://interbotix_xsarm_descriptions/meshes/interbotix_black.png"/>
+  </material>
+
+  <xacro:if value="$(arg use_world_frame)">
+    <link name="world"/>
+    <joint name="fixed" type="fixed">
+      <parent
+        link="world"/>
+      <child
+        link="$(arg robot_name)/$(arg base_link_frame)"/>
+    </joint>
+  </xacro:if> <!-- use_world_frame -->
+
+  <link name="$(arg robot_name)/$(arg base_link_frame)">
+    <visual>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/base.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/base.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="-0.0534774000 -0.0005625750 0.0205961000"/>
+      <mass value="0.969034"/>
+      <inertia
+        ixx="0.0060240000"
+        iyy="0.0017000000"
+        izz="0.0071620000"
+        ixy="0.0000471300"
+        ixz="0.0000038510"
+        iyz="-0.0000841500"/>
+    </inertial>
+  </link>
+
+  <joint name="waist" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit
+      effort="${waist_limit_effort}"
+      lower="${waist_limit_lower}"
+      upper="${waist_limit_upper}"
+      velocity="${waist_limit_vel}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 0 0.079"/>
+    <parent
+      link="$(arg robot_name)/$(arg base_link_frame)"/>
+    <child
+      link="$(arg robot_name)/shoulder_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/shoulder_link">
+    <visual>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 -0.003"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/shoulder.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 -0.003"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/shoulder.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0.0002592330 -0.0000033552 0.0116129000"/>
+      <mass value="0.798614"/>
+      <inertia
+        ixx="0.0009388000"
+        iyy="0.0011380000"
+        izz="0.0012010000"
+        ixy="-0.0000000010"
+        ixz="-0.0000000191"
+        iyz="0.0000059568"/>
+    </inertial>
+  </link>
+
+  <joint name="shoulder" type="revolute">
+    <axis xyz="0 1 0"/>
+    <limit
+      effort="${shoulder_limit_effort}"
+      lower="${shoulder_limit_lower}"
+      upper="${shoulder_limit_upper}"
+      velocity="${shoulder_limit_vel}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0 0 0.04805"/>
+    <parent
+      link="$(arg robot_name)/shoulder_link"/>
+    <child
+      link="$(arg robot_name)/upper_arm_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/upper_arm_link">
+    <visual>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/upper_arm.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/upper_arm.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0.0206949000 0.0000000004 0.2264590000"/>
+      <mass value="0.792592"/>
+      <inertia
+        ixx="0.0089250000"
+        iyy="0.0089370000"
+        izz="0.0009357000"
+        ixy="0.0000000000"
+        ixz="0.0000000000"
+        iyz="0.0012010000"/>
+    </inertial>
+  </link>
+
+  <joint name="elbow" type="revolute">
+    <axis xyz="0 1 0"/>
+    <limit
+      effort="${elbow_limit_effort}"
+      lower="${elbow_limit_lower}"
+      upper="${elbow_limit_upper}"
+      velocity="${elbow_limit_vel}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.05955 0 0.3"/>
+    <parent
+      link="$(arg robot_name)/upper_arm_link"/>
+    <child
+      link="$(arg robot_name)/upper_forearm_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/upper_forearm_link">
+    <visual>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/upper_forearm.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="0 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/upper_forearm.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin
+        rpy="0 0 0"
+        xyz="0.105723 0 0"/>
+      <mass value="0.322228"/>
+      <inertia
+        ixx="0.0001524000"
+        iyy="0.0013420000"
+        izz="0.0014410000"
+        ixy="-0.0000188300"
+        ixz="-0.0000084064"
+        iyz="0.0000012564"/>
+    </inertial>
+  </link>
+
+  <joint name="forearm_roll" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit
+      effort="${forearm_roll_limit_effort}"
+      lower="${forearm_roll_limit_lower}"
+      upper="${forearm_roll_limit_upper}"
+      velocity="${forearm_roll_limit_vel}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.2 0 0"/>
+    <parent
+      link="$(arg robot_name)/upper_forearm_link"/>
+    <child
+      link="$(arg robot_name)/lower_forearm_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/lower_forearm_link">
+    <visual>
+      <origin
+        rpy="${pi} 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/lower_forearm.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="${pi} 0 0"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/lower_forearm.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin
+        rpy="${pi} 0 0"
+        xyz="0.0513477000 0.0068046200 0"/>
+      <mass value="0.414823"/>
+      <inertia
+        ixx="0.0001753000"
+        iyy="0.0005269000"
+        izz="0.0005911000"
+        ixy="-0.0000852800"
+        ixz="0"
+        iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="wrist_angle" type="revolute">
+    <axis xyz="0 1 0"/>
+    <limit
+      effort="${wrist_angle_limit_effort}"
+      lower="${wrist_angle_limit_lower}"
+      upper="${wrist_angle_limit_upper}"
+      velocity="${wrist_angle_limit_vel}"/>
+    <origin
+      rpy="0 0 0"
+      xyz="0.1 0 0"/>
+    <parent
+      link="$(arg robot_name)/lower_forearm_link"/>
+    <child
+      link="$(arg robot_name)/wrist_link"/>
+    <dynamics
+      friction="0.1"
+      damping="0.1"/>
+  </joint>
+
+  <link name="$(arg robot_name)/wrist_link">
+    <visual>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/wrist.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="interbotix_black"/>
+    </visual>
+    <collision>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="${mesh_directory}/wrist.stl"
+          scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin
+        rpy="0 0 ${pi/2}"
+        xyz="0.0467430000 -0.0000076652 0.0105650000"/>
+      <mass value="0.115395"/>
+      <inertia
+        ixx="0.0000463100"
+        iyy="0.0000451400"
+        izz="0.0000527000"
+        ixy="0.0000000195"
+        ixz="0.0000000023"
+        iyz="0.0000042002"/>
+    </inertial>
+  </link>
+
+  <!-- Include the gripper if used -->
+
+  <xacro:if value="$(arg use_gripper)">
+
+    <joint name="wrist_rotate" type="revolute">
+      <axis xyz="1 0 0"/>
+      <limit
+        effort="${wrist_rotate_limit_effort}"
+        lower="${wrist_rotate_limit_lower}"
+        upper="${wrist_rotate_limit_upper}"
+        velocity="${wrist_rotate_limit_vel}"/>
+      <origin
+        rpy="0 0 0"
+        xyz="0.069744 0 0"/>
+      <parent
+        link="$(arg robot_name)/wrist_link"/>
+      <child
+        link="$(arg robot_name)/gripper_link"/>
+      <dynamics
+        friction="0.1"
+        damping="0.1"/>
+    </joint>
+
+    <link name="$(arg robot_name)/gripper_link">
+      <visual>
+        <origin
+          rpy="0 0 ${pi/2}"
+          xyz="-0.02 0 0"/>
+        <geometry>
+          <mesh
+            filename="${mesh_directory}/gripper.stl"
+            scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="interbotix_black"/>
+      </visual>
+      <collision>
+        <origin
+          rpy="0 0 ${pi/2}"
+          xyz="-0.02 0 0"/>
+        <geometry>
+          <mesh
+            filename="${mesh_directory}/gripper.stl"
+            scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin
+          rpy="0 0 ${pi/2}"
+          xyz="0.0230010000 0.0000000000 0.0115230000"/>
+        <mass value="0.097666"/>
+        <inertia
+          ixx="0.0000326800"
+          iyy="0.0000243600"
+          izz="0.0000211900"
+          ixy="0.0000000000"
+          ixz="0.0000000000"
+          iyz="0.0000002785"/>
+      </inertial>
+    </link>
+
+    <joint name="ee_arm" type="fixed">
+      <axis xyz="1 0 0"/>
+      <origin
+        rpy="0 0 0"
+        xyz="0.042825 0 0"/>
+      <parent
+        link="$(arg robot_name)/gripper_link"/>
+      <child
+        link="$(arg robot_name)/ee_arm_link"/>
+    </joint>
+
+    <link name="$(arg robot_name)/ee_arm_link">
+      <inertial>
+        <mass value="0.001"/>
+        <inertia
+          ixx="0.0001"
+          iyy="0.0001"
+          izz="0.0001"
+          ixy="0"
+          ixz="0"
+          iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="gripper" type="continuous">
+      <axis xyz="1 0 0"/>
+      <limit
+        effort="1"
+        velocity="${gripper_limit_vel}"/>
+      <origin
+        rpy="0 0 0"
+        xyz="0.005675 0 0"/>
+      <parent
+        link="$(arg robot_name)/ee_arm_link"/>
+      <child
+        link="$(arg robot_name)/gripper_prop_link"/>
+      <dynamics
+        friction="0.1"
+        damping="0.1"/>
+    </joint>
+
+    <link name="$(arg robot_name)/gripper_prop_link">
+      <visual>
+        <origin
+          rpy="0 0 ${pi/2}"
+          xyz="-0.0685 0 0"/>
+        <geometry>
+          <mesh
+            filename="${mesh_directory}/gripper_prop.stl"
+            scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="interbotix_black"/>
+      </visual>
+      <collision>
+        <origin
+          rpy="0 0 ${pi/2}"
+          xyz="-0.0685 0 0"/>
+        <geometry>
+          <mesh
+            filename="${mesh_directory}/gripper_prop.stl"
+            scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin
+          rpy="0 0 ${pi/2}"
+          xyz="0.0023780000 0.0000000285 0.0000000000"/>
+        <mass value="0.008009"/>
+        <inertia
+          ixx="0.0000020386"
+          iyy="0.0000042979"
+          izz="0.0000023796"
+          ixy="0.0000000000"
+          ixz="0.0000006559"
+          iyz="0.0000000000"/>
+      </inertial>
+    </link>
+
+    <!-- If the AR tag is being used, then add the AR tag mount -->
+
+    <xacro:if value="$(arg show_ar_tag)">
+      <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/ar_tag.urdf.xacro"/>
+    </xacro:if> <!-- show_ar_tag -->
+
+    <!-- If the gripper bar is being used, then also add the gripper bar -->
+
+    <xacro:if value="$(arg show_gripper_bar)">
+
+      <joint name="gripper_bar" type="fixed">
+        <axis xyz="1 0 0"/>
+        <origin
+          rpy="0 0 0"
+          xyz="0 0 0"/>
+        <parent
+          link="$(arg robot_name)/ee_arm_link"/>
+        <child
+          link="$(arg robot_name)/gripper_bar_link"/>
+      </joint>
+
+      <link name="$(arg robot_name)/gripper_bar_link">
+        <visual>
+          <origin
+            rpy="0 0 ${pi/2}"
+            xyz="-0.063 0 0"/>
+          <geometry>
+            <mesh
+              filename="${mesh_directory}/gripper_bar.stl"
+              scale="0.001 0.001 0.001"/>
+          </geometry>
+          <material name="interbotix_black"/>
+        </visual>
+        <collision>
+          <origin
+            rpy="0 0 ${pi/2}"
+            xyz="-0.063 0 0"/>
+          <geometry>
+            <mesh
+              filename="${mesh_directory}/gripper_bar.stl"
+              scale="0.001 0.001 0.001"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <origin
+            rpy="0 0 ${pi/2}"
+            xyz="0.0067940000 -0.0000004272 -0.0007760000"/>
+          <mass value="0.150986"/>
+          <inertia
+            ixx="0.0000789500"
+            iyy="0.0003283000"
+            izz="0.0003095000"
+            ixy="-0.0000000012"
+            ixz="0.0000001341"
+            iyz="0.0000017465"/>
+        </inertial>
+      </link>
+
+      <joint name="ee_bar" type="fixed">
+        <axis xyz="1 0 0"/>
+        <origin
+          rpy="0 0 0"
+          xyz="0.025875 0 0"/>
+        <parent
+          link="$(arg robot_name)/gripper_bar_link"/>
+        <child
+          link="$(arg robot_name)/fingers_link"/>
+      </joint>
+
+      <link name="$(arg robot_name)/fingers_link">
+        <inertial>
+          <mass value="0.001"/>
+          <inertia
+            ixx="0.0001"
+            iyy="0.0001"
+            izz="0.0001"
+            ixy="0"
+            ixz="0"
+            iyz="0"/>
+        </inertial>
+      </link>
+
+      <!-- If the gripper fingers are being used, add those as well -->
+
+      <xacro:if value="$(arg show_gripper_fingers)">
+
+        <joint name="left_finger" type="prismatic">
+          <axis xyz="0 1 0"/>
+          <limit
+            effort="${finger_limit_effort}"
+            lower="${finger_limit_lower}"
+            upper="${finger_limit_upper}"
+            velocity="${finger_limit_vel}"/>
+          <origin
+            rpy="0 0 0"
+            xyz="0 0 0"/>
+          <parent
+            link="$(arg robot_name)/fingers_link"/>
+          <child
+            link="$(arg robot_name)/left_finger_link"/>
+          <dynamics
+            friction="0.1"
+            damping="0.1"/>
+        </joint>
+
+        <link name="$(arg robot_name)/left_finger_link">
+          <visual>
+            <origin
+              rpy="${pi/2} ${-pi} ${pi/2}"
+              xyz="-0.0404 -0.0575 0"/>
+            <geometry>
+              <mesh
+                filename="${mesh_directory}/gripper_finger.stl"
+                scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="interbotix_black"/>
+          </visual>
+          <collision>
+            <origin
+              rpy="${pi/2} ${-pi} ${pi/2}"
+              xyz="-0.0404 -0.0575 0"/>
+            <geometry>
+              <mesh
+                filename="${mesh_directory}/gripper_finger.stl"
+                scale="0.001 0.001 0.001"/>
+            </geometry>
+          </collision>
+          <inertial>
+            <origin
+              rpy="${pi} ${pi} ${pi/2}"
+              xyz="0.0173440000 -0.0060692000 0.0000000000"/>
+            <mass value="0.034796"/>
+            <inertia
+              ixx="0.0000243300"
+              iyy="0.0000125500"
+              izz="0.0000141700"
+              ixy="-0.0000024004"
+              ixz="0.0000000000"
+              iyz="0.0000000000"/>
+          </inertial>
+        </link>
+
+        <joint name="right_finger" type="prismatic">
+          <axis xyz="0 1 0"/>
+          <limit
+            effort="${finger_limit_effort}"
+            lower="${-finger_limit_upper}"
+            upper="${-finger_limit_lower}"
+            velocity="${finger_limit_vel}"/>
+          <origin
+            rpy="0 0 0"
+            xyz="0 0 0"/>
+          <parent
+            link="$(arg robot_name)/fingers_link"/>
+          <child
+            link="$(arg robot_name)/right_finger_link"/>
+          <dynamics
+            friction="0.1"
+            damping="0.1"/>
+          <xacro:if value="${hardware_type != 'gz_classic'}">
+            <mimic
+              joint="left_finger"
+              multiplier="-1"
+              offset="0"/>
+          </xacro:if>
+        </joint>
+
+        <link name="$(arg robot_name)/right_finger_link">
+          <visual>
+            <origin
+              rpy="${-pi/2} ${pi} ${-pi/2}"
+              xyz="-0.0404 0.0575 0 "/>
+            <geometry>
+              <mesh
+                filename="${mesh_directory}/gripper_finger.stl"
+                scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="interbotix_black"/>
+          </visual>
+          <collision>
+            <origin
+              rpy="${-pi/2} ${pi} ${-pi/2}"
+              xyz="-0.0404 0.0575 0 "/>
+            <geometry>
+              <mesh
+                filename="${mesh_directory}/gripper_finger.stl"
+                scale="0.001 0.001 0.001"/>
+            </geometry>
+          </collision>
+          <inertial>
+            <origin
+              rpy="0 ${pi} ${pi/2}"
+              xyz="0.0173440000 0.0060692000  0.0000000000"/>
+            <mass value="0.034796"/>
+            <inertia
+              ixx="0.0000243300"
+              iyy="0.0000125500"
+              izz="0.0000141700"
+              ixy="0.0000024001"
+              ixz="0.0000000000"
+              iyz="0.0000000000"/>
+          </inertial>
+        </link>
+
+        <joint name="ee_gripper" type="fixed">
+          <axis xyz="1 0 0"/>
+          <origin
+            rpy="0 0 0"
+            xyz="0.0385 0 0"/>
+          <parent
+            link="$(arg robot_name)/fingers_link"/>
+          <child
+            link="$(arg robot_name)/ee_gripper_link"/>
+        </joint>
+
+        <link name="$(arg robot_name)/ee_gripper_link">
+          <inertial>
+            <mass value="0.001"/>
+            <inertia
+              ixx="0.0001"
+              iyy="0.0001"
+              izz="0.0001"
+              ixy="0"
+              ixz="0"
+              iyz="0"/>
+          </inertial>
+        </link>
+
+      </xacro:if> <!-- show_gripper_fingers -->
+
+    </xacro:if> <!-- show_gripper_bar -->
+
+  </xacro:if> <!-- use_gripper -->
+
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/control.urdf.xacro"/>
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/gazebo_configs.urdf.xacro"/>
+
+  <xacro:if value="${hardware_type == 'gz_classic'}">
+    <xacro:gazebo_configs/>
+  </xacro:if>
+
+  <xacro:if value="${urdf_loc != ''}">
+    <xacro:include filename="${urdf_loc}"/>
+  </xacro:if>
+
+</robot>
