@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,27 +29,37 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
+from interbotix_common_modules.common_robot.robot import robot_startup, robot_shutdown
+
 """
-This script commands currents [mA] to the arm joints
+This script closes and opens the gripper twice, changing the gripper pressure half way through
 
 To get started, open a terminal and type:
 
-    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=vx250
+    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=wx200
 
 Then change to this directory and type:
 
-    python3 joint_current_control.py
+    python3 gripper_control.py
 """
 
 
 def main():
-    joint_currents = [0, 200, 200, 50, 0]
+    bot = InterbotixManipulatorXS(
+        robot_model='wx200',
+        group_name='arm',
+        gripper_name='gripper',
+    )
 
-    bot = InterbotixManipulatorXS(robot_model='vx250')
-    bot.core.robot_set_operating_modes('group', 'arm', 'current')
-    bot.core.robot_write_commands('arm', joint_currents)
+    robot_startup()
 
-    bot.shutdown()
+    bot.gripper.grasp(2.0)
+    bot.gripper.release(2.0)
+    bot.gripper.set_pressure(1.0)
+    bot.gripper.grasp(2.0)
+    bot.gripper.release(2.0)
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

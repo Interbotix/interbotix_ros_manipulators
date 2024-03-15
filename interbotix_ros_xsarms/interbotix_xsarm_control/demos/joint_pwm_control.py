@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,31 +29,36 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
+from interbotix_common_modules.common_robot.robot import robot_startup, robot_shutdown
 
 """
-This script makes the end-effector go to a specific pose by defining the pose components
+This script commands currents [mA] to the arm joints:
 
 To get started, open a terminal and type:
 
-    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250
+    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=vx250
 
 Then change to this directory and type:
 
-    python3 ee_pose_components.py
+    python3 joint_current_control.py
 """
 
 
 def main():
+    joint_pwms = [0, 100, 100, 25, 0]
+
     bot = InterbotixManipulatorXS(
-        robot_model='wx250',
+        robot_model='vx250',
         group_name='arm',
-        gripper_name='gripper'
+        gripper_name='gripper',
     )
-    bot.arm.go_to_home_pose()
-    bot.arm.set_ee_pose_components(x=0.2, y=0.1, z=0.2, roll=1.0, pitch=1.5)
-    bot.arm.go_to_home_pose()
-    bot.arm.go_to_sleep_pose()
-    bot.shutdown()
+
+    robot_startup()
+
+    bot.core.robot_set_operating_modes(cmd_type='group', name='arm', mode='pwm')
+    bot.core.robot_write_commands(group_name='arm', commands=joint_pwms)
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

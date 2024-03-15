@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -31,6 +31,7 @@
 import sys
 
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
+from interbotix_common_modules.common_robot.robot import robot_startup, robot_shutdown
 
 """
 This script makes the end-effector draw a square in 3D space.
@@ -51,11 +52,13 @@ def main():
     bot = InterbotixManipulatorXS(
         robot_model='wx250',
         group_name='arm',
-        gripper_name='gripper'
+        gripper_name='gripper',
     )
 
+    robot_startup()
+
     if (bot.arm.group_info.num_joints < 5):
-        bot.core.get_logger().fatal('This demo requires the robot to have at least 5 joints!')
+        bot.get_node().logfatal('This demo requires the robot to have at least 5 joints!')
         bot.shutdown()
         sys.exit()
 
@@ -65,7 +68,8 @@ def main():
     bot.arm.set_ee_cartesian_trajectory(z=0.2)
     bot.arm.set_ee_cartesian_trajectory(x=0.2)
     bot.arm.go_to_sleep_pose()
-    bot.shutdown()
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

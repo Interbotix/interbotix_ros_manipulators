@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,40 +28,34 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from time import sleep
-
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
+from interbotix_common_modules.common_robot.robot import robot_startup, robot_shutdown
+
 
 """
-This script commands an arbitrary trajectory to the arm joints:
+This script commands currents [mA] to the arm joints
 
-To get started, open a terminal and type
+To get started, open a terminal and type:
 
-    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250s
+    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=vx250
 
 Then change to this directory and type:
 
-    python3 joint_trajectory_control.py
+    python3 joint_current_control.py
 """
 
 
 def main():
+    joint_currents = [0, 200, 200, 50, 0]
 
-    trajectory = [
-        {0.0: [0.0,  0.0, 0.0, 0.0, 0.0, 0.0]},
-        {2.0: [0.0,  0.0, 0.0, 0.0, 0.5, 0.0]},
-        {4.0: [0.5,  0.0, 0.0, 0.0, 0.5, 0.0]},
-        {6.0: [-0.5, 0.0, 0.0, 0.0, 0.5, 0.0]}
-    ]
+    bot = InterbotixManipulatorXS(robot_model='vx250')
 
-    bot = InterbotixManipulatorXS('wx250s', 'arm', 'gripper')
-    bot.arm.go_to_home_pose()
-    bot.core.robot_write_trajectory('group', 'arm', 'position', trajectory)
-    sleep(6.0)  # sleep to ensure trajectory has time to complete
-    bot.arm.go_to_home_pose()
-    bot.arm.go_to_sleep_pose()
+    robot_startup()
 
-    bot.shutdown()
+    bot.core.robot_set_operating_modes('group', 'arm', 'current')
+    bot.core.robot_write_commands('arm', joint_currents)
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

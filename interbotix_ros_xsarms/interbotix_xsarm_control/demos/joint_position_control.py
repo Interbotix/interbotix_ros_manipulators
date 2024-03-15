@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,11 +29,10 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
-import numpy as np
+from interbotix_common_modules.common_robot.robot import robot_startup, robot_shutdown
 
 """
-This script makes the end-effector go to a specific pose only possible with a 6dof arm using a
-transformation matrix
+This script commands some arbitrary positions to the arm joints:
 
 To get started, open a terminal and type:
 
@@ -41,29 +40,27 @@ To get started, open a terminal and type:
 
 Then change to this directory and type:
 
-    python3 ee_pose_matrix_control.py
+    python3 joint_position_control.py
 """
 
 
 def main():
-    T_sd = np.array([
-        [1.0, 0.0, 0.0, 0.3],
-        [0.0, 1.0, 0.0, 0.0],
-        [0.0, 0.0, 1.0, 0.2],
-        [0.0, 0.0, 0.0, 1.0]
-    ])
+    joint_positions = [-1.0, 0.5, 0.5, 0, -0.5, 1.57]
 
     bot = InterbotixManipulatorXS(
         robot_model='wx250s',
         group_name='arm',
-        gripper_name='gripper'
+        gripper_name='gripper',
     )
+
+    robot_startup()
+
     bot.arm.go_to_home_pose()
-    bot.arm.set_ee_pose_matrix(T_sd)
+    bot.arm.set_joint_positions(joint_positions)
     bot.arm.go_to_home_pose()
     bot.arm.go_to_sleep_pose()
 
-    bot.shutdown()
+    robot_shutdown()
 
 
 if __name__ == '__main__':
