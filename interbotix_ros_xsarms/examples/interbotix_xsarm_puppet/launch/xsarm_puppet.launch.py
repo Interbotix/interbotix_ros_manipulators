@@ -76,6 +76,11 @@ def launch_setup(context, *args, **kwargs):
             'base_link_frame': 'base_link',
             'use_rviz': 'false',
             'mode_configs': LaunchConfiguration('mode_configs_leader'),
+            'motor_configs': PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_control'),
+                'config',
+                f'{robot_model_leader_launch_arg.perform(context)}.yaml',
+            ]),
             'use_sim': use_sim_launch_arg,
             'robot_description': LaunchConfiguration('robot_description_leader'),
             'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
@@ -97,6 +102,11 @@ def launch_setup(context, *args, **kwargs):
             'base_link_frame': 'base_link',
             'use_rviz': 'false',
             'mode_configs': LaunchConfiguration('mode_configs_follower'),
+            'motor_configs': PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_control'),
+                'config',
+                f'{robot_model_follower_launch_arg.perform(context)}.yaml',
+            ]),
             'use_sim': use_sim_launch_arg,
             'robot_description': LaunchConfiguration('robot_description_follower'),
             'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
