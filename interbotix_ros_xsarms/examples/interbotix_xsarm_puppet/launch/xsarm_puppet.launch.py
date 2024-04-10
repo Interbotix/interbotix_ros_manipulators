@@ -76,6 +76,7 @@ def launch_setup(context, *args, **kwargs):
             'base_link_frame': 'base_link',
             'use_rviz': 'false',
             'mode_configs': LaunchConfiguration('mode_configs_leader'),
+            'motor_configs': LaunchConfiguration('motor_configs_leader'),
             'use_sim': use_sim_launch_arg,
             'robot_description': LaunchConfiguration('robot_description_leader'),
             'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
@@ -97,6 +98,7 @@ def launch_setup(context, *args, **kwargs):
             'base_link_frame': 'base_link',
             'use_rviz': 'false',
             'mode_configs': LaunchConfiguration('mode_configs_follower'),
+            'motor_configs': LaunchConfiguration('motor_configs_follower'),
             'use_sim': use_sim_launch_arg,
             'robot_description': LaunchConfiguration('robot_description_follower'),
             'xs_driver_logging_level': xs_driver_logging_level_launch_arg,
@@ -218,6 +220,26 @@ def generate_launch_description():
                 'follower_modes.yaml',
             ]),
             description="the file path to the 'mode config' YAML file for the follower arm.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'motor_configs_leader',
+            default_value=(PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_control'),
+                'config',
+                LaunchConfiguration('robot_model_leader')]), '.yaml'),
+            description="the file path to the 'motor config' YAML file for the leader arm.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'motor_configs_follower',
+            default_value=(PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_control'),
+                'config',
+                LaunchConfiguration('robot_model_follower')]), '.yaml'),
+            description="the file path to the 'motor config' YAML file for the follower arm.",
         )
     )
     declared_arguments.append(
