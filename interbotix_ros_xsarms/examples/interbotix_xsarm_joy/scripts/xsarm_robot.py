@@ -81,7 +81,12 @@ class XSArmRobot(InterbotixManipulatorXS):
         self.T_sy = np.identity(4)
         self.T_yb = np.identity(4)
         self.update_T_yb()
-        self.core.get_node().create_subscription(ArmJoy, 'commands/joy_processed', self.joy_control_cb, 10)
+        self.core.get_node().create_subscription(
+            ArmJoy,
+            'commands/joy_processed',
+            self.joy_control_cb,
+            10,
+        )
         time.sleep(0.5)
         self.core.get_node().loginfo('Ready to receive processed joystick commands.')
 
