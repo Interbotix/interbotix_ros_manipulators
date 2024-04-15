@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -34,6 +34,11 @@ import math
 import time
 from typing import List
 
+from interbotix_common_modules.common_robot.robot import (
+    create_interbotix_global_node,
+    robot_shutdown,
+    robot_startup,
+)
 from interbotix_perception_modules.armtag import InterbotixArmTagInterface
 from interbotix_perception_modules.pointcloud import InterbotixPointCloudInterface
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
@@ -65,7 +70,7 @@ class Color(Enum):
     PURPLE = 6
 
 
-ROBOT_MODEL = 'wx250s'
+ROBOT_MODEL = 'wx200'
 ROBOT_NAME = ROBOT_MODEL
 REF_FRAME = 'camera_color_optical_frame'
 ARM_TAG_FRAME = f'{ROBOT_NAME}/ar_tag_link'
@@ -73,18 +78,24 @@ ARM_BASE_FRAME = f'{ROBOT_NAME}/base_link'
 
 
 def main():
+    global_node = create_interbotix_global_node()
     # Initialize the arm module along with the pointcloud and armtag modules
     bot = InterbotixManipulatorXS(
         robot_model=ROBOT_MODEL,
         robot_name=ROBOT_NAME,
+        node=global_node,
     )
-    pcl = InterbotixPointCloudInterface(node_inf=bot.core)
+    pcl = InterbotixPointCloudInterface(
+        node_inf=global_node,
+    )
     armtag = InterbotixArmTagInterface(
         ref_frame=REF_FRAME,
         arm_tag_frame=ARM_TAG_FRAME,
         arm_base_frame=ARM_BASE_FRAME,
-        node_inf=bot.core
+        node_inf=global_node,
     )
+
+    robot_startup(global_node)
 
     # set initial arm and gripper pose
     for joint_name in ['waist', 'shoulder', 'elbow']:
@@ -107,7 +118,7 @@ def main():
     success, clusters = pcl.get_cluster_positions(
         ref_frame=ARM_BASE_FRAME,
         sort_axis='y',
-        reverse=True
+        reverse=True,
     )
 
     if success:
@@ -141,9 +152,9 @@ def main():
     else:
         print('Could not get cluster positions.')
 
-    bot.arm.set_ee_pose_components(x=0.3, z=0.2)
+    # bot.arm.set_ee_pose_components(x=0.3, z=0.2)
     bot.arm.go_to_sleep_pose()
-    bot.shutdown()
+    robot_shutdown(global_node)
 
 
 def color_compare(rgb: List[float]) -> Color:
