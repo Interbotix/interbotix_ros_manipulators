@@ -70,7 +70,7 @@ class Color(Enum):
     PURPLE = 6
 
 
-ROBOT_MODEL = 'wx250'
+ROBOT_MODEL = 'wx250s'
 ROBOT_NAME = ROBOT_MODEL
 REF_FRAME = 'camera_color_optical_frame'
 ARM_TAG_FRAME = f'{ROBOT_NAME}/ar_tag_link'
