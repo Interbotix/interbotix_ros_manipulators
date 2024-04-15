@@ -82,6 +82,8 @@ def main():
         node_inf=global_node
     )
 
+    robot_startup(global_node)
+
     # set the initial arm and gripper pose
     for joint_name in ['waist', 'shoulder', 'elbow']:
         bot.core.robot_set_motor_registers(
