@@ -96,6 +96,7 @@ def main():
         node_inf=global_node,
     )
 
+    # Start up the API
     robot_startup(global_node)
 
     # set initial arm and gripper pose
@@ -153,7 +154,7 @@ def main():
     else:
         print('Could not get cluster positions.')
 
-    # bot.arm.set_ee_pose_components(x=0.3, z=0.2)
+    bot.arm.set_ee_pose_components(x=0.3, z=0.2)
     bot.arm.go_to_sleep_pose()
     robot_shutdown(global_node)
 

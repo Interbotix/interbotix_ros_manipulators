@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -30,8 +30,13 @@
 
 from colorsys import rgb_to_hsv
 from enum import Enum
-from typing import List, Literal
+from typing import List
 
+from interbotix_common_modules.common_robot.robot import (
+    create_interbotix_global_node,
+    robot_shutdown,
+    robot_startup,
+)
 from interbotix_perception_modules.armtag import InterbotixArmTagInterface
 from interbotix_perception_modules.pointcloud import InterbotixPointCloudInterface
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
@@ -71,20 +76,26 @@ ARM_BASE_FRAME = f'{ROBOT_NAME}/base_link'
 
 
 def main():
+    # Create a global node to serve as the backend for each API component
+    global_node = create_interbotix_global_node()
     # Initialize the arm, pointcloud, and armtag modules
     bot = InterbotixManipulatorXS(
         robot_model=ROBOT_MODEL,
         robot_name=ROBOT_NAME,
+        node=global_node,
     )
     pcl = InterbotixPointCloudInterface(
-        node_inf=bot.core
+        node_inf=global_node,
     )
     armtag = InterbotixArmTagInterface(
         ref_frame=REF_FRAME,
         arm_tag_frame=ARM_TAG_FRAME,
         arm_base_frame=ARM_BASE_FRAME,
-        node_inf=bot.core
+        node_inf=global_node,
     )
+
+    # Start up the API
+    robot_startup(global_node)
 
     # set initial arm and gripper pose
     for joint_name in ['waist', 'shoulder', 'elbow']:
@@ -136,10 +147,10 @@ def main():
 
     bot.arm.set_ee_pose_components(x=0.3, z=0.2)
     bot.arm.go_to_sleep_pose()
-    bot.shutdown()
+    robot_shutdown(global_node)
 
 
-def color_compare(rgb: List[float]) -> Literal:
+def color_compare(rgb: List[float]) -> Color:
     """
     Determine the color of each object using the Hue value in the HSV color space.
 

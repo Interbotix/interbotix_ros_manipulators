@@ -31,7 +31,7 @@
 import colorsys
 from enum import Enum
 import time
-from typing import List, Literal
+from typing import List
 
 from interbotix_common_modules.common_robot.robot import (
     create_interbotix_global_node,
@@ -64,7 +64,7 @@ class Color(Enum):
     WHITE = 1
 
 
-ROBOT_MODEL = 'wx200'
+ROBOT_MODEL = 'vx300s'
 ROBOT_NAME = ROBOT_MODEL
 REF_FRAME = 'camera_color_optical_frame'
 ARM_TAG_FRAME = f'{ROBOT_NAME}/ar_tag_link'
@@ -92,6 +92,7 @@ def main():
         node_inf=global_node,
     )
 
+    # Start up the API
     robot_startup(global_node)
 
     # set the initial arm and gripper pose
