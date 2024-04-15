@@ -30,8 +30,8 @@
 
 from time import sleep
 
+from interbotix_common_modules.common_robot.robot import robot_shutdown, robot_startup
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
-from interbotix_common_modules.common_robot.robot import robot_startup, robot_shutdown
 
 """
 This script commands an arbitrary trajectory to the arm joints:
