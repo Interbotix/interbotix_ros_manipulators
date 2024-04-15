@@ -322,7 +322,6 @@ function install_ros2() {
         interbotix_ros_toolboxes/interbotix_perception_toolbox/COLCON_IGNORE
     fi
     rm                                                                                                  \
-      interbotix_ros_core/interbotix_ros_xseries/COLCON_IGNORE                                          \
       interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/COLCON_IGNORE      \
       interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs/COLCON_IGNORE
     cd interbotix_ros_core
