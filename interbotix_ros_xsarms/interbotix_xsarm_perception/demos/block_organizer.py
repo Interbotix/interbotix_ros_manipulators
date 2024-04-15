@@ -78,6 +78,7 @@ ARM_BASE_FRAME = f'{ROBOT_NAME}/base_link'
 
 
 def main():
+    # Create a global node to serve as the backend for each API component
     global_node = create_interbotix_global_node()
     # Initialize the arm module along with the pointcloud and armtag modules
     bot = InterbotixManipulatorXS(
