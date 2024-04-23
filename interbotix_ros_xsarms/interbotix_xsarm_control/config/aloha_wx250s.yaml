@@ -116,3 +116,4 @@ motors:
     Min_Position_Limit: 0
     Max_Position_Limit: 4095
     Secondary_ID: 255
+    Current_Limit: 200
