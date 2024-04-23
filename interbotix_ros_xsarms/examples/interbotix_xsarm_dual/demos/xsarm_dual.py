@@ -31,6 +31,11 @@
 
 import math
 
+from interbotix_common_modules.common_robot.robot import (
+    create_interbotix_global_node,
+    robot_shutdown,
+    robot_startup,
+)
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
 from rclpy.duration import Duration
 
@@ -59,26 +64,31 @@ SLEEP_DURATION = Duration(seconds=MOVING_TIME_S)
 
 
 def main():
-    # robot_1 is the "node owner", meaning that it controls the state of rclpy.
+    # Create a global node used to manage the state of rclpy
+    global_node = create_interbotix_global_node()
+
+    # Pass the global node to both robots
     robot_1 = InterbotixManipulatorXS(
         robot_model='wx200',
         robot_name='arm_1',
         moving_time=MOVING_TIME_S,
-        node_owner=True,
+        node=global_node,
     )
 
-    # Because robot_1 is the node owner, we set this one's node_owner arg to False.
     robot_2 = InterbotixManipulatorXS(
         robot_model='wx200',
         robot_name='arm_2',
         moving_time=MOVING_TIME_S,
-        node_owner=False,
+        node=global_node,
     )
+
+    # Call startup with the global node to start the API's execution processes
+    robot_startup(global_node)
 
     # Helper function used to wait for the robots' pre-configured moving times.
     def wait() -> None:
         """Sleep for SLEEP_DURATION."""
-        robot_1.core.get_clock().sleep_for(SLEEP_DURATION)
+        global_node.get_clock().sleep_for(SLEEP_DURATION)
 
     robot_1.arm.go_to_home_pose(blocking=False)
     robot_2.arm.go_to_home_pose(blocking=False)
@@ -108,8 +118,7 @@ def main():
     robot_2.arm.go_to_sleep_pose(blocking=False)
     wait()
 
-    # Because robot_1 is the node owner, use it to do the shutdown process
-    robot_1.shutdown()
+    robot_shutdown()
 
 
 if __name__ == '__main__':
