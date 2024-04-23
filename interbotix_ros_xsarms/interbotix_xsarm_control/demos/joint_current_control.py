@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,35 +28,33 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from interbotix_common_modules.common_robot.robot import robot_shutdown, robot_startup
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
 
 """
-This script commands some arbitrary positions to the arm joints:
+This script commands currents [mA] to the arm joints
 
 To get started, open a terminal and type:
 
-    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250s
+    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=vx250
 
 Then change to this directory and type:
 
-    python3 joint_position_control.py
+    python3 joint_current_control.py
 """
 
 
 def main():
-    joint_positions = [-1.0, 0.5, 0.5, 0, -0.5, 1.57]
+    joint_currents = [0, 200, 200, 50, 0]
 
-    bot = InterbotixManipulatorXS(
-        robot_model='wx250s',
-        group_name='arm',
-        gripper_name='gripper'
-    )
-    bot.arm.go_to_home_pose()
-    bot.arm.set_joint_positions(joint_positions)
-    bot.arm.go_to_home_pose()
-    bot.arm.go_to_sleep_pose()
+    bot = InterbotixManipulatorXS(robot_model='vx250')
 
-    bot.shutdown()
+    robot_startup()
+
+    bot.core.robot_set_operating_modes('group', 'arm', 'current')
+    bot.core.robot_write_commands('arm', joint_currents)
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

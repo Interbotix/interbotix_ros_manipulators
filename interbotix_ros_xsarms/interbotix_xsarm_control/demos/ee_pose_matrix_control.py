@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,28 +28,46 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from interbotix_common_modules.common_robot.robot import robot_shutdown, robot_startup
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
+import numpy as np
+
 """
-This script commands currents [mA] to the arm joints
+This script makes the end-effector go to a specific pose only possible with a 6dof arm using a
+transformation matrix
 
 To get started, open a terminal and type:
 
-    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=vx250
+    ros2 launch interbotix_xsarm_control xsarm_control.launch robot_model:=wx250s
 
 Then change to this directory and type:
 
-    python3 joint_current_control.py
+    python3 ee_pose_matrix_control.py
 """
 
 
 def main():
-    joint_currents = [0, 200, 200, 50, 0]
+    T_sd = np.array([
+        [1.0, 0.0, 0.0, 0.3],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.2],
+        [0.0, 0.0, 0.0, 1.0]
+    ])
 
-    bot = InterbotixManipulatorXS(robot_model='vx250')
-    bot.core.robot_set_operating_modes('group', 'arm', 'current')
-    bot.core.robot_write_commands('arm', joint_currents)
+    bot = InterbotixManipulatorXS(
+        robot_model='wx250s',
+        group_name='arm',
+        gripper_name='gripper',
+    )
 
-    bot.shutdown()
+    robot_startup()
+
+    bot.arm.go_to_home_pose()
+    bot.arm.set_ee_pose_matrix(T_sd)
+    bot.arm.go_to_home_pose()
+    bot.arm.go_to_sleep_pose()
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,10 +28,15 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import sys
+
+from interbotix_common_modules.common_robot.robot import robot_shutdown, robot_startup
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
 
 """
-This script makes the end-effector go to a specific pose by defining the pose components
+This script makes the end-effector draw a square in 3D space.
+Note that this script may not work for every arm as it was designed for the wx250.
+Make sure to adjust commanded joint positions and poses as necessary.
 
 To get started, open a terminal and type:
 
@@ -39,7 +44,7 @@ To get started, open a terminal and type:
 
 Then change to this directory and type:
 
-    python3 ee_pose_components.py
+    python3 ee_cartesian_trajectory.py
 """
 
 
@@ -47,13 +52,24 @@ def main():
     bot = InterbotixManipulatorXS(
         robot_model='wx250',
         group_name='arm',
-        gripper_name='gripper'
+        gripper_name='gripper',
     )
+
+    robot_startup()
+
+    if (bot.arm.group_info.num_joints < 5):
+        bot.get_node().logfatal('This demo requires the robot to have at least 5 joints!')
+        bot.shutdown()
+        sys.exit()
+
     bot.arm.go_to_home_pose()
-    bot.arm.set_ee_pose_components(x=0.2, y=0.1, z=0.2, roll=1.0, pitch=1.5)
-    bot.arm.go_to_home_pose()
+    bot.arm.set_ee_cartesian_trajectory(z=-0.2)
+    bot.arm.set_ee_cartesian_trajectory(x=-0.2)
+    bot.arm.set_ee_cartesian_trajectory(z=0.2)
+    bot.arm.set_ee_cartesian_trajectory(x=0.2)
     bot.arm.go_to_sleep_pose()
-    bot.shutdown()
+
+    robot_shutdown()
 
 
 if __name__ == '__main__':

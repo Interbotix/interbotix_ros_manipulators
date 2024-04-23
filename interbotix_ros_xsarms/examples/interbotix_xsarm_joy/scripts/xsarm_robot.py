@@ -34,6 +34,7 @@ import sys
 from threading import Lock
 import time
 
+from interbotix_common_modules.common_robot.robot import (robot_shutdown, robot_startup)
 from interbotix_common_modules.angle_manipulation import angle_manipulation as ang
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
 from interbotix_xs_msgs.msg import ArmJoy
@@ -44,7 +45,7 @@ from rclpy.utilities import remove_ros_args
 
 class XSArmRobot(InterbotixManipulatorXS):
     """
-    Proccesses incoming ArmJoy messages and outputs robot commands.
+    Processes incoming ArmJoy messages and outputs robot commands.
 
     The XSArmRobot class is responsible for reading in ArmJoy messages and sending
     joint and gripper commands to the xs_sdk node; while the `waist` joint can be
@@ -70,10 +71,9 @@ class XSArmRobot(InterbotixManipulatorXS):
             robot_name=pargs.robot_name,
             moving_time=0.2,
             accel_time=0.1,
-            start_on_init=True,
-            args=args
+            args=args,
         )
-        self.rate = self.core.create_rate(self.current_loop_rate)
+        self.rate = self.core.get_node().create_rate(self.current_loop_rate)
         self.num_joints = self.arm.group_info.num_joints
         self.waist_index = self.arm.group_info.joint_names.index('waist')
         self.waist_ll = self.arm.group_info.joint_lower_limits[self.waist_index]
@@ -81,18 +81,23 @@ class XSArmRobot(InterbotixManipulatorXS):
         self.T_sy = np.identity(4)
         self.T_yb = np.identity(4)
         self.update_T_yb()
-        self.core.create_subscription(ArmJoy, 'commands/joy_processed', self.joy_control_cb, 10)
+        self.core.get_node().create_subscription(
+            ArmJoy,
+            'commands/joy_processed',
+            self.joy_control_cb,
+            10,
+        )
         time.sleep(0.5)
-        self.core.get_logger().info('Ready to receive processed joystick commands.')
+        self.core.get_node().loginfo('Ready to receive processed joystick commands.')
 
     def start_robot(self) -> None:
         try:
-            self.start()
+            robot_startup()
             while rclpy.ok():
                 self.controller()
                 self.rate.sleep()
         except KeyboardInterrupt:
-            self.shutdown()
+            robot_shutdown()
 
     def update_speed(self, loop_rate: float) -> None:
         """
@@ -101,8 +106,8 @@ class XSArmRobot(InterbotixManipulatorXS):
         :param loop_rate: desired loop frequency [Hz]
         """
         self.current_loop_rate = loop_rate
-        self.rate = self.core.create_rate(self.current_loop_rate)
-        self.core.get_logger().info(f'Current loop rate is {self.current_loop_rate} Hz.')
+        self.rate = self.core.get_node().create_rate(self.current_loop_rate)
+        self.core.get_node().loginfo(f'Current loop rate is {self.current_loop_rate} Hz.')
 
     def update_T_yb(self) -> None:
         """Calculate the pose of the end-effector w.r.t. T_y."""
@@ -119,7 +124,7 @@ class XSArmRobot(InterbotixManipulatorXS):
         """
         self.current_gripper_pressure = gripper_pressure
         self.gripper.set_pressure(self.current_gripper_pressure)
-        self.core.get_logger().info(
+        self.core.get_node().loginfo(
             f'Gripper pressure is at {self.current_gripper_pressure * 100.0:.2f}%.'
         )
 
@@ -141,11 +146,11 @@ class XSArmRobot(InterbotixManipulatorXS):
         # Check the speed_toggle_cmd
         if (msg.speed_toggle_cmd == ArmJoy.SPEED_COARSE):
             self.loop_rates['fine'] = self.current_loop_rate
-            self.core.get_logger().info('Switched to Coarse Control')
+            self.core.get_node().loginfo('Switched to Coarse Control')
             self.update_speed(loop_rate=self.loop_rates['coarse'])
         elif (msg.speed_toggle_cmd == ArmJoy.SPEED_FINE):
             self.loop_rates['coarse'] = self.current_loop_rate
-            self.core.get_logger().info('Switched to Fine Control')
+            self.core.get_node().loginfo('Switched to Fine Control')
             self.update_speed(loop_rate=self.loop_rates['fine'])
 
         # Check the gripper_cmd
