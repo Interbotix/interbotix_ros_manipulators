@@ -259,23 +259,31 @@ function install_ros2() {
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo "$UBUNTU_CODENAME") main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
     sudo apt-get update
     sudo apt-get install -yq ros-"$ROS_DISTRO_TO_INSTALL"-desktop
-    if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
-      sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
-    fi
     echo "source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash" >> ~/.bashrc
-    sudo apt-get install -yq            \
-      python3-rosdep                    \
-      python3-rosinstall                \
-      python3-rosinstall-generator      \
-      python3-wstool                    \
-      build-essential                   \
-      python3-colcon-common-extensions
-    sudo rosdep init
-    rosdep update --include-eol-distros
   else
     echo "ros-$ROS_DISTRO_TO_INSTALL-desktop-full is already installed!"
   fi
   source /opt/ros/"$ROS_DISTRO_TO_INSTALL"/setup.bash
+
+  # Install rosdep and other necessary tools
+  sudo apt-get install -yq            \
+    python3-rosdep                    \
+    python3-rosinstall                \
+    python3-rosinstall-generator      \
+    python3-wstool                    \
+    build-essential                   \
+    python3-colcon-common-extensions
+
+  # Remove sources if they exist
+  if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+    sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
+  fi
+
+  # Initialize rosdep sources
+  sudo rosdep init
+
+  # Update local rosdep database, including EoL distros
+  rosdep update --include-eol-distros
 
   if [ "$INSTALL_PERCEPTION" = true ]; then
     # Install apriltag ROS Wrapper, no official Apriltag ROS 2 package yet
