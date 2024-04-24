@@ -278,7 +278,7 @@ function install_ros2() {
     python3-colcon-common-extensions
 
   # Check if rosdep sources exist
-  if [ ! -d /etc/ros/rosdep/]; then
+  if [ ! -d /etc/ros/rosdep ]; then
     # If rosdep sources do not exist, can assume that rosdep has not been initialized
     sudo rosdep init
   fi
