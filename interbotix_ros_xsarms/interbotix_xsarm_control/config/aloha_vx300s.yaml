@@ -1,0 +1,119 @@
+joint_order: [waist, shoulder, elbow, forearm_roll, wrist_angle, wrist_rotate, gripper]
+sleep_positions: [0, -1.80, 1.55, 0, -1.57, 0, 0]
+
+joint_state_publisher:
+  update_rate: 100
+  publish_states: true
+  topic_name: joint_states
+
+groups:
+  arm: [waist, shoulder, elbow, forearm_roll, wrist_angle, wrist_rotate]
+
+grippers:
+  gripper:
+    horn_radius: 0.0275
+    arm_length: 0.035
+    left_finger: left_finger
+    right_finger: right_finger
+
+shadows:
+  shoulder:
+    shadow_list: [shoulder_shadow]
+    calibrate: true
+  elbow:
+    shadow_list: [elbow_shadow]
+    calibrate: true
+
+sisters:
+
+motors:
+  waist:
+    ID: 1
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 0
+    Velocity_Limit: 131
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
+    Secondary_ID: 255
+
+  shoulder:
+    ID: 2
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 1
+    Velocity_Limit: 131
+    Min_Position_Limit: 841
+    Max_Position_Limit: 2867
+    Secondary_ID: 255
+
+  shoulder_shadow:
+    ID: 3
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 0
+    Velocity_Limit: 131
+    Min_Position_Limit: 841
+    Max_Position_Limit: 2867
+    Secondary_ID: 2
+
+  elbow:
+    ID: 4
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 1
+    Velocity_Limit: 131
+    Min_Position_Limit: 898
+    Max_Position_Limit: 3094
+    Secondary_ID: 255
+
+  elbow_shadow:
+    ID: 5
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 0
+    Velocity_Limit: 131
+    Min_Position_Limit: 898
+    Max_Position_Limit: 3094
+    Secondary_ID: 4
+
+  forearm_roll:
+    ID: 6
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 0
+    Velocity_Limit: 131
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
+    Secondary_ID: 255
+
+  wrist_angle:
+    ID: 7
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 1
+    Velocity_Limit: 131
+    Min_Position_Limit: 830
+    Max_Position_Limit: 3504
+    Secondary_ID: 255
+
+  wrist_rotate:
+    ID: 8
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 0
+    Velocity_Limit: 131
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
+    Secondary_ID: 255
+
+  gripper:
+    ID: 9
+    Baud_Rate: 3
+    Return_Delay_Time: 0
+    Drive_Mode: 0
+    Velocity_Limit: 131
+    Min_Position_Limit: 0
+    Max_Position_Limit: 4095
+    Secondary_ID: 255
+    Current_Limit: 200
