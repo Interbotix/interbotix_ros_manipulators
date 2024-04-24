@@ -11,7 +11,7 @@ groups:
 
 grippers:
   gripper:
-    horn_radius: 0.030
+    horn_radius: 0.0275
     arm_length: 0.035
     left_finger: left_finger
     right_finger: right_finger
