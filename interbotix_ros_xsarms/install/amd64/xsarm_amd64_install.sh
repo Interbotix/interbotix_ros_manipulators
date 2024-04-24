@@ -263,19 +263,21 @@ function install_ros2() {
       sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
     fi
     echo "source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash" >> ~/.bashrc
-    sudo apt-get install -yq            \
-      python3-rosdep                    \
-      python3-rosinstall                \
-      python3-rosinstall-generator      \
-      python3-wstool                    \
-      build-essential                   \
-      python3-colcon-common-extensions
-    sudo rosdep init
-    rosdep update --include-eol-distros
+
   else
     echo "ros-$ROS_DISTRO_TO_INSTALL-desktop-full is already installed!"
   fi
   source /opt/ros/"$ROS_DISTRO_TO_INSTALL"/setup.bash
+
+  sudo apt-get install -yq            \
+    python3-rosdep                    \
+    python3-rosinstall                \
+    python3-rosinstall-generator      \
+    python3-wstool                    \
+    build-essential                   \
+    python3-colcon-common-extensions
+  sudo rosdep init
+  rosdep update --include-eol-distros
 
   if [ "$INSTALL_PERCEPTION" = true ]; then
     # Install apriltag ROS Wrapper, no official Apriltag ROS 2 package yet
