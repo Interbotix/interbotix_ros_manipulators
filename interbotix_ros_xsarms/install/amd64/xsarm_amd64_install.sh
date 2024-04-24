@@ -263,12 +263,12 @@ function install_ros2() {
       sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
     fi
     echo "source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash" >> ~/.bashrc
-
   else
     echo "ros-$ROS_DISTRO_TO_INSTALL-desktop-full is already installed!"
   fi
   source /opt/ros/"$ROS_DISTRO_TO_INSTALL"/setup.bash
 
+  # Install rosdep and other necessary tools
   sudo apt-get install -yq            \
     python3-rosdep                    \
     python3-rosinstall                \
@@ -276,7 +276,14 @@ function install_ros2() {
     python3-wstool                    \
     build-essential                   \
     python3-colcon-common-extensions
-  sudo rosdep init
+
+  # Check if rosdep sources exist
+  if [ ! -d /etc/ros/rosdep/]; then
+    # If rosdep sources do not exist, can assume that rosdep has not been initialized
+    sudo rosdep init
+  fi
+
+  # Update local rosdep database, including EoL distros
   rosdep update --include-eol-distros
 
   if [ "$INSTALL_PERCEPTION" = true ]; then
