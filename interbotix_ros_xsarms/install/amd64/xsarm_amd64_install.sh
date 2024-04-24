@@ -259,9 +259,6 @@ function install_ros2() {
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo "$UBUNTU_CODENAME") main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
     sudo apt-get update
     sudo apt-get install -yq ros-"$ROS_DISTRO_TO_INSTALL"-desktop
-    if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
-      sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
-    fi
     echo "source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash" >> ~/.bashrc
   else
     echo "ros-$ROS_DISTRO_TO_INSTALL-desktop-full is already installed!"
@@ -277,11 +274,13 @@ function install_ros2() {
     build-essential                   \
     python3-colcon-common-extensions
 
-  # Check if rosdep sources exist
-  if [ ! -d /etc/ros/rosdep ]; then
-    # If rosdep sources do not exist, can assume that rosdep has not been initialized
-    sudo rosdep init
+  # Remove sources if they exist
+  if [ -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
+    sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
   fi
+
+  # Initialize rosdep sources
+  sudo rosdep init
 
   # Update local rosdep database, including EoL distros
   rosdep update --include-eol-distros
