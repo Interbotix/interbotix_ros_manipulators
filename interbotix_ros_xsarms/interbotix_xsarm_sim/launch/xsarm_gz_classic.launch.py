@@ -69,6 +69,7 @@ def launch_setup(context, *args, **kwargs):
     robot_description_launch_arg = LaunchConfiguration('robot_description')
     hardware_type_launch_arg = LaunchConfiguration('hardware_type')
 
+
     # sets use_sim_time parameter to 'true' if using gazebo hardware
     use_sim_time_param = determine_use_sim_time_param(
         context=context,

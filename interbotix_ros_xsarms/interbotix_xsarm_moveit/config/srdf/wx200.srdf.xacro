@@ -48,7 +48,7 @@
     </group_state>
     <group_state name="Sleep" group="interbotix_arm">
         <joint name="elbow" value="1.55" />
-        <joint name="shoulder" value="-1.88" />
+        <joint name="shoulder" value="-1.35" />
         <joint name="waist" value="0" />
         <joint name="wrist_angle" value="0.8" />
         <joint name="wrist_rotate" value="0" />

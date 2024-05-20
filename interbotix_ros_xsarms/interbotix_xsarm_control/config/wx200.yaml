@@ -1,7 +1,7 @@
 port: /dev/ttyDXL
 
 joint_order: [waist, shoulder, elbow, wrist_angle, wrist_rotate, gripper]
-sleep_positions: [0, -1.88, 1.5, 0.8, 0, 0]
+sleep_positions: [0, -1.35, 1.5, 0.8, 0, 0]
 
 joint_state_publisher:
   update_rate: 100

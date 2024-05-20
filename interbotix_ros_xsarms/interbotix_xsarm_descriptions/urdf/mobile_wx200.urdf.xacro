@@ -29,7 +29,7 @@
   <xacro:property name="waist_limit_vel"            value="${pi}"/>
 
   <xacro:property name="shoulder_limit_effort"      value="18"/>
-  <xacro:property name="shoulder_limit_lower"       value="${radians(-108)}"/>
+  <xacro:property name="shoulder_limit_lower"       value="${radians(-70)}"/>
   <xacro:property name="shoulder_limit_upper"       value="${radians(113)}"/>
   <xacro:property name="shoulder_limit_vel"         value="${pi}"/>
 
