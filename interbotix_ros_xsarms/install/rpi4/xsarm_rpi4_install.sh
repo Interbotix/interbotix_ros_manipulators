@@ -275,6 +275,7 @@ function install_ros2() {
     # TODO(lsinterbotix) remove below when moveit_visual_tools is available in apt repo
     git clone -b ros2 https://github.com/ros-planning/moveit_visual_tools.git
     rm                                                                                                  \
+      interbotix_ros_core/interbotix_ros_xseries/COLCON_IGNORE                                          \
       interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/COLCON_IGNORE      \
       interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface_msgs/COLCON_IGNORE \
       interbotix_ros_toolboxes/interbotix_rpi_toolbox/COLCON_IGNORE
