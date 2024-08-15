@@ -13,32 +13,32 @@
     <xacro:property name="mesh_directory"             value="package://interbotix_xsarm_descriptions/meshes/${robot_model}_meshes"/>
     <xacro:property name="pi_offset"                  value="0.00001"/>
 
-    <xacro:property name="waist_limit_effort"         value="1"                   scope="parent"/>
-    <xacro:property name="waist_limit_lower"          value="${-pi + pi_offset}"  scope="parent"/>
-    <xacro:property name="waist_limit_upper"          value="${pi - pi_offset}"   scope="parent"/>
-    <xacro:property name="waist_limit_vel"            value="${pi}"               scope="parent"/>
+    <xacro:property name="waist_limit_effort"         value="1"/>
+    <xacro:property name="waist_limit_lower"          value="${-pi + pi_offset}"/>
+    <xacro:property name="waist_limit_upper"          value="${pi - pi_offset}"/>
+    <xacro:property name="waist_limit_vel"            value="${pi}"/>
 
-    <xacro:property name="shoulder_limit_effort"      value="2"                   scope="parent"/>
-    <xacro:property name="shoulder_limit_lower"       value="${radians(-111)}"    scope="parent"/>
-    <xacro:property name="shoulder_limit_upper"       value="${radians(107)}"     scope="parent"/>
-    <xacro:property name="shoulder_limit_vel"         value="${pi}"               scope="parent"/>
+    <xacro:property name="shoulder_limit_effort"      value="2"/>
+    <xacro:property name="shoulder_limit_lower"       value="${radians(-111)}"/>
+    <xacro:property name="shoulder_limit_upper"       value="${radians(107)}"/>
+    <xacro:property name="shoulder_limit_vel"         value="${pi}"/>
 
-    <xacro:property name="elbow_limit_effort"         value="2"                   scope="parent"/>
-    <xacro:property name="elbow_limit_lower"          value="${radians(-121)}"    scope="parent"/>
-    <xacro:property name="elbow_limit_upper"          value="${radians(92)}"      scope="parent"/>
-    <xacro:property name="elbow_limit_vel"            value="${pi}"               scope="parent"/>
+    <xacro:property name="elbow_limit_effort"         value="2"/>
+    <xacro:property name="elbow_limit_lower"          value="${radians(-121)}"/>
+    <xacro:property name="elbow_limit_upper"          value="${radians(92)}"/>
+    <xacro:property name="elbow_limit_vel"            value="${pi}"/>
 
-    <xacro:property name="wrist_angle_limit_effort"   value="1"                   scope="parent"/>
-    <xacro:property name="wrist_angle_limit_lower"    value="${radians(-100)}"    scope="parent"/>
-    <xacro:property name="wrist_angle_limit_upper"    value="${radians(123)}"     scope="parent"/>
-    <xacro:property name="wrist_angle_limit_vel"      value="${pi}"               scope="parent"/>
+    <xacro:property name="wrist_angle_limit_effort"   value="1"/>
+    <xacro:property name="wrist_angle_limit_lower"    value="${radians(-100)}"/>
+    <xacro:property name="wrist_angle_limit_upper"    value="${radians(123)}"/>
+    <xacro:property name="wrist_angle_limit_vel"      value="${pi}"/>
 
-    <xacro:property name="gripper_limit_vel"          value="${pi}"               scope="parent"/>
+    <xacro:property name="gripper_limit_vel"          value="${pi}"/>
 
-    <xacro:property name="finger_limit_effort"        value="5"                   scope="parent"/>
-    <xacro:property name="finger_limit_lower"         value="0.015"               scope="parent"/>
-    <xacro:property name="finger_limit_upper"         value="0.037"               scope="parent"/>
-    <xacro:property name="finger_limit_vel"           value="1"                   scope="parent"/>
+    <xacro:property name="finger_limit_effort"        value="5"/>
+    <xacro:property name="finger_limit_lower"         value="0.015"/>
+    <xacro:property name="finger_limit_upper"         value="0.037"/>
+    <xacro:property name="finger_limit_vel"           value="1"/>
 
     <material name="interbotix_black">
       <texture filename="package://interbotix_xsarm_descriptions/meshes/interbotix_black.png"/>
@@ -401,7 +401,7 @@
 
       <xacro:if value="$(arg show_ar_tag)">
         <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/ar_tag.urdf.xacro"/>
-        <xacro:ar_tag robot_name="$(arg robot_name)" parent_link="$(arg robot_name)/ee_arm_link">
+        <xacro:ar_tag robot_name="${robot_name}" parent_link="${robot_name}/ee_arm_link">
           <origin
             rpy="0 0 0"
             xyz="-0.017 0 0.04155"/>
@@ -636,6 +636,13 @@
 
     </xacro:if> <!-- use_gripper -->
 
-  </xacro:macro> <!-- px100 -->
+    <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/control.urdf.xacro"/>
+    <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/gazebo_configs.urdf.xacro"/>
+
+    <xacro:if value="${hardware_type == 'gz_classic'}">
+      <xacro:gazebo_configs/>
+    </xacro:if>
+
+  </xacro:macro> <!-- arm_macro -->
 
 </robot>
