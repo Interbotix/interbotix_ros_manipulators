@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot name="interbotix_arm" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="robot_model"                     default="px100"/>
+
+  <xacro:arg name="robot_name"                      default="${robot_model}"/>
+  <xacro:arg name="base_link_frame"                 default="base_link"/>
+  <xacro:arg name="use_gripper"                     default="true"/>
+  <xacro:arg name="show_ar_tag"                     default="false"/>
+  <xacro:arg name="show_gripper_bar"                default="true"/>
+  <xacro:arg name="show_gripper_fingers"            default="true"/>
+  <xacro:arg name="use_world_frame"                 default="false"/>
+  <xacro:arg name="external_urdf_loc"               default=""/>
+  <xacro:arg name="hardware_type"                   default="actual"/>
+
+  <xacro:property name="robot_model"                value="$(arg robot_model)"/>
+  <xacro:property name="urdf_loc"                   value="$(arg external_urdf_loc)"/>
+  <xacro:property name="hardware_type"              value="$(arg hardware_type)"/>
+
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/${robot_model}.urdf.xacro"/>
+
+  <xacro:arm_macro robot_name="$(arg robot_name)"/>
+
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/control.urdf.xacro"/>
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/gazebo_configs.urdf.xacro"/>
+
+  <xacro:if value="${hardware_type == 'gz_classic'}">
+    <xacro:gazebo_configs/>
+  </xacro:if>
+
+  <xacro:if value="${urdf_loc != ''}">
+    <xacro:include filename="${urdf_loc}"/>
+  </xacro:if>
+
+</robot>
