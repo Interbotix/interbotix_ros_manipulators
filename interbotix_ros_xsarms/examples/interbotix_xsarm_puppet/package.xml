@@ -9,10 +9,11 @@
   <author email="trsupport@trossenrobotics.com">Solomon Wiznitzer</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
   <depend>interbotix_xs_msgs</depend>
   <depend>interbotix_xsarm_control</depend>
-  <depend>rosbag</depend>
-  <depend>roscpp</depend>
+  <depend>rosbag2</depend>
+  <depend>rclcpp</depend>
   <depend>rviz2</depend>
   <depend>sensor_msgs</depend>
   <depend>tf2_ros</depend>
