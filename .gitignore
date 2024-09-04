@@ -4,3 +4,9 @@
 *.bag
 !waist_diagnostics.bag
 !duck_dunk.bag
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+log/COLCON_IGNORE
+log/latest
+log/latest_list
+log/list_2024-09-04_14-45-49/logger_all.log
