@@ -1,0 +1,9 @@
+# interbotix_gravity_compensation
+
+## Overview
+This package demos the gravity compensation feature of the Interbotix arms.
+
+### Gravity Compensation
+[![docs](https://docs.trossenrobotics.com/docs_button.svg)](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros2_packages/gravity_compensation.html)
+
+As its name suggests, gravity compensation cancels out the effect of the gravity on a system. A toy example is the elevator. The counterweight of the elevator counteracts the gravity applied on the elevator, allowing it to move up and down effortlessly. In our case, we compensate the gravity on a X-Series robotic arm with its joint motors. This feature is useful when we use the arm as a teleoperation remote or when we teach the arm a specific trajectory and don't want to keep holding the arm to avoid it from collapsing. When enabled, this package sets the arm to the current/torque control mode. When a new joint state is received, it solves for the torques required to counteract the gravity. This requires solving a special case of the [inverse dynamics](https://en.wikipedia.org/wiki/Inverse_dynamics) problem where the joint velocities, accelerations, and external forces are 0s. Then, it converts the resulting torques into motor current commands and publishes it to the `/<robot_name>/commands/joint_group` topic for the **xs_sdk** node. The inverse dynamics solver is ported from the [Orocos Kinematics and Dynamics Library (KDL)](https://www.orocos.org/kdl.html). Please refer to the solver [doc](https://docs.ros.org/en/indigo/api/orocos_kdl/html/classKDL_1_1ChainIdSolver__RNE.html) page for its derivations and implementation details.
