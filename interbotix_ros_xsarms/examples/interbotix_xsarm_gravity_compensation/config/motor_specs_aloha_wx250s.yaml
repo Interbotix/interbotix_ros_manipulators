@@ -47,5 +47,7 @@ motor_specs:
     current_unit: 0.00269
     no_load_current: 0.1
 
+# Joints specified here but not in motor_assist or motor_specs
+# do not support the current control mode
 joint_names:
   [waist, shoulder, elbow, forearm_roll, wrist_angle, wrist_rotate, gripper]
