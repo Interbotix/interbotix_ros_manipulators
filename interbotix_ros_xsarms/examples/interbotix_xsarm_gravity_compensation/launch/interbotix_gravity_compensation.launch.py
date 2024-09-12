@@ -106,7 +106,7 @@ def generate_launch_description():
             'motor_specs',
             default_value=[
                 PathJoinSubstitution([
-                    FindPackageShare('interbotix_gravity_compensation'),
+                    FindPackageShare('interbotix_xsarm_gravity_compensation'),
                     'config']),
                 "/motor_specs_",
                 LaunchConfiguration('robot_model'),
