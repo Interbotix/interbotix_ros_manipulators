@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2022 Trossen Robotics
+# Copyright 2024 Trossen Robotics
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -57,11 +57,11 @@ def launch_setup(context, *args, **kwargs):
     gravity_compensation_node = Node(
         package='interbotix_gravity_compensation',
         executable='interbotix_gravity_compensation',
-        name='interbotix_gravity_compensation',
+        name='gravity_compensation',
+        namespace=robot_name_launch_arg,
         output='screen',
         emulate_tty=True,
-        parameters=[{'robot_name': robot_name_launch_arg,
-                     'motor_specs': motor_specs_launch_arg}]
+        parameters=[{'motor_specs': motor_specs_launch_arg}]
     )
 
     # include the xsarm_control_launch with arguments
