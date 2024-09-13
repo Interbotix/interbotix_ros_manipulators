@@ -1,7 +1,8 @@
 # interbotix_xsarm_gravity_compensation
 
 ## Overview
-This package demos the interbotix_gravity_compensation package on an Interbotix arm. As of now, the supported arms include: WidowX-250 6DOF and ALOHA WidowX-250 6DOF.
+This package demos the interbotix_gravity_compensation package on an Interbotix arm.
+As of now, the supported arms include: WidowX-250 6DOF and ALOHA WidowX-250 6DOF.
 
 ## Usage
 Run the following launch command where `robot_model` is a mandatory choice between `aloha_wx250s` and `wx250s`, `robot_name` defaults to be the same as `robot_model` but can be anything, and `motor_specs` defaults to `<path_to_this_package>/config/motor_specs_<robot_model>.yaml`:
@@ -15,14 +16,16 @@ Then, enable/disable the gravity compensation with the following service call:
 ros2 service call /wx250s/gravity_compensation_enable std_srvs/srv/SetBool 'data: [true/false]'
 ```
 
-The arm will hold itself against gravity and can be moved freely when the gravity compensation is enabled. It will lock in its current position when the gravity compensation is disabled.
+The arm will hold itself against gravity and can be moved freely when the gravity compensation is enabled.
+It will lock in its current position when the gravity compensation is disabled.
 
 **WARNING: the arm WILL torque off and drop for a short period of time while enabling/disabling. Please make sure it is in a resting position or manually held.**
 
 **WARNING: the joints not supporting current control WILL torque off. Please make sure to use arm with at least the first three joints supporting current control, e.g., RX, WX, VX series.**
 
 ## Configuration
-The `motor_specs.yaml` hosts the motor specifications used in the node and provides knobs for motor assistance against joint frictions. A template file is given below:
+The `motor_specs.yaml` hosts the motor specifications used in the node and provides knobs for motor assistance against joint frictions.
+A template file is given below:
 ```
 # Motor Assist: scale the no-load currents which alleviate the effects of friction
 # If the values are invalid, they defaults to 0
@@ -81,4 +84,8 @@ joint_names:
 ```
 
 ## Running on Other Arms
-As of now, only the WidowX-250 6DOF and ALOHA WidowX-250 6DOF arms are tested and verified to work with the gravity compensation package. However, this package should be compatible with all RX, WX, VX series arms. To run the demo on those arms, one need to put together the corresponding `motor_specs_xxx.yaml`. The torque constants and current units can be looked up from the ROBOTIS e-manual ([example](https://emanual.robotis.com/docs/en/dxl/x/xm430-w350/)) according to the arm specification ([example](https://docs.trossenrobotics.com/interbotix_xsarms_docs/specifications/awx250s.html)). One may also need to adjust the URDF inertia entries in the [interbotix_xsarm_description](https://github.com/Interbotix/interbotix_ros_manipulators/tree/main/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf) package to provide the node with an accurate mass distribution information.
+As of now, only the WidowX-250 6DOF and ALOHA WidowX-250 6DOF arms are tested and verified to work with the gravity compensation package.
+However, this package should be compatible with all RX, WX, VX series arms.
+To run the demo on those arms, one need to put together the corresponding `motor_specs_xxx.yaml`.
+The torque constants and current units can be looked up from the ROBOTIS e-manual ([example](https://emanual.robotis.com/docs/en/dxl/x/xm430-w350/)) according to the arm specification ([example](https://docs.trossenrobotics.com/interbotix_xsarms_docs/specifications/awx250s.html)).
+One may also need to adjust the URDF inertia entries in the [interbotix_xsarm_description](https://github.com/Interbotix/interbotix_ros_manipulators/tree/main/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf) package to provide the node with an accurate mass distribution information.
