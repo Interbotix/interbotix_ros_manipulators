@@ -1,5 +1,5 @@
 # Motor Assist: scale the no-load currents which alleviate the effects of friction
-# If the values are invalid, they defaults to 0
+# If the values are invalid, they default to 0
 motor_assist:
   # Set 'all' to [0, 1] to scale the no load currents of all joints uniformly
   # Or to -1 and use joint specific values

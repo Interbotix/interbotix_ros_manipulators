@@ -1,4 +1,4 @@
-# Please refer to the leader_motor_specs.yaml file
+# Please refer to the motor_specs_aloha_wx250s.yaml file
 # for a detailed explanation of the parameters
 motor_assist:
   all: -1
