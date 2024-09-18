@@ -20,32 +20,40 @@ motor_specs:
     current_unit: 0.00269
     # no load current (A): the maximum no load current applied when motor_assist == 1
     # It should be as large as possible without the joint accelerating by itself
-    no_load_current: 0.1
+    no_load_current: 0.0
+    # coefficient of friction (Nm/Nm): the torque needed to overcome Coulomb friction
+    # It should be as large as possible without the joint accelerating by itself
+    friction_coefficient: 0.0
 
   shoulder:
     torque_constant: 1.793
     current_unit: 0.00269
     no_load_current: 0.0
+    friction_coefficient: 0.2
 
   elbow:
     torque_constant: 1.793
     current_unit: 0.00269
     no_load_current: 0.0
+    friction_coefficient: 0.2
 
   forearm_roll:
     torque_constant: 0.897
     current_unit: 0.00269
     no_load_current: 0.1
+    friction_coefficient: 0.0
 
   wrist_angle:
     torque_constant: 0.897
     current_unit: 0.00269
     no_load_current: 0.0
+    friction_coefficient: 0.0
 
   wrist_rotate:
     torque_constant: 0.897
     current_unit: 0.00269
     no_load_current: 0.1
+    friction_coefficient: 0.0
 
 # Joints specified here but not in motor_assist or motor_specs
 # do not support the current control mode

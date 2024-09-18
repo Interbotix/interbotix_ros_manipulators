@@ -115,4 +115,18 @@ def generate_launch_description():
             description="the file path to the 'motor specs' YAML file.",
         )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'mode_configs',
+            default_value=[
+                PathJoinSubstitution([
+                    FindPackageShare('interbotix_xsarm_gravity_compensation'),
+                    'config']),
+                "/mode_configs_",
+                LaunchConfiguration('robot_model'),
+                ".yaml"
+            ],
+            description="the file path to the 'mode configs' YAML file.",
+        )
+    )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])

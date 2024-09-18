@@ -13,26 +13,31 @@ motor_specs:
     torque_constant: 1.793
     current_unit: 0.00269
     no_load_current: 0.1
+    friction_coefficient: 0.0
 
   shoulder:
     torque_constant: 1.793
     current_unit: 0.00269
     no_load_current: 0.0
+    friction_coefficient: 0.0
 
   elbow:
     torque_constant: 1.793
     current_unit: 0.00269
     no_load_current: 0.0
+    friction_coefficient: 0.0
 
   forearm_roll:
     torque_constant: 0.897
     current_unit: 0.00269
     no_load_current: 0.1
+    friction_coefficient: 0.0
 
   wrist_angle:
     torque_constant: 0.897
     current_unit: 0.00269
     no_load_current: 0.0
+    friction_coefficient: 0.0
 
 joint_names:
   [waist, shoulder, elbow, forearm_roll, wrist_angle, wrist_rotate, gripper]
