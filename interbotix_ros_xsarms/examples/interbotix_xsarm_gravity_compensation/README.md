@@ -4,8 +4,11 @@
 This package demos the interbotix_gravity_compensation package on an Interbotix arm.
 As of now, the supported arms include: WidowX-250 6DOF and ALOHA WidowX-250 6DOF.
 
+## Configuration
+Please refer to the documentations for [`mode_configs`](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros_interface/ros2/config.html#motor-configs) and [`motor_specs`](TO DO: Add link to the doc) for details.
+
 ## Usage
-Run the following launch command where `robot_model` is a mandatory choice between `aloha_wx250s` and `wx250s`, `robot_name` defaults to be the same as `robot_model` but can be anything, and `motor_specs` defaults to `<path_to_this_package>/config/motor_specs_<robot_model>.yaml`:
+Run the following launch command where `robot_model` is a mandatory choice between `aloha_wx250s` and `wx250s`, `robot_name` defaults to be the same as `robot_model` but can be anything, `motor_specs` defaults to `<path_to_this_package>/config/motor_specs_<robot_model>.yaml`, and `mode_configs` defaults to `<path_to_this_package>/config/mode_configs_<robot_model>.yaml`:
 ```
 ros2 launch interbotix_xsarm_gravity_compensation interbotix_gravity_compensation.launch.py robot_model:=xxx [robot_name:=xxx] [motor_specs:=xxx]
 ```
@@ -13,7 +16,7 @@ It runs the `interbotix_gravity_compensation` node and launches the xsarm_contro
 
 Then, enable/disable the gravity compensation with the following service call:
 ```
-ros2 service call /wx250s/gravity_compensation_enable std_srvs/srv/SetBool 'data: [true/false]'
+ros2 service call /<robot_model>/gravity_compensation_enable std_srvs/srv/SetBool 'data: [true/false]'
 ```
 
 The arm will hold itself against gravity and can be moved freely when the gravity compensation is enabled.
