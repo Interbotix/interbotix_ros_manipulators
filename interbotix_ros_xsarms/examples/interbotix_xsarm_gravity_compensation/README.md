@@ -12,7 +12,7 @@ Run the following launch command where `robot_model` is a mandatory choice betwe
 ```
 ros2 launch interbotix_xsarm_gravity_compensation interbotix_gravity_compensation.launch.py robot_model:=xxx [robot_name:=xxx] [motor_specs:=xxx]
 ```
-It runs the `interbotix_gravity_compensation` node and launches the xsarm_control script to bring up the arm.
+It runs the `gravity_compensation` node and launches the xsarm_control script to bring up the arm.
 
 Then, enable/disable the gravity compensation with the following service call:
 ```
