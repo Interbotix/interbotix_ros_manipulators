@@ -2,7 +2,7 @@
 # It should be placed in the 'config' directory of any ROS package that builds ontop of the interbotix_xs_sdk.
 # Example values are shown as well. All parameters are mandatory unless stated otherwise
 
-port: /dev/ttyDXL_awx250s                     # Optional; specifies the USB port that connects to the U2D2;
+port: /dev/ttyDXL_awx250s                             # Optional; specifies the USB port that connects to the U2D2;
                                               # if specified, it overwrites the port in the 'motor_configs' yaml file.
                                               # if the 'port' parameter and its value are left out, the port in the 'motor_configs' yaml file is used.
                                               # if the 'port' parameter is specified but the value is not, it defaults to '/dev/ttyDXL'

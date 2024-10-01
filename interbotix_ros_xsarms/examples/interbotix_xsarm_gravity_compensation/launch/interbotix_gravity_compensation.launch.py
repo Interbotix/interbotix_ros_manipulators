@@ -88,7 +88,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'robot_model',
-            choices=get_interbotix_xsarm_models(),
+            choices=('wx250s', 'aloha_wx250s'),
             description='model type of the Interbotix Arm such as `wx200` or `rx150`.'
         )
     )
@@ -104,13 +104,12 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'motor_specs',
-            default_value=[
-                PathJoinSubstitution([
-                    FindPackageShare('interbotix_xsarm_gravity_compensation'),
-                    'config']),
-                "/motor_specs_",
+            default_value=[PathJoinSubstitution([
+                FindPackageShare('interbotix_xsarm_gravity_compensation'),
+                'config',
+                "motor_specs_"]),
                 LaunchConfiguration('robot_model'),
-                ".yaml"
+                '.yaml'
             ],
             description="the file path to the 'motor specs' YAML file.",
         )
@@ -121,10 +120,8 @@ def generate_launch_description():
             default_value=[
                 PathJoinSubstitution([
                     FindPackageShare('interbotix_xsarm_gravity_compensation'),
-                    'config']),
-                "/mode_configs_",
-                LaunchConfiguration('robot_model'),
-                ".yaml"
+                    'config',
+                    'mode_configs.yaml'])
             ],
             description="the file path to the 'mode configs' YAML file.",
         )
