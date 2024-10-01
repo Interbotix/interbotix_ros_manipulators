@@ -44,8 +44,6 @@ from launch.substitutions import (
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
-from interbotix_xs_modules.xs_common import get_interbotix_xsarm_models
-
 
 def launch_setup(context, *args, **kwargs):
     # Define the launch arguments
@@ -110,18 +108,6 @@ def generate_launch_description():
                 "motor_specs_"]), LaunchConfiguration('robot_model'), '.yaml'
             ],
             description="the file path to the 'motor specs' YAML file.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'mode_configs',
-            default_value=[
-                PathJoinSubstitution([
-                    FindPackageShare('interbotix_xsarm_gravity_compensation'),
-                    'config',
-                    'mode_configs.yaml'])
-            ],
-            description="the file path to the 'mode configs' YAML file.",
         )
     )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
