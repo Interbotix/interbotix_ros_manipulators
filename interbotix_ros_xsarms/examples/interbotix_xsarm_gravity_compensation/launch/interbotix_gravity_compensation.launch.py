@@ -107,9 +107,7 @@ def generate_launch_description():
             default_value=[PathJoinSubstitution([
                 FindPackageShare('interbotix_xsarm_gravity_compensation'),
                 'config',
-                "motor_specs_"]),
-                LaunchConfiguration('robot_model'),
-                '.yaml'
+                "motor_specs_"]), LaunchConfiguration('robot_model'), '.yaml'
             ],
             description="the file path to the 'motor specs' YAML file.",
         )
