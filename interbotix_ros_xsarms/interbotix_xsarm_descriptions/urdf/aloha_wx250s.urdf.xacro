@@ -12,6 +12,7 @@
   <xacro:arg name="base_link_frame"                 default="base_link"/>
   <xacro:arg name="use_gripper"                     default="true"/>
   <xacro:arg name="show_ar_tag"                     default="false"/>
+  <xacro:arg name="show_handle"                     default="true"/>
   <xacro:arg name="show_gripper_bar"                default="true"/>
   <xacro:arg name="show_gripper_fingers"            default="true"/>
   <xacro:arg name="use_world_frame"                 default="false"/>
@@ -210,16 +211,16 @@
     </collision>
     <inertial>
       <origin
-        rpy="0 0 ${pi/2}"
-        xyz="0.0171605000 0.0000002725 0.1913230000"/>
-      <mass value="0.430811"/>
+        rpy="0 0 0"
+        xyz="0.0153860000 0.0000000000 0.1851100000"/>
+      <mass value="0.4897150000"/>
       <inertia
-        ixx="0.0034630000"
-        iyy="0.0035870000"
-        izz="0.0004566000"
-        ixy="-0.0000000001"
-        ixz="-0.0000000002"
-        iyz="0.0004272000"/>
+        ixx="0.0043745412"
+        iyy="0.0042527386"
+        izz="0.0004827537"
+        ixy="0.0000000002"
+        ixz="-0.0004799594"
+        iyz="-0.0000000015"/>
     </inertial>
   </link>
 
@@ -322,16 +323,16 @@
     </collision>
     <inertial>
       <origin
-        rpy="${pi} 0 0"
-        xyz="0.0374395000 0.0052225200 0"/>
-      <mass value="0.220991"/>
+        rpy="0 0 0"
+        xyz="0.0335820000 0.0047260000 0.0000000000"/>
+      <mass value="0.2529240000"/>
       <inertia
-        ixx="0.0000636900"
-        iyy="0.0001677000"
-        izz="0.0001834000"
-        ixy="-0.0000229200"
-        ixz="0"
-        iyz="0"/>
+        ixx="0.0000741889"
+        iyy="0.0002100083"
+        izz="0.0002256883"
+        ixy="0.0000194025"
+        ixz="0.0000000000"
+        iyz="0.0000000004"/>
     </inertial>
   </link>
 
@@ -378,16 +379,16 @@
     </collision>
     <inertial>
       <origin
-        rpy="0 0 ${pi/2}"
-        xyz="0.0423600000 -0.0000106630 0.0105770000"/>
-      <mass value="0.084957"/>
+        rpy="0 0 0"
+        xyz="0.0484000000 0.0000020000 0.0081230000"/>
+      <mass value="0.1560520000"/>
       <inertia
-        ixx="0.0000308200"
-        iyy="0.0000282200"
-        izz="0.0000315200"
-        ixy="0.0000000191"
-        ixz="0.0000000023"
-        iyz="0.0000025481"/>
+        ixx="0.0000551559"
+        iyy="0.0000691991"
+        izz="0.0000656414"
+        ixy="0.0000000002"
+        ixz="0.0000037652"
+        iyz="-0.0000000042"/>
     </inertial>
   </link>
 
@@ -438,18 +439,51 @@
       </collision>
       <inertial>
         <origin
-          rpy="0 0 ${pi/2}"
-          xyz="0.0216310000 0.0000002516 0.0114100000"/>
-        <mass value="0.072885"/>
+          rpy="0 0 0"
+          xyz="0.0194110000 0.0000000000 0.0050100000"/>
+        <mass value="0.1030950000"/>
         <inertia
-          ixx="0.0000253700"
-          iyy="0.0000183600"
-          izz="0.0000167400"
-          ixy="0.0000000000"
-          ixz="0.0000000000"
-          iyz="0.0000004340"/>
+          ixx="0.0000324528"
+          iyy="0.0000357525"
+          izz="0.0000270800"
+          ixy="-0.0000000001"
+          ixz="-0.0000023449"
+          iyz="0.0000000000"/>
       </inertial>
     </link>
+
+    <!-- If the handle is being used, then add the handle -->
+
+    <xacro:if value="$(arg show_handle)">
+
+      <joint name="gripper_handle" type="fixed">
+        <axis xyz="1 0 0"/>
+        <origin
+          rpy="0 0 0"
+          xyz="0 0 0"/>
+        <parent
+          link="$(arg robot_name)/gripper_link"/>
+        <child
+          link="$(arg robot_name)/handle_link"/>
+      </joint>
+
+      <link name="$(arg robot_name)/handle_link">
+        <inertial>
+          <origin
+            rpy="0 0 0"
+            xyz="0.0076300000 0.0000000000 -0.0357390000"/>
+          <mass value="0.0622240000"/>
+          <inertia
+            ixx="0.0001321742"
+            iyy="0.0001309199"
+            izz="0.0000139779"
+            ixy="-0.0000000003"
+            ixz="-0.0000199732"
+            iyz="-0.0000000001"/>
+        </inertial>
+      </link>
+
+    </xacro:if> <!-- show_handle -->
 
     <joint name="ee_arm" type="fixed">
       <axis xyz="1 0 0"/>
@@ -518,7 +552,7 @@
         <origin
           rpy="0 0 ${pi/2}"
           xyz="0.0008460000 -0.0000016817 0.0000420000"/>
-        <mass value="0.00434"/>
+        <mass value="0.01034"/>
         <inertia
           ixx="0.0000005923"
           iyy="0.0000011156"
@@ -574,16 +608,16 @@
         </collision>
         <inertial>
           <origin
-            rpy="0 0 ${pi/2}"
-            xyz="0.0096870000 0.0000008177 0.0049620000"/>
-          <mass value="0.034199"/>
+            rpy="0 0 0"
+            xyz="0.0117450000 0.0000000000 0.0018310000"/>
+          <mass value="0.1335040000"/>
           <inertia
-            ixx="0.0000074125"
-            iyy="0.0000284300"
-            izz="0.0000286000"
-            ixy="-0.0000000008"
-            ixz="-0.0000000006"
-            iyz="-0.0000013889"/>
+            ixx="0.0002705379"
+            iyy="0.0000371885"
+            izz="0.0002579847"
+            ixy="0.0000000015"
+            ixz="0.0000026430"
+            iyz="0.0000000000"/>
         </inertial>
       </link>
 
@@ -658,16 +692,16 @@
           </collision>
           <inertial>
             <origin
-              rpy="${pi} ${pi} ${pi/2}"
-              xyz="0.0138160000 0.0000000000 0.0000000000"/>
-            <mass value="0.016246"/>
+              rpy="0 0 0"
+              xyz="0.0042060000 0.0000000000 -0.0080300000"/>
+            <mass value="0.0405260000"/>
             <inertia
-              ixx="0.0000047310"
-              iyy="0.0000015506"
-              izz="0.0000037467"
-              ixy="-0.0000004560"
-              ixz="0.0000000000"
-              iyz="0.0000000000"/>
+              ixx="0.0000164667"
+              iyy="0.0000169266"
+              izz="0.0000038108"
+              ixy="-0.0000006813"
+              ixz="0.0000001193"
+              iyz="-0.0000001691"/>
           </inertial>
         </link>
 
@@ -720,16 +754,16 @@
           </collision>
           <inertial>
             <origin
-              rpy="0 ${pi} ${pi/2}"
-              xyz="0.0138160000 0.0000000000  0.0000000000"/>
-            <mass value="0.016246"/>
+              rpy="0 0 0"
+              xyz="0.0039690000 0.0000000000 -0.0065280000"/>
+            <mass value="0.0409950000"/>
             <inertia
-              ixx="0.0000047310"
-              iyy="0.0000015506"
-              izz="0.0000037467"
-              ixy="0.0000004560"
-              ixz="0.0000000000"
-              iyz="0.0000000000"/>
+              ixx="0.0000175327"
+              iyy="0.0000181304"
+              izz="0.0000039562"
+              ixy="0.0000006840"
+              ixz="0.0000005777"
+              iyz="-0.0000006879"/>
           </inertial>
         </link>
 

@@ -1,0 +1,52 @@
+# Please refer to the motor_specs_aloha_wx250s.yaml file
+# for a detailed explanation of the parameters
+motor_assist:
+  all: -1
+  waist: 0.5
+  shoulder: 0.5
+  elbow: 0.5
+  forearm_roll: 0.5
+  wrist_angle: 0.5
+
+dither: false
+
+motor_specs:
+  waist:
+    torque_constant: 1.793
+    current_unit: 0.00269
+    no_load_current: 0.1
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0
+
+  shoulder:
+    torque_constant: 1.793
+    current_unit: 0.00269
+    no_load_current: 0.0
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0
+
+  elbow:
+    torque_constant: 1.793
+    current_unit: 0.00269
+    no_load_current: 0.0
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0
+
+  forearm_roll:
+    torque_constant: 0.897
+    current_unit: 0.00269
+    no_load_current: 0.1
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0
+
+  wrist_angle:
+    torque_constant: 0.897
+    current_unit: 0.00269
+    no_load_current: 0.0
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0

@@ -1,5 +1,5 @@
 joint_order: [waist, shoulder, elbow, forearm_roll, wrist_angle, wrist_rotate, gripper]
-sleep_positions: [0, -1.80, 1.55, 0, -1.57, 0, 0]
+sleep_positions: [0, -2.05, 1.7, 0, -2.0, 0, 0]
 
 joint_state_publisher:
   update_rate: 100

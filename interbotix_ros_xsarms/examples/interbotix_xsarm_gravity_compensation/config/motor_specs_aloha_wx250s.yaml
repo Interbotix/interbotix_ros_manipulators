@@ -1,0 +1,78 @@
+# Motor Assist: scale the no-load currents which alleviate the effects of friction
+# If the values are invalid, they default to 0
+# Joints not specified in the motor_assist or motor_specs sections
+# do not support the current control mode
+motor_assist:
+  # Set 'all' to [0, 1] to scale the no load currents of all joints uniformly
+  # Or to -1 and use joint specific values
+  all: -1
+  # Set the joint specific values to [0, 1] to scale differently for each joint
+  waist: 0.5
+  shoulder: 0.5
+  elbow: 0.5
+  forearm_roll: 0.5
+  wrist_angle: 0.5
+  wrist_rotate: 0.5
+
+# Dither: add a oscillatory motion proportional to the load to break static friction
+# It is helpful when slow and smooth movements are needed
+# WARNING: excessive dithering WILL cause heat and wear on the joints
+dither: false
+
+motor_specs:
+  waist:
+    # torque constant (Nm/A): how much torque is produced per Amp of current
+    torque_constant: 1.793
+    # current unit (A): how much current command is needed to produce 1 Amp of current
+    current_unit: 0.00269
+    # no load current (A): the maximum no load current applied when motor_assist == 1
+    # should be as large as possible without the joint accelerating by itself
+    no_load_current: 0.0
+    # kinetic friction (Nm/Nm): the kinetic friction coefficient
+    # should be tuned so that the friction is uniform over the entire joint range
+    kinetic_friction_coefficient: 0.0
+    # static friction coefficient (Nm/Nm): the static friction coefficient
+    # affects the amplitude of the dithering motion
+    static_friction_coefficient: 0.0
+    # dither speed (rad/s): the speed under which the joint dithers
+    dither_speed: 0.0
+
+  shoulder:
+    torque_constant: 1.793
+    current_unit: 0.00269
+    no_load_current: 0.0
+    kinetic_friction_coefficient: 0.1
+    static_friction_coefficient: 0.4
+    dither_speed: 0.5
+
+  elbow:
+    torque_constant: 1.793
+    current_unit: 0.00269
+    no_load_current: 0.0
+    kinetic_friction_coefficient: 0.1
+    static_friction_coefficient: 0.6
+    dither_speed: 0.5
+
+  forearm_roll:
+    torque_constant: 0.897
+    current_unit: 0.00269
+    no_load_current: 0.2
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0
+
+  wrist_angle:
+    torque_constant: 0.897
+    current_unit: 0.00269
+    no_load_current: 0.1
+    kinetic_friction_coefficient: 0.1
+    static_friction_coefficient: 0.4
+    dither_speed: 0.5
+
+  wrist_rotate:
+    torque_constant: 0.897
+    current_unit: 0.00269
+    no_load_current: 0.2
+    kinetic_friction_coefficient: 0.0
+    static_friction_coefficient: 0.0
+    dither_speed: 0.0
