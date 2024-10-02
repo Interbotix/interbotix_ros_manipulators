@@ -7,7 +7,7 @@ As of now, the supported arms include: WidowX-250 6DOF and ALOHA WidowX-250 6DOF
 
 ## Configuration
 
-Please refer to the documentations for [`mode_configs`](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros_interface/ros2/config.html#mode-configs) and [`motor_specs`](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros2_packages/gravity_compensation.html#configuration) for details.
+Please refer to [`this section`](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros2_packages/gravity_compensation.html#configuration) for details.
 
 ## Usage
 
