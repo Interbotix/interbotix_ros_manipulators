@@ -166,14 +166,22 @@ function install_essential_packages() {
   # Install necessary core packages
   sudo apt-get install -yq curl git
   if [ "$ROS_VERSION_TO_INSTALL" == 2 ]; then
-    pip3 install transforms3d
+    if [ "$UBUNTU_VERSION" == "24.04" ]; then
+      sudo pip3 install --break-system-packages transforms3d
+    else
+      sudo pip3 install transforms3d
+    fi
   fi
   if [ $PY_VERSION == 2 ]; then
     sudo apt-get install -yq python-pip
     python -m pip install modern_robotics
   elif [ $PY_VERSION == 3 ]; then
     sudo apt-get install -yq python3-pip
-    pip3 install modern_robotics
+    if [ "$UBUNTU_VERSION" == "24.04" ]; then
+      python3 -m pip --break-system-packages install modern_robotics
+    else
+      python3 -m pip install modern_robotics
+    fi
   else
     failed "Something went wrong. PY_VERSION='$PY_VERSION', should be 2 or 3."
   fi
