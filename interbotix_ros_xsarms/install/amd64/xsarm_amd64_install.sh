@@ -23,7 +23,8 @@ ROS2_VALID_DISTROS=('galactic' 'humble' 'rolling')
 
 BIONIC_VALID_DISTROS=('melodic')
 FOCAL_VALID_DISTROS=('noetic' 'galactic')
-JAMMY_VALID_DISTROS=('humble' 'rolling')
+JAMMY_VALID_DISTROS=('humble')
+NOBLE_VALID_DISTROS=('rolling')
 
 NONINTERACTIVE=false
 DISTRO_SET_FROM_CL=false
@@ -66,11 +67,11 @@ Examples:
   ./xsarm_amd64_install.sh ${BOLD}-n${NORM}
     Skip prompts and install all packages and dependencies.
 
-  ./xsarm_amd64_install.sh ${BOLD}-d galactic${NORM}
-    Install ROS 2 Galactic assuming that your Ubuntu version is compatible.
+  ./xsarm_amd64_install.sh ${BOLD}-d humble${NORM}
+    Install ROS 2 Humble assuming that your Ubuntu version is compatible.
 
-  ./xsarm_amd64_install.sh ${BOLD}-d galactic -n${NORM}
-    Install ROS 2 Galactic and all packages and dependencies.
+  ./xsarm_amd64_install.sh ${BOLD}-d humble -n${NORM}
+    Install ROS 2 Humble and all packages and dependencies.
 
   ./xsarm_amd64_install.sh ${BOLD}-p ~/custom_ws${NORM}
     Installs the Interbotix packages under the '~/custom_ws' path."
@@ -146,8 +147,16 @@ function check_ubuntu_version() {
       fi
       ;;
 
+    24.04 )
+      if contains_element "$ROS_DISTRO_TO_INSTALL" "${NOBLE_VALID_DISTROS[@]}"; then
+        PY_VERSION=3
+      else
+        failed "Chosen ROS distribution '$ROS_DISTRO_TO_INSTALL' is not supported on Ubuntu ${UBUNTU_VERSION}."
+      fi
+      ;;
+
     *)
-      failed "Something went wrong. UBUNTU_VERSION='$UBUNTU_VERSION', should be 18.04, 20.04, or 22.04."
+      failed "Something went wrong. UBUNTU_VERSION='$UBUNTU_VERSION', should be 18.04, 20.04, 22.04, or 24.04."
       ;;
 
   esac
@@ -157,14 +166,22 @@ function install_essential_packages() {
   # Install necessary core packages
   sudo apt-get install -yq curl git
   if [ "$ROS_VERSION_TO_INSTALL" == 2 ]; then
-    sudo pip3 install transforms3d
+    if [ "$UBUNTU_VERSION" == "24.04" ]; then
+      sudo pip3 install --break-system-packages transforms3d
+    else
+      sudo pip3 install transforms3d
+    fi
   fi
   if [ $PY_VERSION == 2 ]; then
     sudo apt-get install -yq python-pip
     python -m pip install modern_robotics
   elif [ $PY_VERSION == 3 ]; then
     sudo apt-get install -yq python3-pip
-    python3 -m pip install modern_robotics
+    if [ "$UBUNTU_VERSION" == "24.04" ]; then
+      python3 -m pip --break-system-packages install modern_robotics
+    else
+      python3 -m pip install modern_robotics
+    fi
   else
     failed "Something went wrong. PY_VERSION='$PY_VERSION', should be 2 or 3."
   fi
@@ -398,9 +415,11 @@ if [ "$DISTRO_SET_FROM_CL" = false ]; then
     ROS_DISTRO_TO_INSTALL="noetic"
   elif [ "$UBUNTU_VERSION" == "22.04" ]; then
     ROS_DISTRO_TO_INSTALL="humble"
+  elif [ "$UBUNTU_VERSION" == "24.04" ]; then
+    ROS_DISTRO_TO_INSTALL="rolling"
   else
     echo -e "${BOLD}${RED}Unsupported Ubuntu version: $UBUNTU_VERSION.${NORM}${OFF}"
-    failed "Interbotix Arm only works with Ubuntu 18.04 Bionic, 20.04 Focal, or 22.04 Jammy on your hardware."
+    failed "Interbotix Arm only works with 18.04 Bionic, 20.04 Focal, 22.04 Jammy, or 24.04 Noble on your hardware."
   fi
 fi
 

@@ -19,7 +19,7 @@ jobs:
       matrix:
         env:
           - {ROS_DISTRO: rolling,  ROS_REPO: main}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout ROS Manipulators
         uses: actions/checkout@v3
