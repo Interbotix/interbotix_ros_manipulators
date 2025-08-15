@@ -47,8 +47,13 @@ Then change to this directory and type:
 def main():
     joint_positions = [-1.0, 0.5, 0.5, 0, -0.5, 1.57]
 
+    # bot = InterbotixManipulatorXS(
+    #     robot_model='wx250s',
+    #     group_name='arm',
+    #     gripper_name='gripper',
+    # )
     bot = InterbotixManipulatorXS(
-        robot_model='wx250s',
+        robot_model='miv_arm',
         group_name='arm',
         gripper_name='gripper',
     )
