@@ -4,3 +4,8 @@
 *.bag
 !waist_diagnostics.bag
 !duck_dunk.bag
+
+
+.DS_Store
+.DS_Store?
+._*

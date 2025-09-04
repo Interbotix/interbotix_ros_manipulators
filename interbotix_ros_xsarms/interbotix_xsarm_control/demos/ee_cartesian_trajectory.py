@@ -32,6 +32,7 @@ import sys
 
 from interbotix_common_modules.common_robot.robot import robot_shutdown, robot_startup
 from interbotix_xs_modules.xs_robot.arm import InterbotixManipulatorXS
+from time import sleep
 
 """
 This script makes the end-effector draw a square in 3D space.
@@ -50,9 +51,9 @@ Then change to this directory and type:
 
 def main():
     bot = InterbotixManipulatorXS(
-        robot_model='wx250',
+        robot_model='miv_arm',
         group_name='arm',
-        gripper_name='gripper',
+        gripper_name=None,
     )
 
     robot_startup()
@@ -63,10 +64,16 @@ def main():
         sys.exit()
 
     bot.arm.go_to_home_pose()
-    bot.arm.set_ee_cartesian_trajectory(z=-0.2)
-    bot.arm.set_ee_cartesian_trajectory(x=-0.2)
-    bot.arm.set_ee_cartesian_trajectory(z=0.2)
-    bot.arm.set_ee_cartesian_trajectory(x=0.2)
+    sleep(1.0)
+    wp_period = 0.05
+    wp_moving_time = 0.8 * wp_period
+    wp_accel_time = 0.4 * wp_moving_time
+    bot.arm.set_ee_cartesian_trajectory(z=-0.4)
+    bot.arm.set_ee_cartesian_trajectory(x=-0.4)
+    bot.arm.set_ee_cartesian_trajectory(z=0.4)
+    bot.arm.set_ee_cartesian_trajectory(x=0.4)
+    bot.arm.go_to_home_pose()
+    # sleep(1.0)
     bot.arm.go_to_sleep_pose()
 
     robot_shutdown()

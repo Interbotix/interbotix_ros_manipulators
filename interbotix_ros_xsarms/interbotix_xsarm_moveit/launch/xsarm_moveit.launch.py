@@ -28,6 +28,9 @@
 
 import os
 
+from launch.actions import SetEnvironmentVariable
+
+
 from ament_index_python.packages import get_package_share_directory
 from interbotix_xs_modules.xs_common import (
     get_interbotix_xsarm_models,
@@ -111,25 +114,54 @@ def launch_setup(context, *args, **kwargs):
         'kinematics.yaml',
     ])
 
+    # ompl_planning_pipeline_config = {
+    #     'move_group': {
+    #         'planning_plugins':
+    #             'ompl_interface/OMPLPlanner',
+    #         'request_adapters':
+    #             'default_planner_request_adapters/AddTimeOptimalParameterization '
+    #             'default_planner_request_adapters/FixWorkspaceBounds '
+    #             'default_planner_request_adapters/FixStartStateBounds '
+    #             'default_planner_request_adapters/FixStartStateCollision '
+    #             'default_planner_request_adapters/FixStartStatePathConstraints',
+    #         'start_state_max_bounds_error':
+    #             0.1,
+    #         'planning_pipelines': ['ompl'],
+    #     }
+    # }
+    
     ompl_planning_pipeline_config = {
         'move_group': {
-            'planning_plugin':
-                'ompl_interface/OMPLPlanner',
+            'planning_plugins':
+                ['ompl_interface/OMPLPlanner'],
             'request_adapters':
-                'default_planner_request_adapters/AddTimeOptimalParameterization '
-                'default_planner_request_adapters/FixWorkspaceBounds '
-                'default_planner_request_adapters/FixStartStateBounds '
-                'default_planner_request_adapters/FixStartStateCollision '
-                'default_planner_request_adapters/FixStartStatePathConstraints',
+               [
+                'default_planning_request_adapters/ResolveConstraintFrames',
+               'default_planning_request_adapters/ValidateWorkspaceBounds',
+               'default_planning_request_adapters/CheckStartStateBounds',
+               'default_planning_request_adapters/CheckStartStateCollision',
+               ],
+            'response_adapters':
+               [
+               'default_planning_response_adapters/AddTimeOptimalParameterization',
+               'default_planning_response_adapters/ValidateSolution',
+               'default_planning_response_adapters/DisplayMotionPath',
+               ],
             'start_state_max_bounds_error':
                 0.1,
         }
     }
+    
 
     ompl_planning_pipeline_yaml_file = load_yaml(
         'interbotix_xsarm_moveit', 'config/ompl_planning.yaml'
     )
     ompl_planning_pipeline_config['move_group'].update(ompl_planning_pipeline_yaml_file)
+
+    # if 'move_group' in ompl_planning_pipeline_yaml_file:
+    #     ompl_planning_pipeline_config['move_group'].update(ompl_planning_pipeline_yaml_file['move_group'])
+
+
 
     controllers_config = load_yaml(
         'interbotix_xsarm_moveit',
@@ -408,5 +440,5 @@ def generate_launch_description():
             hardware_type='actual',
         )
     )
-
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    set_dbg = SetEnvironmentVariable('RCUTILS_LOGGING_MIN_SEVERITY', 'DEBUG') 
+    return LaunchDescription(declared_arguments + [set_dbg, OpaqueFunction(function=launch_setup)])

@@ -55,7 +55,7 @@ def main():
     ])
 
     bot = InterbotixManipulatorXS(
-        robot_model='wx250s',
+        robot_model='miv_arm',
         group_name='arm',
         gripper_name='gripper',
     )

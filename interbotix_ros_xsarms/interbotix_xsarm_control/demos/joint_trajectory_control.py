@@ -47,7 +47,6 @@ Then change to this directory and type:
 
 
 def main():
-
     trajectory = [
         {0.0: [0.0,  0.0, 0.0, 0.0, 0.0, 0.0]},
         {2.0: [0.0,  0.0, 0.0, 0.0, 0.5, 0.0]},
@@ -55,7 +54,7 @@ def main():
         {6.0: [-0.5, 0.0, 0.0, 0.0, 0.5, 0.0]}
     ]
 
-    bot = InterbotixManipulatorXS('wx250s', 'arm', 'gripper')
+    bot = InterbotixManipulatorXS('miv_arm', 'arm', None)
 
     robot_startup()
 

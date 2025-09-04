@@ -16,7 +16,7 @@
 
       <!-- If doing basic simulation of the robot -->
       <xacro:if value="${hardware_type == 'fake'}">
-        <plugin>fake_components/GenericSystem</plugin>
+        <plugin>mock_components/GenericSystem</plugin>
       </xacro:if>
 
       <!-- If simulating the robot in Gazebo Classic -->

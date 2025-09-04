@@ -8,12 +8,44 @@
     value="6"
     scope="global"/>
 
+  <xacro:property name="l1"
+    value="0.07775"
+    scope="global"/>
+
+  <xacro:property name="l2"
+    value="0.05675"
+    scope="global"/>
+
+  <xacro:property name="l3"
+    value="0.250"
+    scope="global"/>
+
+  <xacro:property name="l4"
+    value="0.0575"
+    scope="global"/>
+
+  <xacro:property name="l5"
+    value="0.150"
+    scope="global"/>
+
+  <xacro:property name="l6"
+    value="0.100"
+    scope="global"/>
+
+  <xacro:property name="l7"
+    value="0.065"
+    scope="global"/>
+
+  <xacro:property name="l8"
+    value="0.081"
+    scope="global"/>
+
   <xacro:arg name="robot_name"                      default="${robot_model}"/>
   <xacro:arg name="base_link_frame"                 default="base_link"/>
-  <xacro:arg name="use_gripper"                     default="true"/>
+  <xacro:arg name="use_gripper"                     default="false"/>
   <xacro:arg name="show_ar_tag"                     default="false"/>
-  <xacro:arg name="show_gripper_bar"                default="true"/>
-  <xacro:arg name="show_gripper_fingers"            default="true"/>
+  <xacro:arg name="show_gripper_bar"                default="false"/>
+  <xacro:arg name="show_gripper_fingers"            default="false"/>
   <xacro:arg name="use_world_frame"                 default="false"/>
   <xacro:arg name="external_urdf_loc"               default=""/>
   <xacro:arg name="hardware_type"                   default="actual"/>
@@ -120,7 +152,7 @@
       velocity="${waist_limit_vel}"/>
     <origin
       rpy="0 0 0"
-      xyz="0 0 0.079"/>
+      xyz="0 0 ${l1}"/>
     <parent
       link="$(arg robot_name)/$(arg base_link_frame)"/>
     <child
@@ -134,7 +166,7 @@
     <visual>
       <origin
         rpy="0 0 ${pi/2}"
-        xyz="0 0 -0.003"/>
+        xyz="0 0 0"/>
       <geometry>
         <mesh
           filename="${mesh_directory}/shoulder.stl"
@@ -145,7 +177,7 @@
     <collision>
       <origin
         rpy="0 0 ${pi/2}"
-        xyz="0 0 -0.003"/>
+        xyz="0 0 0"/>
       <geometry>
         <mesh
           filename="${mesh_directory}/shoulder.stl"
@@ -176,7 +208,7 @@
       velocity="${shoulder_limit_vel}"/>
     <origin
       rpy="0 0 0"
-      xyz="0 0 0.04805"/>
+      xyz="0 0 ${l2}"/>
     <parent
       link="$(arg robot_name)/shoulder_link"/>
     <child
@@ -232,7 +264,7 @@
       velocity="${elbow_limit_vel}"/>
     <origin
       rpy="0 0 0"
-      xyz="0.05955 0 0.3"/>
+      xyz="${l4} 0 ${l3}"/>
     <parent
       link="$(arg robot_name)/upper_arm_link"/>
     <child
@@ -288,7 +320,7 @@
       velocity="${forearm_roll_limit_vel}"/>
     <origin
       rpy="0 0 0"
-      xyz="0.2 0 0"/>
+      xyz="${l5} 0 0"/>
     <parent
       link="$(arg robot_name)/upper_forearm_link"/>
     <child
@@ -344,7 +376,7 @@
       velocity="${wrist_angle_limit_vel}"/>
     <origin
       rpy="0 0 0"
-      xyz="0.1 0 0"/>
+      xyz="${l6} 0 0"/>
     <parent
       link="$(arg robot_name)/lower_forearm_link"/>
     <child
@@ -404,7 +436,7 @@
         velocity="${wrist_rotate_limit_vel}"/>
       <origin
         rpy="0 0 0"
-        xyz="0.069744 0 0"/>
+        xyz="${l7} 0 0"/>
       <parent
         link="$(arg robot_name)/wrist_link"/>
       <child
@@ -418,7 +450,7 @@
       <visual>
         <origin
           rpy="0 0 ${pi/2}"
-          xyz="-0.02 0 0"/>
+          xyz="0 0 0"/>
         <geometry>
           <mesh
             filename="${mesh_directory}/gripper.stl"
@@ -429,7 +461,7 @@
       <collision>
         <origin
           rpy="0 0 ${pi/2}"
-          xyz="-0.02 0 0"/>
+          xyz="0 0 0"/>
         <geometry>
           <mesh
             filename="${mesh_directory}/gripper.stl"
@@ -455,7 +487,7 @@
       <axis xyz="1 0 0"/>
       <origin
         rpy="0 0 0"
-        xyz="0.042825 0 0"/>
+        xyz="${l8} 0 0"/>
       <parent
         link="$(arg robot_name)/gripper_link"/>
       <child
