@@ -1,6 +1,6 @@
 controller_names:
   - /miv_arm/arm_controller
-  # - /miv_arm/gripper_controller
+  - /miv_arm/gripper_controller
 
 /miv_arm/arm_controller:
   action_ns: follow_joint_trajectory
@@ -14,9 +14,9 @@ controller_names:
     - wrist_angle
     - wrist_rotate
 
-# /miv_arm/gripper_controller:
-#   action_ns: follow_joint_trajectory
-#   type: FollowJointTrajectory
-#   default: true
-#   joints:
-#     - left_finger
+/miv_arm/gripper_controller:
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  default: true
+  joints:
+    - left_finger
