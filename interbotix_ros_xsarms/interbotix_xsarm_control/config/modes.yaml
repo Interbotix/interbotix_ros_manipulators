@@ -4,9 +4,9 @@ groups:
     profile_type: time
     profile_velocity: 2000
     profile_acceleration: 300
-    torque_enable: true
+    torque_enable: false
 
 singles:
-  gripper:
-    operating_mode: pwm
-    torque_enable: true
+  # gripper:
+  #   operating_mode: pwm
+  #   torque_enable: false

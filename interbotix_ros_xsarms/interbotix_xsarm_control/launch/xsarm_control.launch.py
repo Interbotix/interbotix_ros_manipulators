@@ -84,7 +84,7 @@ def launch_setup(context, *args, **kwargs):
             'use_sim_time': use_sim_time_param,
         }.items(),
     )
-
+    
     xs_sdk_node = Node(
         condition=UnlessCondition(use_sim_launch_arg),
         package='interbotix_xs_sdk',
@@ -118,6 +118,7 @@ def launch_setup(context, *args, **kwargs):
         }],
         output={'both': 'screen'},
     )
+    
 
     return [
         xs_sdk_node,
@@ -225,5 +226,10 @@ def generate_launch_description():
     declared_arguments.extend(
         declare_interbotix_xsarm_robot_description_launch_arguments()
     )
+    
+    # realsense_launch_dir = PathJoinSubstitution([FindPackageShare('realsense2_camera'), 'launch'])
+    # realsense_launch_dir = PathJoinSubstitution([FindPackageShare('miv_arm'), 'launch'])
 
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(declared_arguments 
+            + [OpaqueFunction(function=launch_setup)]
+            )
