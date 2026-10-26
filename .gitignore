@@ -4,3 +4,7 @@
 *.bag
 !waist_diagnostics.bag
 !duck_dunk.bag
+
+# VS Code workspace settings
+/.vscode/
+**/.vscode/
